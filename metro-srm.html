@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOOVA SRM — Mappa roadmap</title>
+<style>
+  :root{
+    --bg:#fbfbf9;--surface:#fff;--ink:#1d1d1b;--ink-soft:#5a5a54;--ink-mute:#86857d;
+    --line:#e4e3dd;--accent:#1f5fa6;
+    --font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.5}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 22px}
+  .hero{padding:36px 0 14px}
+  .brand{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 10px}
+  h1{font-size:29px;font-weight:700;margin:0 0 8px;letter-spacing:-.4px}
+  .lead{font-size:15px;color:var(--ink-soft);max-width:70ch;margin:0}
+  .nav{display:flex;gap:9px;margin:14px 0 0;flex-wrap:wrap}
+  .nav a{font-size:13px;font-weight:500;text-decoration:none;padding:7px 13px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+  .nav a:hover{border-color:#a9a8a0}
+  .nav a.cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .toolbar{display:flex;gap:10px;align-items:center;margin:18px 0 4px;flex-wrap:wrap}
+  .btn{border:1px solid #cfcec6;background:var(--surface);color:var(--ink);font:inherit;font-size:13px;
+    font-weight:500;padding:8px 14px;border-radius:8px;cursor:pointer}
+  .btn:hover{border-color:#8f8e86}
+  .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  /* Legenda stati esplicita */
+  .legend{display:flex;flex-wrap:wrap;gap:10px 22px;padding:14px 16px;margin:14px 0 20px;
+    background:var(--surface);border:1px solid var(--line);border-radius:11px;font-size:13px;color:var(--ink-soft)}
+  .legend b{color:var(--ink);font-weight:600}
+  .legend .it{display:inline-flex;align-items:center;gap:8px}
+
+  /* Layout righe fase */
+  .board{position:relative;padding:6px 0 40px}
+    .spine{position:absolute;left:36px;top:14px;bottom:54px;width:4px;border-radius:2px;background:#d8d7cf;z-index:0}
+  .prow{position:relative;display:flex;align-items:flex-start;gap:0;margin:0 0 18px;z-index:1;width:100%}
+  .pbox{position:relative;flex:0 0 300px;background:#fff;border:1.5px solid var(--pc,#999);
+    border-radius:11px;padding:12px 14px 12px 16px;cursor:pointer;user-select:none;
+    box-shadow:0 1px 4px rgba(0,0,0,.05);transition:box-shadow .15s}
+  .pbox:hover{box-shadow:0 4px 14px rgba(0,0,0,.10)}
+  .pbox .pb{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--pc);display:flex;align-items:center;gap:7px}
+  .ptime{position:relative;flex:0 0 118px;padding:16px 12px 0 52px;font-size:11px;font-weight:600;color:var(--ink-mute);line-height:1.25}
+  .ptime::before{content:'';position:absolute;left:32.5px;top:19px;width:11px;height:11px;border-radius:50%;background:#c9c8c0;border:2.5px solid var(--bg)}
+  .pbox .pt{font-size:15px;font-weight:400;color:var(--ink);line-height:1.35;margin-top:6px}
+  .pbox .chev{position:absolute;top:12px;right:12px;color:#b7b6ae;font-size:12px;transition:transform .3s}
+  .prow.open .pbox .chev{transform:rotate(90deg)}
+  .pdone{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;
+    background:#0f8a66;color:#fff;font-size:11px;flex:none}
+  .ppart{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;
+    background:#e9a23b;color:#fff;font-size:11px;flex:none}
+
+  .track{flex:1 1 auto;overflow:hidden;min-width:0}
+  .trackin{transform:scaleX(0);transform-origin:left center;opacity:0;
+    transition:transform .55s cubic-bezier(.22,.9,.35,1), opacity .4s}
+  .prow.open .trackin{transform:scaleX(1);opacity:1}
+  .track svg{display:block}
+  .trackin{position:relative;height:112px}
+  .tline{position:absolute;left:0;right:0;top:56px;height:6px;border-radius:3px;opacity:.9}
+  .node{position:absolute;top:56px;transform:translate(-50%,-50%)}
+  .nd{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:17px;height:17px;border-radius:50%;
+    background:#fff;border:3px solid var(--nc);display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:#fff;cursor:pointer;box-sizing:border-box;transition:transform .12s}
+  .nd:hover{transform:translate(-50%,-50%) scale(1.25)}
+  .nd.done{background:var(--nc)}
+  .nd.wip{background:radial-gradient(circle at 50% 100%, var(--nc) 0 50%, #fff 50% 100%)}
+  .nlabel{position:absolute;left:50%;transform:translateX(-50%);font-size:11.5px;font-weight:600;
+    color:#1d1d1b;text-align:center;width:120px;line-height:1.2;pointer-events:none}
+  .nlabel.above{bottom:calc(50% + 16px)}
+  .nlabel.below{top:calc(50% + 16px)}
+
+  .stop{cursor:pointer}
+  .stop circle{transition:r .12s}
+  .stop:hover circle{r:11}
+
+  /* overlay dipendenze */
+  #depsvg{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .4s}
+  #depsvg.on{opacity:1}
+
+  .scroller{overflow-x:visible}
+  .mvpdiv{position:relative;display:flex;align-items:center;gap:14px;margin:6px 0 22px;padding-left:0;z-index:2}
+  .mvpdiv .mvpline{flex:1;height:0;border-top:2px dashed #0f8a66}
+  .mvpdiv .mvpbadge{flex:none;display:inline-flex;align-items:center;gap:8px;background:#0f8a66;color:#fff;
+    font-size:12.5px;font-weight:700;padding:7px 15px;border-radius:20px;box-shadow:0 2px 8px rgba(15,138,102,.25)}
+  .mvpdiv .mvpbadge .chk{font-size:12px}
+  .mvpdiv .mvpnote{flex:none;font-size:12px;color:var(--ink-soft);max-width:320px;line-height:1.35}
+  @media(max-width:700px){.mvpdiv{flex-wrap:wrap}.mvpdiv .mvpnote{max-width:none}}
+
+  @media(max-width:700px){
+    .prow{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:24px}
+    .ptime{padding:0 0 0 42px;font-size:10.5px}
+    .ptime::before{left:24.5px;top:3px}
+    .spine{left:28px}
+    .pbox{width:100%;max-width:none}
+    .track{width:100%;padding-left:16px}
+    .trackin{height:auto;padding:6px 0 6px 12px;display:flex;flex-direction:column;gap:8px}
+    .tline{display:none}
+    .node{position:relative;top:auto;left:auto !important;transform:none;display:flex;align-items:center;gap:9px;min-height:22px}
+    .nd{position:relative;left:auto;top:auto;transform:none;flex:none}
+    .nd:hover{transform:scale(1.15)}
+    .nlabel{position:static;transform:none;width:auto;text-align:left;pointer-events:auto}
+    .nlabel.above,.nlabel.below{top:auto;bottom:auto}
+    .prow:not(.open) .trackin{height:0;padding-top:0;padding-bottom:0;overflow:hidden}
+  }
+  footer{padding:22px 0 50px;color:var(--ink-mute);font-size:12.5px;text-align:center}
+
+  .tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:#fff;border-radius:10px;
+    padding:13px 15px;font-size:13px;max-width:330px;box-shadow:0 10px 30px rgba(0,0,0,.28);opacity:0;transition:opacity .12s}
+  @media(max-width:700px){.tip{max-width:calc(100vw - 24px)}}
+  .tip.show{opacity:1}
+  .tip b{display:block;font-size:14px;margin-bottom:5px}
+  .tip .ph{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;font-weight:600}
+  .tip .d{color:#e4e3df;margin-bottom:8px;line-height:1.5}
+  .tip .tg{display:inline-block;font-size:10.5px;background:rgba(255,255,255,.15);padding:2px 8px;border-radius:5px;margin:2px 4px 0 0}
+  .tip .dep{color:#f0b67a;font-size:11.5px;margin-top:8px;line-height:1.4}
+  .tip .stbadge{display:inline-block;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:5px;margin-bottom:6px}
+  .tip .stbadge.done{background:#0f8a66;color:#fff}
+  .tip .stbadge.wip{background:#e9a23b;color:#fff}
+
+  body.embed .hero{display:none}
+  body.embed .wrap{padding:0;max-width:none}
+  body.embed footer{display:none}
+  body.embed{background:transparent}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="brand">MOOVA SRM · Roadmap</p>
+    <h1>La mappa del percorso</h1>
+    <p class="lead">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo.</p>
+    <nav class="nav">
+      <a href="index.html">Presentazione</a>
+      <a href="roadmap-srm.html">Roadmap (admin)</a>
+      <a href="metro-srm.html" class="cur">Mappa</a>
+    </nav>
+    <div class="toolbar">
+      <button class="btn primary" id="toggleAll">Raggruppa tutte</button>
+      <span style="font-size:12.5px;color:var(--ink-mute)">oppure clicca una singola fase per aprirla/chiuderla</span>
+    </div>
+    <div class="legend">
+      <span class="it"><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="#6b7280" stroke="#6b7280" stroke-width="2"/><path d="M 5.8 9 l 2.1 2.2 l 4 -4.4" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg><span><b>Completata</b> — attività conclusa</span></span>
+      <span class="it"><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="#fff" stroke="#6b7280" stroke-width="2.5"/><path d="M 9 9 m -5 0 a 5 5 0 0 1 10 0 z" fill="#6b7280"/></svg><span><b>In lavorazione</b> — attività in corso</span></span>
+      <span class="it"><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="#fff" stroke="#8f8e86" stroke-width="2.5"/></svg><span><b>Pianificata</b> — attività da avviare</span></span>
+      <span class="it"><svg width="22" height="12"><line x1="1" y1="6" x2="21" y2="6" stroke="#6b7280" stroke-width="2" stroke-dasharray="4 3"/></svg><span><b>Dipendenza</b> — l'attività a valle richiede quella a monte</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="scroller">
+    <div class="board" id="board">
+      <div class="spine"></div>
+      <svg id="depsvg"></svg>
+    </div>
+  </div>
+</div>
+
+<footer class="wrap">MOOVA SRM — Smart Real-Time Mobility · vista mappa della roadmap</footer>
+<div class="tip" id="tip"></div>
+
+<script id="data" type="application/json">{"phases": [{"id": "f0", "badge": "Fase 0", "title": "Progettazione e Realizzazione SRM per Trenord", "when": "T1-T2 2026", "c": "#0f8a66"}, {"id": "now", "badge": "Fase 1", "title": "Core operativo", "when": "T2 2026", "c": "#2563a8"}, {"id": "f2", "badge": "Fase 2", "title": "Assessment Architetturale", "when": "T3 2026 · da lug", "c": "#1d4e89"}, {"id": "f3", "badge": "Fase 3", "title": "Progettazione modello rete e composizione", "when": "T3 2026 · da lug", "c": "#92610f"}, {"id": "f31", "badge": "Fase 3.1", "title": "Strumenti Evoluti", "when": "T3 2026 · da lug", "c": "#b9711a"}, {"id": "f32", "badge": "Fase 3.2", "title": "Realizzazione modello rete e composizione", "when": "T3 2026 · da lug", "c": "#cf8a28"}, {"id": "f33", "badge": "Fase 3.3", "title": "Assessment applicativo sui progetti", "when": "T3 2026 · da lug", "c": "#e0a63f"}, {"id": "f4", "badge": "Fase 4", "title": "Regia, gestione operativa, console e porting", "when": "T4 2026", "c": "#9333a8"}, {"id": "f5", "badge": "Fase 5", "title": "Applicazione Mobile", "when": "T4 2026", "c": "#c2410c"}, {"id": "ai", "badge": "Fase 6", "title": "AI assistant - ampliamento", "when": "T1 2027", "c": "#6d4ad1"}, {"id": "tbd", "badge": "Fase TBD", "title": "Da definire", "when": "TBD", "c": "#6b7280"}], "stations": {"f0": [["SRM per Trenord", "Progettazione e realizzazione", ["fondamenta"], "Progettazione e realizzazione della base SRM per Trenord (T1-T2 2026).", "done"]], "now": [["Home page", "Dashboard personalizzabile", ["nuovo FE/BE"], "Dashboard operativa personalizzabile con layout configurabile.", "done"], ["Mappa corse live", "Mezzi real-time", ["realtime", "filtri", "interscambi"], "Posizionamento real-time dei mezzi. Filtri per linea e modalità, interscambi e dettaglio punti.", "done"], ["Andamenti manuali", "Eventi non automatici", ["nuovo FE/BE"], "Inserimento manuale di eventi non coperti dalle sorgenti automatiche.", "done"], ["Lista Operational Event", "Eventi operativi", [], "Lista degli operational event.", "done"], ["Avvio integrazione SKM", "Integrazione SKM", ["integrazione"], "Avvio delle attività di integrazione con SKM.", "done"], ["Lista Notice", "Notice", [], "Lista notice.", "done"], ["Ricerca Corsa Mappa", "Ricerca su mappa", [], "Ricerca corsa sulla mappa.", "done"], ["Scheda Corsa", "Dettaglio corsa", ["SchedaCorsa"], "Dettaglio corsa: tabella di marcia, provvedimenti, avvisi, note, localizzazioni, messaggi.", "done"], ["Nuovo ambiente", "DB Postgres, split MOOVA", ["infrastruttura", "postgres"], "Attivazione nuovo ambiente di sviluppo con DB Postgres. Avvio separazione da MOOVA.", "wip"]], "f2": [["Integrazione Foundation", "Foundation", [], "Integrazione Foundation.", ""], ["Solution Assessment", "& Cybersecurity Compliance", [], "Solution assessment e cybersecurity compliance.", ""], ["Deploy nuovo ambiente", "Deploy", [], "Deploy sul nuovo ambiente.", ""], ["Def. strumenti monitoraggio", "Monitoraggio", [], "Definizione strumenti di monitoraggio.", ""], ["Lotta all'indipendenza", "Autonomia da MOOVA", [], "Lotta all'indipendenza.", ""]], "f3": [["Analisi standard rete", "GeoJSON/GTFS/NeTEx/SIRI", ["analisi", "prerequisito"], "Studio comparativo degli standard. Scelta del formato di import.", "done"], ["Import GeoJSON/GTFS", "Ingestione topologia", ["network MS", "BE"], "Pipeline di ingestione della topologia di rete.", "done"], ["Prog. modello rete", "Modello dati di rete", ["progettazione", "network MS"], "Progettazione del modello dati di rete: topologia, linee, fermate, relazioni.", "wip"], ["Prog. hub interscambio", "Hub multimodali", ["progettazione", "network MS"], "Progettazione degli hub multimodali. Connessioni tra modalità.", "wip"], ["Prog. corrispondenze", "Coincidenze su hub", ["progettazione", "servicerunmonitoring"], "Progettazione del tracciamento coincidenze su hub.", "wip"], ["Prog. composizione", "Materiale rotabile", ["progettazione", "anagrafica"], "Progettazione della configurazione materiale rotabile per corsa.", "done"], ["Mockup Coinc. Tabella", "Mockup", [], "Mockup coincidenze in vista tabella.", "wip"], ["Mockup Coinc. Mappa", "Mockup", [], "Mockup coincidenze in vista mappa.", "wip"]], "f31": [["Smart Workflow Manager", "Workflow", [], "Smart Workflow Manager.", "wip"], ["Prog. Smart Workflow Mgr", "Checklist configurabili", ["nuovo FE/BE", "configurabile"], "Progettazione Smart Workflow Manager: task riutilizzabili come checklist. Template admin, item con severità/criticità, allegati come evidenza.", "wip"], ["Applicazione - Notifiche", "Notifiche", [], "Notifiche applicazione.", "wip"], ["Tutorial AI", "Onboarding", [], "Tutorial AI.", "wip"], ["Linearizzata multimodale", "Vista linearizzata", [], "Vista linearizzata multimodale.", "wip"], ["Invio Ticket", "Segnalazioni dallo strumento", ["ticketing"], "Apertura e invio di segnalazioni (ticket) direttamente dallo strumento operativo.", "wip"], ["Processo di Triage", "Smistamento segnalazioni", ["triage", "troubleshooting"], "Smistamento automatico delle segnalazioni verso il canale di risoluzione corretto.", "wip"]], "f32": [["Real. modello rete", "Implementazione rete", ["network MS", "BE"], "Implementazione del modello dati di rete progettato in fase 3.", ""], ["Real. hub interscambio", "Implementazione hub", ["network MS", "FE/BE"], "Implementazione degli hub multimodali e connessioni tra modalità.", ""], ["Real. corrispondenze", "Coincidenze real-time", ["servicerunmonitoring", "real-time"], "Implementazione del tracciamento real-time delle coincidenze su hub.", ""], ["Real. composizione", "Composizione materiali", ["nuovo FE/BE", "anagrafica"], "Implementazione della gestione composizione materiale rotabile per corsa.", "wip"]], "f33": [["Superset", "Analytics engine", ["analytics"], "Valutazione e integrazione di Apache Superset.", ""], ["KPI Dashboard", "Indicatori di servizio", ["KPI"], "Dashboard di indicatori chiave di prestazione del servizio.", ""]], "f4": [["Regia linee + bordo", "Operatori, voce, app bordo", ["srm-operator-management", "srm-voice-gateway", "app bordo"], "Blocco unico: assegnazione 1:1 linea-operatore, riduzione in morbida, failover supervisore. Voce PTT/VoIP, comunicazioni bordo-terra, app bordo, turnazione materiale.", ""], ["Variazione Gest. Operativa", "Variazioni operative", ["gestione operativa"], "Gestione delle variazioni operative.", ""], ["Monitoraggio Costi", "Costi di esercizio", ["costi"], "Monitoraggio dei costi di esercizio.", ""], ["Handover", "Passaggio consegne (porting)", ["porting", "nuovo MS", "FE/BE"], "Porting passaggio consegne sul nuovo MS SRM. Analisi delta old → new.", ""], ["Contratto di Servizio", "Con Authority", ["soglie"], "Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority.", ""]], "f5": [["Porting App AS IS", "Funzioni Trenord attuali", ["porting", "app"], "Porting delle funzionalità ad oggi disponibili per Trenord, con attestazione e invio localizzazioni e percorso.", ""], ["Sistema di terra + App", "Deviazioni, KM, attestazione", ["app", "sistema terra"], "Estensione capabilities app: deviazioni, attestazione SRM, calcolo KM, invio andamenti, attestazione automatica. Estensione sistema di terra.", ""], ["Altre capabilities App", "Lista/dettaglio corsa, alert", ["app", "alert"], "Lista corsa, dettaglio corsa (percorso tabellare e grafico, materiale, crew), alert.", ""]], "ai": [["AI · Info corsa", "Chat read-only", ["AI", "tool calling", "RAG"], "Chat contestuale con tool calling read-only su servicerunmonitoring. Ingresso più sicuro.", ""], ["AI · Report via mail", "Generazione + invio", ["AI", "generazione", "notifiche"], "Generazione report corsa e invio e-mail. Richiede SMTP e template.", ""], ["AI · Crea scorta", "Azione write + HITL", ["AI", "agentic", "human-in-loop"], "Azione operativa in linguaggio naturale con write access. Human-in-the-loop obbligatorio.", ""], ["AI · Checklist auto", "Azioni automatiche", ["AI", "agentic", "action"], "Automatismi AI con azioni automatiche sui task del workflow manager.", ""]], "tbd": [["Da definire", "Voci future", "", "Elementi ancora da definire.", ""]]}, "deps": [["Analisi standard rete", "Import GeoJSON/GTFS"], ["Import GeoJSON/GTFS", "Prog. modello rete"], ["Prog. modello rete", "Prog. hub interscambio"], ["Prog. hub interscambio", "Prog. corrispondenze"], ["Prog. corrispondenze", "Mockup Coinc. Tabella"], ["Prog. corrispondenze", "Mockup Coinc. Mappa"], ["Nuovo ambiente", "Deploy nuovo ambiente"], ["Prog. modello rete", "Real. modello rete"], ["Prog. hub interscambio", "Real. hub interscambio"], ["Prog. corrispondenze", "Real. corrispondenze"], ["Prog. composizione", "Real. composizione"], ["Superset", "KPI Dashboard"], ["Prog. Smart Workflow Mgr", "AI · Checklist auto"], ["AI · Info corsa", "AI · Report via mail"], ["AI · Info corsa", "AI · Crea scorta"]]}</script>
+<script>
+const DATA=JSON.parse(document.getElementById('data').textContent);
+const {phases,stations,deps}=DATA;
+const COL_W=200, R=8, TRACK_H=112;
+const $=s=>document.querySelector(s);
+function esc(t){return String(t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function wrapTxt(t){if(t.length<=17)return[t];const w=t.split(' ');let a='',b='';
+  for(const x of w){if((a+' '+x).trim().length<=17&&!b)a=(a+' '+x).trim();else b=(b+' '+x).trim();}
+  return b?[a,b]:[a];}
+
+const board=$('#board');
+const posIndex={}; // title -> {rowEl, cx, cy(within svg), phase, ...}
+
+phases.forEach((p,pi)=>{
+  const sts=stations[p.id]||[];
+  const done=sts.length>0&&sts.every(s=>s[4]==='done');
+  const part=!done&&sts.some(s=>s[4]==='done'||s[4]==='wip');
+  const row=document.createElement('div');
+  row.className='prow open'; row.dataset.phase=p.id;
+  row.style.setProperty('--pc',p.c);
+
+  // phase box: badge + when + FULL title (no truncation)
+  const mark=done?'<span class="pdone">&#10003;</span>':(part?'<span class="ppart">&#9679;</span>':'');
+  row.innerHTML=`
+    <div class="ptime">${esc(p.when)}</div>
+    <div class="pbox">
+      <div class="pb" style="--pc:${p.c};color:${p.c}">${esc(p.badge)} ${mark}</div>
+      <div class="pt">${esc(p.title)}</div>
+      <span class="chev">&#9654;</span>
+    </div>
+    <div class="track"><div class="trackin"></div></div>`;
+  board.appendChild(row);
+
+  // build responsive HTML track (fills width, round nodes, no horizontal scroll)
+  const n=sts.length;
+  let html='';
+  if(n>0){
+    html+='<div class="tline" style="background:'+p.c+'"></div>';
+    sts.forEach((s,si)=>{
+      const st=s[4]||'';
+      const left = n===1 ? 6 : (6 + si*(88/(n-1)));  // percentage across track (6%..94%)
+      const cls = st==='done'?'nd done':(st==='wip'?'nd wip':'nd todo');
+      const above = si%2===0;
+      html+='<div class="node" style="left:'+left+'%">'
+          + '<span class="'+cls+'" style="--nc:'+p.c+'" data-title="'+esc(s[0])+'">'+(st==='done'?'&#10003;':'')+'</span>'
+          + '<span class="nlabel '+(above?'above':'below')+'">'+esc(s[0])+'</span>'
+          + '</div>';
+      posIndex[s[0]]={phase:p.id,row,title:s[0],short:s[1],tags:s[2],full:s[3]||s[1],st,c:p.c,phaseLabel:p.badge+' · '+p.title};
+    });
+  }
+  row.querySelector('.trackin').innerHTML=html;
+
+  // toggle individual
+  row.querySelector('.pbox').addEventListener('click',()=>{row.classList.toggle('open');scheduleDeps();updateBtn();});
+  // MVP commercial boundary: after the last T3 phase (f33)
+  if(p.id==='f33'){
+    const div=document.createElement('div');
+    div.className='mvpdiv';
+    div.innerHTML='<span class="mvpbadge"><span class="chk">&#10003;</span> MVP commerciale</span>'
+      +'<span class="mvpnote">Tutto fino a T3 &egrave; gi&agrave; una soluzione vendibile: monitoraggio e gestione operativa di base.</span>'
+      +'<span class="mvpline"></span>';
+    board.appendChild(div);
+  }
+});
+
+// ---- equalize phase box heights ----
+function equalizeBoxes(){
+  const boxes=[...document.querySelectorAll('.pbox')];
+  boxes.forEach(b=>b.style.minHeight='');
+  const h=Math.max(...boxes.map(b=>b.offsetHeight));
+  boxes.forEach(b=>b.style.minHeight=h+'px');
+}
+equalizeBoxes();
+window.addEventListener('resize',()=>{equalizeBoxes();});
+
+// ---- opening animation: start collapsed, then stagger open ----
+document.querySelectorAll('.prow').forEach(r=>r.classList.remove('open'));
+setTimeout(()=>{
+  document.querySelectorAll('.prow').forEach((r,i)=>{
+    setTimeout(()=>{r.classList.add('open'); if(i===phases.length-1){setTimeout(()=>{drawDeps();updateBtn();},600);}},250+i*160);
+  });
+},450);
+
+// ---- toggle all ----
+const btn=$('#toggleAll');
+function allOpen(){return [...document.querySelectorAll('.prow')].every(r=>r.classList.contains('open'));}
+function updateBtn(){btn.textContent=allOpen()?'Raggruppa tutte':'Espandi tutte';}
+btn.addEventListener('click',()=>{
+  const target=!allOpen();
+  document.querySelectorAll('.prow').forEach((r,i)=>{
+    setTimeout(()=>{r.classList.toggle('open',target); if(i===phases.length-1)scheduleDeps();},i*70);
+  });
+  setTimeout(updateBtn,phases.length*70+50);
+});
+
+// ---- dependencies overlay (only when everything open) ----
+let depTimer=null;
+function scheduleDeps(){clearTimeout(depTimer);$('#depsvg').classList.remove('on');depTimer=setTimeout(drawDeps,650);}
+function drawDeps(){
+  const svg=$('#depsvg');
+  if(!allOpen()){svg.classList.remove('on');svg.innerHTML='';return;}
+  const bb=board.getBoundingClientRect();
+  svg.setAttribute('width',board.scrollWidth);svg.setAttribute('height',board.scrollHeight);
+  svg.setAttribute('viewBox',`0 0 ${board.scrollWidth} ${board.scrollHeight}`);
+  let g='';
+  deps.forEach(([a,b])=>{
+    const A=posIndex[a],B=posIndex[b]; if(!A||!B||A.phase===B.phase)return;
+    const ga=A.row.querySelector(`.nd[data-title="${CSS.escape(a)}"]`);
+    const gb=B.row.querySelector(`.nd[data-title="${CSS.escape(b)}"]`);
+    if(!ga||!gb)return;
+    const ra=ga.getBoundingClientRect(), rb=gb.getBoundingClientRect();
+    const x1=ra.left-bb.left+ra.width/2, y1=ra.top-bb.top+ra.height/2;
+    const x2=rb.left-bb.left+rb.width/2, y2=rb.top-bb.top+rb.height/2;
+    const mx=(x1+x2)/2;
+    g+=`<path d="M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}" fill="none" stroke="#b9711a" stroke-width="1.6" stroke-dasharray="4 4" opacity="0.5"/>`;
+  });
+  svg.innerHTML=g;
+  svg.classList.add('on');
+}
+window.addEventListener('resize',scheduleDeps);
+
+// ---- tooltip ----
+const tip=$('#tip');
+const depByTitle={};
+deps.forEach(([a,b])=>{(depByTitle[b]=depByTitle[b]||[]).push(a);});
+function showTip(stop,clientX,clientY){
+  const s=posIndex[stop.getAttribute('data-title')]; if(!s)return;
+  const dep=depByTitle[s.title];
+  const stTxt=s.st==='done'?'<span class="stbadge done">&#10003; Completata</span>':(s.st==='wip'?'<span class="stbadge wip">&#9679; In lavorazione</span>':'');
+  tip.innerHTML=`<span class="ph" style="color:${s.c}">${esc(s.phaseLabel)}</span>`+stTxt+
+    `<b>${esc(s.title)}</b><div class="d">${esc(s.full)}</div>`+
+    (s.tags&&s.tags.length?s.tags.map(t=>`<span class="tg">${esc(t)}</span>`).join(''):'')+
+    (dep?`<div class="dep">&#8627; dipende da: ${dep.map(esc).join(', ')}</div>`:'');
+  tip.classList.add('show');
+  const tw=tip.offsetWidth||330, th=tip.offsetHeight||160;
+  let px=clientX+16, py=clientY+16;
+  if(px+tw>window.innerWidth-12)px=clientX-tw-16;
+  if(py+th>window.innerHeight-12)py=window.innerHeight-th-12;
+  px=Math.max(12,Math.min(px,window.innerWidth-tw-12));
+  py=Math.max(12,Math.min(py,window.innerHeight-th-12));
+  tip.style.left=px+'px';tip.style.top=py+'px';
+}
+document.addEventListener('mousemove',e=>{
+  const stop=e.target.closest&&e.target.closest('.nd');
+  if(!stop){tip.classList.remove('show');return;}
+  showTip(stop,e.clientX,e.clientY);
+});
+document.addEventListener('pointerdown',e=>{
+  if(e.pointerType==='mouse')return;
+  const stop=e.target.closest&&e.target.closest('.nd');
+  if(!stop){tip.classList.remove('show');return;}
+  showTip(stop,e.clientX,e.clientY);
+});
+
+(function(){
+  const params=new URLSearchParams(location.search);
+  if(params.get('embed')==='1'){
+    document.body.classList.add('embed');
+    function postH(){
+      const board=document.getElementById('board');
+      const wrap=document.querySelector('.wrap');
+      let h;
+      if(board){ const r=board.getBoundingClientRect(); h=window.scrollY+r.bottom; }
+      else { h=document.documentElement.scrollHeight; }
+      // guard against transform-inflated values
+      h=Math.min(h, 4000);
+      parent.postMessage({type:'metroHeight',height:Math.ceil(h)},'*');
+    }
+    window.addEventListener('load',()=>setTimeout(postH,300));
+    // recompute after animations / interactions
+    const mo=new MutationObserver(()=>setTimeout(postH,60));
+    mo.observe(document.body,{subtree:true,attributes:true,childList:true});
+    window.addEventListener('resize',postH);
+    setInterval(postH,1200);
+  }
+})();
+</script>
+</body>
+</html>

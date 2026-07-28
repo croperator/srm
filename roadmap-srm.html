@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roadmap SRM</title>
+<style>
+  :root{
+    --bg:#fbfbf9; --surface:#ffffff; --ink:#1d1d1b; --ink-soft:#5a5a54;
+    --line:#e4e3dd; --line-strong:#cfceC6; --radius:12px;
+    --font:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55;}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 90px;}
+  h1{font-size:25px;font-weight:600;margin:0 0 4px;}
+  .sub{color:var(--ink-soft);font-size:14px;margin:0 0 16px;}
+  .toolbar{position:sticky;top:0;z-index:30;background:var(--bg);
+    display:flex;flex-wrap:wrap;gap:9px;align-items:center;
+    padding:11px 0;border-bottom:1px solid var(--line);margin-bottom:20px;}
+  .btn{border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);
+    font:inherit;font-size:13px;font-weight:500;padding:7px 13px;border-radius:8px;cursor:pointer;}
+  .btn:hover{border-color:#a9a8a0;}
+  .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .hint{color:var(--ink-soft);font-size:12.5px;margin-left:auto;}
+  .phase{margin-bottom:22px;border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--surface);overflow:hidden;}
+  .phase.dragging{opacity:.5;}
+  .phase-head{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid var(--line);}
+  .phgrip{cursor:grab;color:#b7b6ae;font-size:17px;line-height:1;padding:2px 4px;user-select:none;}
+  .phase-badge{font-size:12px;font-weight:600;padding:4px 11px;border-radius:20px;white-space:nowrap;
+    border:none;outline:none;background:var(--pbg,#eee);color:var(--pc,#555);min-width:78px;width:84px;text-align:center;}
+  .phase-title{font-size:16px;font-weight:600;flex:1;border:none;background:transparent;color:var(--ink);
+    font-family:inherit;padding:2px 4px;border-radius:6px;}
+  .phase-title:focus,.phase-when:focus,.phase-badge:focus{outline:2px solid var(--line-strong);}
+  .phase-when{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;border:none;background:transparent;
+    font-family:inherit;text-align:right;width:168px;padding:2px 4px;border-radius:6px;}
+  .ph-del{cursor:pointer;color:#c0807a;font-size:14px;background:none;border:none;padding:2px 5px;border-radius:6px;}
+  .ph-del:hover{background:#fbecea;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px;padding:12px 14px 14px;min-height:54px;}
+  .card{display:flex;align-items:flex-start;gap:8px;border:1px solid var(--line);
+    border-left:3px solid var(--cardc,#bbb);border-radius:9px;background:#fff;
+    padding:9px 10px;transition:box-shadow .12s;}
+  .card.dragging{opacity:.4;}
+  .card:hover{box-shadow:0 2px 8px rgba(0,0,0,.07);}
+  .grip{cursor:grab;color:#bdbcb4;font-size:15px;line-height:1.1;user-select:none;flex:none;margin-top:1px;}
+  .grip:active{cursor:grabbing;}
+  .card-body{flex:1;min-width:0;}
+  .card-title{font-size:13px;font-weight:600;margin:0;cursor:text;}
+  .card-meta{font-size:11px;color:var(--ink-soft);margin-top:2px;display:none;}
+  .card.expanded .card-meta{display:block;}
+  .card-x{cursor:pointer;color:#c9c8c0;font-size:13px;background:none;border:none;padding:0 2px;flex:none;}
+  .card-x:hover{color:#c0807a;}
+  .chev{cursor:pointer;color:#bdbcb4;font-size:11px;background:none;border:none;flex:none;margin-top:2px;}
+
+  .st{cursor:pointer;flex:none;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--line-strong);
+    background:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1;
+    color:#b9b8b0;margin-top:1px;user-select:none;transition:all .12s}
+  .st:hover{border-color:#8f8e86}
+  .st.done{background:#0f8a66;border-color:#0f8a66;color:#fff}
+  .st.wip{background:#e9a23b;border-color:#e9a23b;color:#fff}
+  .card.done .card-title{color:#7d7c75}
+  .card.done{background:#fafaf7}
+  .legend-st{display:flex;gap:16px;font-size:12px;color:var(--ink-soft);margin:0 0 16px;flex-wrap:wrap}
+  .legend-st span{display:inline-flex;align-items:center;gap:6px}
+  .legend-st i{width:15px;height:15px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    font-size:9px;color:#fff;font-style:normal}
+  .grid.drop-hl{outline:2px dashed var(--line-strong);outline-offset:-5px;background:#faf9f5;}
+  .addbar{display:flex;gap:9px;}
+  dialog{border:none;border-radius:14px;padding:0;max-width:760px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+  dialog::backdrop{background:rgba(20,20,18,.45);}
+  .modal-head{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--line);}
+  .modal-head h2{margin:0;font-size:16px;}
+  .modal-body{padding:16px 18px;}
+  .modal-foot{padding:0 18px 18px;display:flex;gap:10px;}
+  textarea{width:100%;height:320px;border:1px solid var(--line);border-radius:8px;padding:12px;
+    font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;resize:vertical;}
+  label.fld{display:block;font-size:12.5px;color:var(--ink-soft);margin:10px 0 4px;}
+  input.fld,select.fld{width:100%;font:inherit;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;}
+  @media (max-width:640px){
+    .wrap{padding:16px 12px 56px;}
+    .toolbar{gap:7px;padding:9px 0;margin-bottom:16px;}
+    .hint{width:100%;margin-left:0;}
+    .phase-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;padding:11px 12px;}
+    .phase-badge{grid-column:2;width:84px;}
+    .phase-title{grid-column:1 / -1;grid-row:2;min-width:0;font-size:15px;}
+    .phase-when{grid-column:1 / -1;grid-row:3;width:100%;text-align:left;}
+    .grid{grid-template-columns:1fr;padding:10px 12px 12px;}
+    .addbar{padding:0 12px 12px !important;}
+    dialog{width:calc(100% - 24px);}
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <h1>Roadmap SRM &mdash; Smart Real-Time Mobility</h1>
+  <p class="sub">Trascina dalla maniglia <strong>&#10303;</strong> per spostare blocchi o fasi. Clicca un titolo per modificarlo, la freccia per espandere.</p>
+  <div class="toolbar">
+    <button class="btn primary" onclick="exportHTML()">Esporta HTML statico</button>
+    <button class="btn" onclick="addPhase()">+ Nuova fase</button>
+    <button class="btn" onclick="exportPNG(this)">Esporta immagine (PNG)</button>
+    <button class="btn" onclick="resetLayout()">Ripristina</button>
+    <span class="hint" id="saveHint">Salvataggio automatico attivo</span>
+  </div>
+  <div class="legend-st">
+    <span><i style="background:#0f8a66">&#10003;</i> Fatto</span>
+    <span><i style="background:#e9a23b">&#9679;</i> In corso</span>
+    <span><i style="background:#fff;border:1.5px solid #cfcec6"></i> Da fare</span>
+    <span style="color:#86857d">&mdash; clicca il pallino su un blocco per cambiarne lo stato</span>
+  </div>
+  <div id="phases"></div>
+</div>
+
+<dialog id="cardDlg">
+  <div class="modal-head"><h2 id="cardDlgTitle">Nuovo blocco</h2>
+    <button class="btn" onclick="cardDlg.close()">Chiudi</button></div>
+  <div class="modal-body">
+    <label class="fld">Titolo</label>
+    <input class="fld" id="f_title" placeholder="Es. Nuova funzionalit&agrave;">
+    <label class="fld">Descrizione</label>
+    <input class="fld" id="f_desc" placeholder="Breve descrizione">
+    <label class="fld">Tag (separati da virgola)</label>
+    <input class="fld" id="f_tags" placeholder="Es. nuovo FE/BE, real-time">
+    <label class="fld">Dipendenza (opzionale)</label>
+    <input class="fld" id="f_dep" placeholder="Es. Dipende da: analisi standard">
+    <label class="fld">Fase</label>
+    <select class="fld" id="f_phase"></select>
+  </div>
+  <div class="modal-foot"><button class="btn primary" onclick="saveCard()">Salva blocco</button></div>
+</dialog>
+
+<dialog id="exportDlg">
+  <div class="modal-head"><h2>HTML statico per Google Sites</h2>
+    <button class="btn" onclick="exportDlg.close()">Chiudi</button></div>
+  <div class="modal-body">
+    <p class="sub" style="margin:0 0 10px">Copia e incolla su Google Sites con <strong>Inserisci &rarr; Incorpora &rarr; Codice incorporato</strong>.</p>
+    <textarea id="exportArea" readonly></textarea>
+  </div>
+  <div class="modal-foot"><button class="btn primary" onclick="copyExport(this)">Copia negli appunti</button></div>
+</dialog>
+
+<script>
+const PALETTE=[
+  {c:'#2563a8',bg:'#eaf2fb'},{c:'#0f8a66',bg:'#e6f5ef'},{c:'#b9711a',bg:'#fbf0df'},
+  {c:'#9333a8',bg:'#f6ebfa'},{c:'#6d4ad1',bg:'#efeafc'},{c:'#c2410c',bg:'#fbede5'},
+  {c:'#0e7490',bg:'#e4f4f7'},{c:'#4d7c0f',bg:'#eef5e2'},
+];
+const DEFAULT_PHASES=[
+  {id:'f0',   badge:'Fase 0',   title:'Progettazione e Realizzazione SRM per Trenord', when:'T1-T2 2026', c:'#0f8a66', bg:'#e6f5ef'},
+  {id:'now',  badge:'Fase 1',   title:'Core operativo', when:'T2 2026', c:'#2563a8', bg:'#eaf2fb'},
+  {id:'f2',   badge:'Fase 2',   title:'Assessment Architetturale', when:'T3 2026 - da Luglio', c:'#2563a8', bg:'#eaf2fb'},
+  {id:'f3',   badge:'Fase 3',   title:'Progettazione Modello rete, multimodalita e composizione', when:'T3 2026 - da Luglio', c:'#b9711a', bg:'#fbf0df'},
+  {id:'f31',  badge:'Fase 3.1', title:'Strumenti Evoluti', when:'T3 2026 - da Luglio', c:'#0f8a66', bg:'#e6f5ef'},
+  {id:'f32',  badge:'Fase 3.2', title:'Realizzazione modello rete, multimodalita e composizione', when:'T3 2026 - da Luglio', c:'#a16207', bg:'#faf0dc'},
+  {id:'f33',  badge:'Fase 3.3', title:'Assessment applicativo sui progetti', when:'T3 2026 - da Luglio', c:'#4d7c0f', bg:'#eef5e2'},
+  {id:'f4',   badge:'Fase 4',   title:'Regia, Gestione Operativa, Console di monitoraggio e porting vari', when:'T4 2026', c:'#9333a8', bg:'#f6ebfa'},
+  {id:'f5',   badge:'Fase 5',   title:'Applicazione Mobile', when:'T4 2026', c:'#c2410c', bg:'#fbede5'},
+  {id:'ai',   badge:'Fase 6',   title:'AI assistant - Ampliamento funzionalita', when:'T1 2027', c:'#6d4ad1', bg:'#efeafc'},
+  {id:'tbd',  badge:'Fase TBD', title:'Da definire', when:'TBD', c:'#6b7280', bg:'#eef0f2'},
+];
+const DEFAULT_CARDS=[
+  {phase:'now', title:'Home page', st:'done', desc:'Dashboard personalizzabile con layout come Configurazioni.', tags:['nuovo FE/BE']},
+  {phase:'now', title:'Mappa corse live', st:'done', desc:'Posizionamento real-time dei mezzi sulla mappa. Filtri per linea e modalita, interscambi e dettaglio punti.', tags:['realtime','filtri','interscambi']},
+  {phase:'now', title:'Andamenti manuali', st:'done', desc:'Inserimento manuale di eventi non coperti da sorgenti automatiche.', tags:['nuovo FE/BE']},
+  {phase:'now', title:'Lista Operational Event', st:'done', desc:'', tags:[]},
+  {phase:'now', title:'Avvio integrazione SKM', st:'done', desc:'Avvio delle attivita di integrazione con SKM.', tags:['integrazione']},
+  {phase:'now', title:'Lista Notice', st:'done', desc:'', tags:[]},
+  {phase:'now', title:'Ricerca Corsa Mappa', st:'done', desc:'', tags:[]},
+  {phase:'now', title:'Scheda Corsa', st:'done', desc:'Dettaglio corsa: tabella di marcia (previsto, reale, previsionale, delta, binari, motivi ritardo, frequentazioni), provvedimenti, avvisi, note, localizzazioni, messaggi.', tags:['SchedaCorsa']},
+  {phase:'now', title:'Nuovo ambiente', st:'wip', desc:'Attivazione nuovo ambiente di sviluppo in cui prendere: DB postgre. Avvio separazione da MOOVA.', tags:['infrastruttura','postgres']},
+
+  {phase:'f2', title:'Integrazione Foundation', desc:'', tags:[]},
+  {phase:'f2', title:'Solution Assessment & Cybersecurity Compliance', desc:'', tags:[]},
+  {phase:'f2', title:'Deploy sul nuovo ambiente', desc:'', tags:[], dep:'Dipende da: Nuovo ambiente'},
+  {phase:'f2', title:'Definizione strumenti monitoraggio', desc:'', tags:[]},
+  {phase:'f2', title:'Lotta all indipendenza', desc:'', tags:[]},
+
+  {phase:'f3', title:'Analisi standard rete', st:'done', desc:'Studio comparativo GeoJSON, GTFS, NeTEx, SIRI. Scelta formato import.', tags:['analisi','prerequisito']},
+  {phase:'f3', title:'Import GeoJSON / GTFS', st:'done', desc:'Pipeline ingestione topologia di rete. Formato da analisi precedente.', tags:['network MS','BE'], dep:'Dipende da: analisi standard'},
+  {phase:'f3', title:'Progettazione modello rete', st:'wip', desc:'Progettazione del modello dati di rete: topologia, linee, fermate, relazioni.', tags:['progettazione','network MS'], dep:'Dipende da: import rete'},
+  {phase:'f3', title:'Progettazione hub interscambio', st:'wip', desc:'Progettazione degli hub multimodali nel network service. Connessioni tra modalita.', tags:['progettazione','network MS'], dep:'Dipende da: modello rete'},
+  {phase:'f3', title:'Progettazione corrispondenze', st:'wip', desc:'Progettazione del tracciamento coincidenze su hub. Stati: garantita, a rischio, persa, trattenuta.', tags:['progettazione','servicerunmonitoring'], dep:'Dipende da: hub interscambio'},
+  {phase:'f3', title:'Progettazione composizione materiali', st:'done', desc:'Progettazione della configurazione materiale rotabile per corsa: carrozze, unita, composizioni.', tags:['progettazione','anagrafica'], dep:'Dipende da: Bus Registry completo'},
+  {phase:'f3', title:'Mockup Coincidenze - Tabella', st:'wip', desc:'', tags:[], dep:'Dipende da: progettazione corrispondenze'},
+  {phase:'f3', title:'Mockup Coincidenze - Mappa', st:'wip', desc:'', tags:[], dep:'Dipende da: progettazione corrispondenze'},
+
+  {phase:'f31', title:'Smart Workflow Manager', st:'wip', desc:'', tags:[]},
+  {phase:'f31', title:'Progettazione Smart Workflow Manager', st:'wip', desc:'Task riutilizzabili come checklist. Template admin, item con severita/criticita, allegati come evidenza.', tags:['nuovo FE/BE','configurabile']},
+  {phase:'f31', title:'Applicazione - Notifiche', st:'wip', desc:'', tags:[]},
+  {phase:'f31', title:'Tutorial AI', st:'wip', desc:'', tags:[]},
+  {phase:'f31', title:'Linearizzata multimodale', st:'wip', desc:'', tags:[]},
+  {phase:'f31', title:'Invio Ticket', desc:'Apertura e invio di segnalazioni (ticket) direttamente dallo strumento operativo.', tags:['ticketing']},
+  {phase:'f31', title:'Processo di Triage', desc:'Smistamento automatico delle segnalazioni verso il canale di risoluzione corretto.', tags:['triage','troubleshooting']},
+
+  {phase:'f32', title:'Realizzazione modello rete', desc:'Implementazione del modello dati di rete progettato in fase 3.', tags:['network MS','BE'], dep:'Dipende da: progettazione modello rete'},
+  {phase:'f32', title:'Realizzazione hub interscambio', desc:'Implementazione degli hub multimodali e delle connessioni tra modalita.', tags:['network MS','FE/BE'], dep:'Dipende da: progettazione hub'},
+  {phase:'f32', title:'Realizzazione corrispondenze', desc:'Implementazione del tracciamento real-time delle coincidenze su hub.', tags:['servicerunmonitoring','real-time'], dep:'Dipende da: progettazione corrispondenze'},
+  {phase:'f32', title:'Realizzazione composizione materiali', st:'wip', desc:'Implementazione della gestione composizione materiale rotabile per corsa.', tags:['nuovo FE/BE','anagrafica'], dep:'Dipende da: progettazione composizione'},
+
+  {phase:'f33', title:'Superset', desc:'Valutazione e integrazione di Apache Superset come motore di analytics.', tags:['analytics']},
+  {phase:'f33', title:'KPI Dashboard', desc:'Dashboard di indicatori chiave di prestazione del servizio.', tags:['KPI'], dep:'Dipende da: Superset'},
+
+  {phase:'f4', title:'Regia linee + bordo (blocco unico)', desc:'Assegnazione 1:1 linea-operatore, riduzione in morbida con redistribuzione, rilevamento abbandono + failover supervisore. Chiamate vocali PTT/VoIP, comunicazioni bordo-terra (testo+alert), app bordo (monitoraggio, deviazioni, km effettivi), integrazione turnazione materiale.', tags:['srm-operator-management','srm-voice-gateway','app bordo']},
+  {phase:'f4', title:'Variazione Gestione Operativa', desc:'Gestione delle variazioni operative.', tags:['gestione operativa']},
+  {phase:'f4', title:'Monitoraggio Costi Esercizio', desc:'Monitoraggio dei costi di esercizio.', tags:['costi']},
+  {phase:'f4', title:'Handover - porting', desc:'Porting passaggio consegne sul nuovo MS SRM. Analisi delta old -> new.', tags:['porting','nuovo MS','FE/BE']},
+  {phase:'f4', title:'Contratto di Servizio con Authority', desc:'Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority.', tags:['soglie']},
+
+  {phase:'f5', title:'Porting Applicazione AS IS', desc:'Porting delle funzionalita ad oggi disponibili per Trenord con attestazione e invio localizzazioni e percorso.', tags:['porting','app']},
+  {phase:'f5', title:'Sistema di terra e App', desc:'Estendere capabilities app: deviazioni, Attestazione SRM (non MOOVA), calcolo KM, invio andamenti, attestazione automatica. Estendere il sistema di terra.', tags:['app','sistema terra']},
+  {phase:'f5', title:'Altre capabilities APP', desc:'Lista corsa, dettaglio corsa (percorso tabellare e grafico, materiale, crew), alert.', tags:['app','alert']},
+
+  {phase:'ai', title:'AI - Info corsa', desc:'Chat contestuale. Tool calling read-only su servicerunmonitoring. Ingresso piu sicuro.', tags:['AI','tool calling','RAG']},
+  {phase:'ai', title:'AI - Report via mail', desc:'Generazione report corsa + invio e-mail. Richiede SMTP e template.', tags:['AI','generazione','notifiche'], dep:'Dipende da: AI info corsa'},
+  {phase:'ai', title:'AI - Crea scorta', desc:'Azione operativa in linguaggio naturale con write access. Human-in-the-loop obbligatorio.', tags:['AI','agentic','human-in-loop'], dep:'Dipende da: AI info corsa + scorte stabili'},
+  {phase:'ai', title:'AI - Gestione checklist automatica', desc:'Automatismi AI con azioni automatiche sui task activity manager.', tags:['AI','agentic','action'], dep:'Dipende da: Smart Workflow Manager'},
+];
+
+let phases, cards, uid=1000, _ready=false;
+function init(){
+  phases=DEFAULT_PHASES.map(p=>({...p}));
+  cards=DEFAULT_CARDS.map((c,i)=>({...c,_id:i}));
+}
+init();
+const $=s=>document.querySelector(s);
+function phaseColor(id){const p=phases.find(x=>x.id===id);return p||{c:'#888',bg:'#eee'};}
+
+function render(){
+  const root=$('#phases'); root.innerHTML='';
+  phases.forEach(p=>{
+    const sec=document.createElement('section');
+    sec.className='phase'; sec.dataset.phase=p.id;
+    sec.innerHTML=
+      '<div class="phase-head">'+
+        '<span class="phgrip" draggable="true" title="Trascina la fase">&#10303;</span>'+
+        '<input class="phase-badge" value="'+esc(p.badge)+'" style="--pbg:'+p.bg+';--pc:'+p.c+'" data-f="badge">'+
+        '<input class="phase-title" value="'+esc(p.title)+'" data-f="title">'+
+        '<input class="phase-when" value="'+esc(p.when)+'" data-f="when">'+
+        '<button class="ph-del" title="Elimina fase">&#10005;</button>'+
+      '</div>'+
+      '<div class="grid" data-grid="'+p.id+'"></div>'+
+      '<div class="addbar" style="padding:0 14px 14px"><button class="btn" data-add="'+p.id+'">+ Blocco</button></div>';
+    root.appendChild(sec);
+    sec.querySelectorAll('[data-f]').forEach(inp=>inp.addEventListener('change',()=>{p[inp.dataset.f]=inp.value;persist();}));
+    sec.querySelector('.ph-del').addEventListener('click',()=>{
+      if(cards.some(c=>c.phase===p.id)){if(!confirm('La fase contiene blocchi. Eliminare comunque?'))return;}
+      cards=cards.filter(c=>c.phase!==p.id); phases=phases.filter(x=>x.id!==p.id); render();
+    });
+    sec.querySelector('[data-add]').addEventListener('click',()=>openCardDlg(null,p.id));
+    const grip=sec.querySelector('.phgrip');
+    grip.addEventListener('dragstart',e=>{dragPhase=p.id;sec.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+    grip.addEventListener('dragend',()=>{sec.classList.remove('dragging');dragPhase=null;});
+    sec.addEventListener('dragover',e=>{
+      if(!dragPhase)return; e.preventDefault();
+      const dragging=document.querySelector('.phase.dragging');
+      const box=sec.getBoundingClientRect();
+      if(e.clientY<box.top+box.height/2)root.insertBefore(dragging,sec);
+      else root.insertBefore(dragging,sec.nextSibling);
+    });
+    sec.addEventListener('drop',e=>{if(dragPhase){e.preventDefault();reorderPhases();}});
+    const grid=sec.querySelector('.grid');
+    cards.filter(c=>c.phase===p.id).forEach(c=>grid.appendChild(cardEl(c)));
+    attachCardDrop(grid);
+  });
+  if(_ready)persist();
+}
+
+function cardEl(c){
+  const p=phaseColor(c.phase);
+  const el=document.createElement('div');
+  el.className='card'+(c.st==='done'?' done':''); el.dataset.id=c._id; el.style.setProperty('--cardc',p.c);
+  el.innerHTML=
+    '<span class="grip" draggable="true">&#10303;</span>'+
+    '<button class="st '+(c.st||'')+'" title="Stato: clicca per cambiare">'+(c.st==='done'?'&#10003;':(c.st==='wip'?'&#9679;':''))+'</button>'+
+    '<div class="card-body">'+
+      '<div class="card-title" data-edit>'+esc(c.title)+'</div>'+
+      '<div class="card-meta">'+esc(c.desc)+
+        (c.tags&&c.tags.length?'<br><span style="color:'+p.c+'">'+c.tags.map(esc).join(' &middot; ')+'</span>':'')+
+        (c.dep?'<br><span style="color:#b9711a">'+esc(c.dep)+'</span>':'')+
+      '</div>'+
+    '</div>'+
+    '<button class="chev" title="Espandi">&#9662;</button>'+
+    '<button class="card-x" title="Elimina">&#10005;</button>';
+  const grip=el.querySelector('.grip');
+  grip.addEventListener('dragstart',e=>{dragCard=c._id;el.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
+  grip.addEventListener('dragend',()=>{el.classList.remove('dragging');dragCard=null;});
+  el.querySelector('.st').addEventListener('click',()=>{
+    c.st = c.st==='done' ? 'wip' : (c.st==='wip' ? undefined : 'done');
+    render();
+  });
+  el.querySelector('.chev').addEventListener('click',()=>el.classList.toggle('expanded'));
+  el.querySelector('.card-x').addEventListener('click',()=>{cards=cards.filter(x=>x._id!==c._id);render();});
+  el.querySelector('[data-edit]').addEventListener('click',()=>openCardDlg(c,c.phase));
+  return el;
+}
+
+let dragCard=null, dragPhase=null;
+function attachCardDrop(grid){
+  grid.addEventListener('dragover',e=>{
+    if(dragCard==null)return; e.preventDefault(); grid.classList.add('drop-hl');
+    const after=afterEl(grid,e.clientY);
+    const dragging=document.querySelector('.card.dragging');
+    if(!dragging)return;
+    if(after==null)grid.appendChild(dragging); else grid.insertBefore(dragging,after);
+  });
+  grid.addEventListener('dragleave',()=>grid.classList.remove('drop-hl'));
+  grid.addEventListener('drop',e=>{
+    if(dragCard==null)return; e.preventDefault(); grid.classList.remove('drop-hl');
+    const ns=[];
+    document.querySelectorAll('.grid').forEach(g=>{
+      g.querySelectorAll('.card').forEach(card=>{
+        const c=cards.find(x=>x._id==card.dataset.id); c.phase=g.dataset.grid; ns.push(c);
+      });
+    });
+    cards=ns; render();
+  });
+}
+function afterEl(grid,y){
+  const els=[...grid.querySelectorAll('.card:not(.dragging)')];
+  return els.reduce((closest,child)=>{
+    const box=child.getBoundingClientRect();
+    const offset=y-box.top-box.height/2;
+    if(offset<0&&offset>closest.offset)return{offset,element:child};
+    return closest;
+  },{offset:-Infinity}).element;
+}
+function reorderPhases(){
+  const order=[...document.querySelectorAll('.phase')].map(s=>s.dataset.phase);
+  phases.sort((a,b)=>order.indexOf(a.id)-order.indexOf(b.id));
+  persist();
+}
+
+let editing=null;
+function openCardDlg(card,phaseId){
+  editing=card;
+  $('#cardDlgTitle').textContent=card?'Modifica blocco':'Nuovo blocco';
+  $('#f_title').value=card?card.title:'';
+  $('#f_desc').value=card?card.desc:'';
+  $('#f_tags').value=card&&card.tags?card.tags.join(', '):'';
+  $('#f_dep').value=card&&card.dep?card.dep:'';
+  const sel=$('#f_phase');
+  sel.innerHTML=phases.map(p=>'<option value="'+p.id+'">'+esc(p.badge)+' - '+esc(p.title)+'</option>').join('');
+  sel.value=phaseId||phases[0].id;
+  cardDlg.showModal();
+}
+function saveCard(){
+  const data={
+    title:$('#f_title').value.trim()||'Senza titolo',
+    desc:$('#f_desc').value.trim(),
+    tags:$('#f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+    dep:$('#f_dep').value.trim()||undefined,
+    phase:$('#f_phase').value,
+  };
+  if(editing){Object.assign(editing,data);}else{cards.push({...data,_id:uid++});}
+  cardDlg.close(); render();
+}
+function addPhase(){
+  const n=phases.length; const pal=PALETTE[n%PALETTE.length];
+  phases.push({id:'p'+(uid++),badge:'Fase '+(n+1),title:'Nuova fase',when:'da definire',c:pal.c,bg:pal.bg});
+  render(); window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function resetLayout(){if(confirm('Ripristinare la disposizione originale?')){init();render();}}
+function esc(s){return String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+
+function exportHTML(){
+  const css="*{box-sizing:border-box}body{margin:0;background:#fbfbf9;color:#1d1d1b;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.55}.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 60px}h1{font-size:25px;font-weight:600;margin:0 0 4px}.sub{color:#5a5a54;font-size:14px;margin:0 0 18px}.phase{margin-bottom:22px;border:1px solid #e4e3dd;border-radius:12px;background:#fff;overflow:hidden}.phase-head{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid #e4e3dd}.phase-badge{font-size:12px;font-weight:600;padding:4px 11px;border-radius:20px;white-space:nowrap}.phase-title{font-size:16px;font-weight:600;flex:1}.phase-when{font-size:12.5px;color:#5a5a54;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:14px}.card{border:1px solid #e4e3dd;border-left:3px solid var(--cardc,#bbb);border-radius:9px;background:#fff;padding:11px 12px}.card-title{font-size:13.5px;font-weight:600;margin:0 0 5px}.card p{margin:0 0 7px;font-size:12px;color:#5a5a54;line-height:1.45}.tags{font-size:11px;color:var(--cardc)}.dep{font-size:11px;color:#b9711a;margin-top:6px}.card.done{background:#fafaf7}.card.done .card-title{color:#7d7c75}.stx{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;font-size:9px;color:#fff;vertical-align:middle}.stx.done{background:#0f8a66}.stx.wip{background:#e9a23b}.legend-st{display:flex;gap:16px;font-size:12px;color:#5a5a54;margin:0 0 18px;flex-wrap:wrap}.legend-st span{display:inline-flex;align-items:center;gap:6px}.legend-st i{width:15px;height:15px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-style:normal}";
+  const body=phases.map(p=>{
+    const cs=cards.filter(c=>c.phase===p.id).map(c=>
+      '<div class="card'+(c.st==='done'?' done':'')+'" style="--cardc:'+p.c+'">'+
+        '<p class="card-title">'+(c.st==='done'?'<span class="stx done">&#10003;</span> ':(c.st==='wip'?'<span class="stx wip">&#9679;</span> ':''))+esc(c.title)+'</p>'+
+        (c.desc?'<p>'+esc(c.desc)+'</p>':'')+
+        (c.tags&&c.tags.length?'<div class="tags">'+c.tags.map(esc).join(' &middot; ')+'</div>':'')+
+        (c.dep?'<div class="dep">'+esc(c.dep)+'</div>':'')+
+      '</div>').join('');
+    return '<section class="phase">'+
+      '<div class="phase-head">'+
+        '<span class="phase-badge" style="background:'+p.bg+';color:'+p.c+'">'+esc(p.badge)+'</span>'+
+        '<span class="phase-title">'+esc(p.title)+'</span>'+
+        '<span class="phase-when">'+esc(p.when)+'</span>'+
+      '</div>'+
+      '<div class="grid">'+cs+'</div>'+
+    '</section>';
+  }).join('');
+  const leg='<div class="legend-st"><span><i style="background:#0f8a66">&#10003;</i> Fatto</span><span><i style="background:#e9a23b">&#9679;</i> In corso</span><span><i style="background:#fff;border:1.5px solid #cfcec6"></i> Da fare</span></div>';
+  $('#exportArea').value='<style>'+css+'</style>\n<div class="wrap">\n  <h1>Roadmap SRM &mdash; Smart Real-Time Mobility</h1>\n  <p class="sub">Pianificazione per fasi del progetto SRM.</p>\n  '+leg+'\n  '+body+'\n</div>';
+  exportDlg.showModal();
+}
+function copyExport(btn){
+  const ta=$('#exportArea'); ta.select();
+  navigator.clipboard.writeText(ta.value).then(()=>{btn.textContent='Copiato \u2713';setTimeout(()=>btn.textContent='Copia negli appunti',1500);});
+}
+const LS_KEY='roadmapSRM.v1';
+function persist(){
+  try{
+    localStorage.setItem(LS_KEY,JSON.stringify({phases,cards,uid}));
+    const h=$('#saveHint'); if(h){h.textContent='Salvato \u2713'; clearTimeout(persist._t);
+      persist._t=setTimeout(()=>{h.textContent='Salvataggio automatico attivo';},1200);}
+  }catch(e){}
+}
+function load(){
+  try{
+    const raw=localStorage.getItem(LS_KEY); if(!raw)return false;
+    const d=JSON.parse(raw);
+    if(d&&Array.isArray(d.phases)&&Array.isArray(d.cards)){
+      phases=d.phases; cards=d.cards; uid=d.uid||1000; return true;
+    }
+  }catch(e){}
+  return false;
+}
+function exportPNG(btn){
+  const node=$('#phases'); const old=btn.textContent; btn.textContent='Genero...';
+  html2canvas(node,{backgroundColor:'#fbfbf9',scale:2}).then(canvas=>{
+    canvas.toBlob(b=>{
+      const url=URL.createObjectURL(b); const a=document.createElement('a');
+      a.href=url; a.download='roadmap-srm.png'; a.click(); URL.revokeObjectURL(url);
+      btn.textContent='Scaricato \u2713'; setTimeout(()=>btn.textContent=old,1500);
+    });
+  }).catch(()=>{btn.textContent=old; alert('Errore generazione immagine');});
+}
+
+load();
+render();
+_ready=true;
+</script>
+</body>
+</html>
