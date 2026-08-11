@@ -47,8 +47,10 @@
   .scrim{display:none;position:fixed;inset:0;background:rgba(20,20,18,.4);z-index:35}
 
   /* main */
+  html{scroll-snap-type:y mandatory}
   .main{margin-left:var(--sidebar);max-width:1400px;padding:0 48px}
-  .sec{padding:28px 0 56px;border-bottom:1px solid var(--line);scroll-margin-top:20px;min-height:60vh}
+  .sec{padding:20px 0 24px;border-bottom:1px solid var(--line);scroll-margin-top:0;
+    height:100vh;overflow-y:auto;scroll-snap-align:start;scroll-snap-stop:always}
   .sec:last-of-type{border-bottom:none}
   .inner{max-width:1240px;width:100%}
 
@@ -57,17 +59,20 @@
   h1{font-size:40px;line-height:1.12;font-weight:700;margin:0 0 16px;letter-spacing:-.5px;max-width:17ch}
   .lead{font-size:18px;color:var(--ink-soft);max-width:62ch;margin:0 0 26px}
   .meta{display:flex;flex-wrap:wrap;gap:10px}
+  .intro-shot{margin-top:26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#f4f3ee}
+  .intro-shot img{display:block;width:100%;max-height:44vh;object-fit:cover;object-position:top}
   .pill{font-size:12.5px;padding:5px 12px;border-radius:20px;background:var(--surface);border:1px solid var(--line);color:var(--ink-soft)}
   .pill.accent{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:600}
-  .sec-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);font-weight:600;margin:0 0 10px}
-  h2{font-size:25px;font-weight:600;margin:0 0 10px;letter-spacing:-.3px}
-  .sec-intro{color:var(--ink-soft);max-width:70ch;margin:0 0 30px;font-size:15.5px}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .sec-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);font-weight:600;margin:0 0 8px}
+  h2{font-size:25px;font-weight:600;margin:0 0 8px;letter-spacing:-.3px}
+  .sec-intro{color:var(--ink-soft);max-width:70ch;margin:0 0 20px;font-size:15.5px}
+  #perche .sec-intro{max-width:none;margin-bottom:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   @media(max-width:760px){.grid3{grid-template-columns:1fr}}
-  .vp{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
-  .vp h3{font-size:16px;margin:0 0 7px;font-weight:600}
-  .vp p{font-size:13.5px;color:var(--ink-soft);margin:0;line-height:1.55}
-  .vp .ic{width:34px;height:34px;border-radius:9px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin-bottom:13px;color:var(--accent)}
+  .vp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
+  .vp h3{font-size:14.5px;margin:0 0 4px;font-weight:600}
+  .vp p{font-size:12.5px;color:var(--ink-soft);margin:0;line-height:1.45}
+  .vp .ic{width:26px;height:26px;border-radius:7px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin-bottom:8px;color:var(--accent);font-size:12px}
   .shot{cursor:zoom-in}
   figcaption{padding:13px 15px 15px;display:block}
   .cap-t{display:block;font-size:14.5px;font-weight:600;margin-bottom:3px}
@@ -76,17 +81,21 @@
   /* "Il prodotto" showcase: left rail (feature list) + right stage (media + caption).
      Stage media accepts a single image, a single video (.vid), or a small
      grid of images (.pshow-grid) for entries with more than one screenshot. */
-  .pshow{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:start}
+  .pshow{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:stretch}
   @media(max-width:820px){.pshow{grid-template-columns:1fr}}
 
-  .pshow-rail{display:flex;flex-direction:column;gap:2px;align-self:start;position:sticky;top:20px;
+  .pshow-rail{display:flex;flex-direction:column;gap:2px;overflow-y:auto;min-height:0;
+    max-height:calc(58vh + 108px);
     border:1px solid var(--line);border-radius:12px;padding:8px;background:var(--surface)}
-  @media(max-width:820px){.pshow-rail{flex-direction:row;overflow-x:auto;position:static;flex-wrap:nowrap}}
-  .pshow-item{display:block;width:100%;text-align:left;padding:9px 12px;border:none;background:transparent;
+  @media(max-width:820px){.pshow-rail{flex-direction:row;overflow-x:auto;overflow-y:visible;max-height:none;flex-wrap:nowrap}}
+  .pshow-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:9px 12px;border:none;background:transparent;
     border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--ink-soft);font-weight:500;font-family:inherit}
   @media(max-width:820px){.pshow-item{flex:none;white-space:nowrap}}
   .pshow-item:hover{background:#f4f3ee;color:var(--ink)}
   .pshow-item.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .pshow-item-ic{flex:none;width:16px;text-align:center;font-size:11px;color:var(--ink-mute)}
+  .pshow-item.active .pshow-item-ic{color:var(--accent)}
+  .pshow-item-lbl{flex:1;min-width:0}
 
   .pshow-media{aspect-ratio:16/10;max-height:58vh;background:#f4f3ee;border:1px solid var(--line);
     border-radius:12px;overflow:hidden;display:flex}
@@ -101,11 +110,11 @@
   .pshow-grid .shot img{object-fit:cover}
   .pshow-grid .shot figcaption{flex:none;padding:8px 10px}
 
-  .pshow-cap{margin-top:16px;max-width:74ch}
+  .pshow-cap{margin-top:10px;max-width:74ch}
   .pshow-cap .cap-t{font-size:16px}
   .pshow-cap .cap-d{font-size:13.5px}
 
-  .pshow-nav{display:flex;align-items:center;gap:10px;margin-top:14px}
+  .pshow-nav{display:flex;align-items:center;gap:10px;margin-top:8px}
   .slide-nav{flex:none;width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--surface);
     cursor:pointer;font-size:16px;color:var(--ink-soft);display:flex;align-items:center;justify-content:center}
   .slide-nav:hover{background:#f4f3ee;color:var(--ink)}
@@ -125,20 +134,15 @@
 
 
 
-  .archgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:34px}
+  #architettura .sec-intro{margin-bottom:16px}
+  .archgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
   @media(max-width:760px){.archgrid{grid-template-columns:1fr}}
-  .archcard{display:flex;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-  .archcard .an{flex:none;width:30px;height:30px;border-radius:8px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
-  .archcard h4{margin:2px 0 6px;font-size:15.5px;font-weight:600}
-  .archcard p{margin:0;font-size:13.5px;color:var(--ink-soft);line-height:1.55}
-  .archsub{font-size:16px;font-weight:600;margin:0 0 14px}
-  .archwords{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:34px}
-  @media(max-width:760px){.archwords{grid-template-columns:1fr}}
-  .aw{border-left:3px solid var(--accent);padding:4px 0 4px 15px}
-  .aw .awt{display:block;font-size:16px;font-weight:700;color:var(--ink);margin-bottom:3px}
-  .aw .awd{display:block;font-size:13px;color:var(--ink-soft);line-height:1.5}
-  .stackbox{background:#f7f6f1;border:1px solid var(--line);border-radius:12px;padding:20px 22px}
-  .sbh{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-bottom:14px}
+  .archcard{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .archcard .an{flex:none;width:26px;height:26px;border-radius:7px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .archcard h4{margin:0 0 3px;font-size:14.5px;font-weight:600}
+  .archcard p{margin:0;font-size:12.5px;color:var(--ink-soft);line-height:1.45}
+  .stackbox{background:#f7f6f1;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .sbh{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-bottom:10px}
   .stackgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
   @media(max-width:760px){.stackgrid{grid-template-columns:repeat(2,1fr)}}
   .stk{display:flex;flex-direction:column;gap:3px}
@@ -165,6 +169,7 @@
     .topbar{display:flex}
     .scrim.show{display:block}
     h1{font-size:31px}
+    .sec{height:calc(100vh - 61px)}
   }
 </style>
 </head>
@@ -200,6 +205,7 @@
       <span class="pill">Standard-aligned</span>
       <span class="pill">Cloud-native · AWS EKS</span>
     </div>
+    <div class="intro-shot"><img src="assets/img/mappa-rete.jpg" alt="Mappa di rete real-time — MOOVA SRM"></div>
   </div>
 </div></section>
   <section id="perche" class="sec"><div class="inner">
@@ -207,11 +213,11 @@
     <p class="sec-label">Perché SRM</p>
     <h2>Monitorare, decidere, agire — da un'unica console</h2>
     <p class="sec-intro">SRM è una piattaforma che raccoglie e coordina tutte le informazioni operative — posizione delle corse, stato del servizio, avvisi e risorse di esercizio — consentendo agli operatori di monitorare e gestire il servizio in tempo reale. La piattaforma supporta inoltre attività di analisi attraverso dashboard e KPI, consentendo di valutare le performance operative e orientare le decisioni sulla base dei dati.</p>
-    <div class="grid3"><div class="vp"><div class="ic">◉</div><h3>Strumenti di monitoraggio</h3><p>Tutti i classici strumenti del monitoraggio — mappe, liste, viste linearizzate, schede di dettaglio, storico dei percorsi — per corse vestite e non.</p></div><div class="vp"><div class="ic">◧</div><h3>Gestione operativa</h3><p>Avvisi, allarmi e motivi di ritardo, scorte e spole, vestizione dei mezzi e del personale: la gestione operativa in un unico posto.</p></div><div class="vp"><div class="ic">✦</div><h3>AI a supporto</h3><p>Strumenti di intelligenza artificiale integrati a supporto del monitoraggio e della gestione operativa.</p></div><div class="vp"><div class="ic">⚙</div><h3>Configurabile</h3><p>Home a widget personalizzabile, cataloghi, tipi di nota/avviso, ruoli e soglie gestiti a runtime. Dizionario multilingua integrato.</p></div><div class="vp"><div class="ic">▢</div><h3>Leggera sull'hardware</h3><p>Sviluppata per richiedere poche risorse hardware: può girare anche su cluster di piccole dimensioni.</p></div><div class="vp"><div class="ic">⬡</div><h3>Multimodale nativa</h3><p>Focus spiccato sul monitoraggio multimodale, con algoritmi per il calcolo di coincidenze e corrispondenze e strumenti dedicati agli interscambi.</p></div><div class="vp"><div class="ic">▤</div><h3>Ottimizzata per mobile</h3><p>Interfaccia pienamente responsiva: la sala operativa e gli strumenti di monitoraggio funzionano perfettamente anche da smartphone e tablet.</p></div><div class="vp"><div class="ic">◱</div><h3>App terra-bordo</h3><p>Applicazione dedicata alla comunicazione terra-bordo, con interfacce già progettate — alcune già implementate — per il personale a bordo.</p></div><div class="vp"><div class="ic">✉</div><h3>Ticketing e triage</h3><p>Gli operatori aprono segnalazioni direttamente dallo strumento: ogni evento diventa un ticket tracciato. Un sistema di triage smista automaticamente le segnalazioni verso il canale di risoluzione corretto, accelerando la presa in carico.</p></div></div><div class="fond-in"><p class="sec-label" style="margin-top:34px">I fondamenti</p><h3 style="font-size:19px;font-weight:600;margin:0 0 8px">Costruita sugli standard e lavorando a stretto contatto con i clienti</h3><p class="sec-intro" style="margin-bottom:16px">Questi sono i fondamenti effettivi della piattaforma: non solo l'aderenza ai modelli dati del trasporto pubblico &mdash; che rende SRM interoperabile e a prova di futuro, evitando il lock-in &mdash; ma anche anni di esperienza sul campo con i clienti del settore, tradotta in funzionalità concrete e implementate.</p><div class="stds">
+    <div class="grid3"><div class="vp"><div class="ic">◉</div><h3>Strumenti di monitoraggio</h3><p>Tutti i classici strumenti del monitoraggio — mappe, liste, viste linearizzate, schede di dettaglio, storico dei percorsi — per corse vestite e non.</p></div><div class="vp"><div class="ic">◧</div><h3>Gestione operativa</h3><p>Avvisi, allarmi e motivi di ritardo, scorte e spole, vestizione dei mezzi e del personale: la gestione operativa in un unico posto.</p></div><div class="vp"><div class="ic">✦</div><h3>AI a supporto</h3><p>Strumenti di intelligenza artificiale integrati a supporto del monitoraggio e della gestione operativa.</p></div><div class="vp"><div class="ic">⚙</div><h3>Configurabile</h3><p>Home a widget personalizzabile, cataloghi, tipi di nota/avviso, ruoli e soglie gestiti a runtime. Dizionario multilingua integrato.</p></div><div class="vp"><div class="ic">▢</div><h3>Leggera sull'hardware</h3><p>Sviluppata per richiedere poche risorse hardware: può girare anche su cluster di piccole dimensioni.</p></div><div class="vp"><div class="ic">⬡</div><h3>Multimodale nativa</h3><p>Focus spiccato sul monitoraggio multimodale, con algoritmi per il calcolo di coincidenze e corrispondenze e strumenti dedicati agli interscambi.</p></div><div class="vp"><div class="ic">▤</div><h3>Ottimizzata per mobile</h3><p>Interfaccia pienamente responsiva: la sala operativa e gli strumenti di monitoraggio funzionano perfettamente anche da smartphone e tablet.</p></div><div class="vp"><div class="ic">◱</div><h3>App terra-bordo</h3><p>Applicazione dedicata alla comunicazione terra-bordo, con interfacce già progettate — alcune già implementate — per il personale a bordo.</p></div><div class="vp"><div class="ic">✉</div><h3>Ticketing e triage</h3><p>Gli operatori aprono segnalazioni direttamente dallo strumento: ogni evento diventa un ticket tracciato. Un sistema di triage smista automaticamente le segnalazioni verso il canale di risoluzione corretto, accelerando la presa in carico.</p></div></div><div class="fond-in"><p class="sec-label" style="margin-top:20px">I fondamenti</p><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Costruita sugli standard e lavorando a stretto contatto con i clienti</h3><p class="sec-intro" style="max-width:none;margin-bottom:12px">Questi sono i fondamenti effettivi della piattaforma: non solo l'aderenza ai modelli dati del trasporto pubblico &mdash; che rende SRM interoperabile e a prova di futuro, evitando il lock-in &mdash; ma anche anni di esperienza sul campo con i clienti del settore, tradotta in funzionalità concrete e implementate.</p><div class="stds">
       <span class="std">Transmodel</span><span class="std">NeTEx</span><span class="std">SIRI · VM / SX / ET</span>
       <span class="std">GTFS / GTFS-RT</span><span class="std">TPEG</span>
     </div></div></div></section>
-<section id="architettura" class="sec"><div class="inner"><p class="sec-label">Architettura</p><h2>Architettura &mdash; scelte e valore per il business</h2><p class="sec-intro">SRM &egrave; un'applicazione a microservizi che unifica processi eterogenei &mdash; pianificazione, mappa real-time, equipaggi, controlli medici, reportistica, KPI, anagrafiche &mdash; in un unico frontend modulare.</p><div class="archgrid"><div class="archcard"><span class="an">1</span><div><h4>Frontend modulare</h4><p>Un modulo per processo, isolati tra loro: deploy indipendenti, blast radius contenuto, meno regressioni per rilascio.</p></div></div><div class="archcard"><span class="an">2</span><div><h4>React + TypeScript</h4><p>Type-safety in fase di compilazione, tooling standard di settore, competenze reperibili sul mercato.</p></div></div><div class="archcard"><span class="an">3</span><div><h4>Design system + store centralizzato</h4><p>Libreria di componenti condivisa e single source of truth dei dati: UX coerente, riuso, nessun disallineamento tra viste.</p></div></div><div class="archcard"><span class="an">4</span><div><h4>Backend disaccoppiato</h4><p>Ogni servizio (veicoli, equipaggi, pianificazione, KPI, rete, AI) esposto tramite un contratto dedicato: le evoluzioni restano confinate all'interfaccia.</p></div></div><div class="archcard"><span class="an">5</span><div><h4>Multilingua + real-time + AI nativi</h4><p>Multilingua, streaming di dati live e assistente AI integrati alla base, non aggiunti a posteriori.</p></div></div><div class="archcard"><span class="an">6</span><div><h4>CI con test automatici</h4><p>Verifica continua ad ogni modifica: evoluzione del prodotto a basso rischio.</p></div></div><div class="archcard"><span class="an">7</span><div><h4>Responsive by design</h4><p>Layout adattivo su tutte le viste: la stessa applicazione gira senza compromessi da desktop a mobile, senza codice duplicato.</p></div></div></div><h3 class="archsub">In sintesi, tre parole</h3><div class="archwords"><div class="aw"><span class="awt">Scalabile</span><span class="awd">Moduli indipendenti, si cresce senza rallentare.</span></div><div class="aw"><span class="awt">Coerente</span><span class="awd">Stessa esperienza e stesso dato in ogni schermata.</span></div><div class="aw"><span class="awt">Affidabile</span><span class="awd">Tecnologie mantenute, test continui, rischio ridotto.</span></div></div><div class="stackbox"><div class="sbh">Stack</div><div class="stackgrid"><div class="stk"><span class="skt">Microservizi</span><span class="skd">Spring Boot · Java</span></div><div class="stk"><span class="skt">AI</span><span class="skd">Python</span></div><div class="stk"><span class="skt">Database</span><span class="skd">PostgreSQL</span></div><div class="stk"><span class="skt">Streaming</span><span class="skd">Redpanda · Kafka-compat.</span></div><div class="stk"><span class="skt">Frontend</span><span class="skd">React · TypeScript</span></div></div></div></div></section>
+<section id="architettura" class="sec"><div class="inner"><p class="sec-label">Architettura</p><h2>Architettura &mdash; scelte e valore per il business</h2><p class="sec-intro">SRM &egrave; un'applicazione a microservizi che unifica processi eterogenei &mdash; pianificazione, mappa real-time, equipaggi, controlli medici, reportistica, KPI, anagrafiche &mdash; in un unico frontend modulare.</p><div class="archgrid"><div class="archcard"><span class="an">1</span><div><h4>Frontend modulare</h4><p>Un modulo per processo, isolati tra loro: deploy indipendenti, blast radius contenuto, meno regressioni per rilascio.</p></div></div><div class="archcard"><span class="an">2</span><div><h4>React + TypeScript</h4><p>Type-safety in fase di compilazione, tooling standard di settore, competenze reperibili sul mercato.</p></div></div><div class="archcard"><span class="an">3</span><div><h4>Design system + store centralizzato</h4><p>Libreria di componenti condivisa e single source of truth dei dati: UX coerente, riuso, nessun disallineamento tra viste.</p></div></div><div class="archcard"><span class="an">4</span><div><h4>Backend disaccoppiato</h4><p>Ogni servizio (veicoli, equipaggi, pianificazione, KPI, rete, AI) esposto tramite un contratto dedicato: le evoluzioni restano confinate all'interfaccia.</p></div></div><div class="archcard"><span class="an">5</span><div><h4>Multilingua + real-time + AI nativi</h4><p>Multilingua, streaming di dati live e assistente AI integrati alla base, non aggiunti a posteriori.</p></div></div><div class="archcard"><span class="an">6</span><div><h4>CI con test automatici</h4><p>Verifica continua ad ogni modifica: evoluzione del prodotto a basso rischio.</p></div></div><div class="archcard"><span class="an">7</span><div><h4>Responsive by design</h4><p>Layout adattivo su tutte le viste: la stessa applicazione gira senza compromessi da desktop a mobile, senza codice duplicato.</p></div></div></div><div class="stackbox"><div class="sbh">Stack</div><div class="stackgrid"><div class="stk"><span class="skt">Microservizi</span><span class="skd">Spring Boot · Java</span></div><div class="stk"><span class="skt">AI</span><span class="skd">Python</span></div><div class="stk"><span class="skt">Database</span><span class="skd">PostgreSQL</span></div><div class="stk"><span class="skt">Streaming</span><span class="skd">Redpanda · Kafka-compat.</span></div><div class="stk"><span class="skt">Frontend</span><span class="skd">React · TypeScript</span></div></div></div></div></section>
   <section id="prodotto" class="sec"><div class="inner">
   <div class="wrap">
     <p class="sec-label">Il prodotto</p>

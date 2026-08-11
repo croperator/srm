@@ -26,13 +26,25 @@
 
   let active = 0;
 
+  const TYPE_ICON = { image: '▧', video: '▶', group: '▦' };
+  const TYPE_LABEL = { image: 'Immagine', video: 'Video', group: 'Galleria immagini' };
+
   function renderRail() {
     railEl.innerHTML = '';
     data.forEach((entry, i) => {
       const b = document.createElement('button');
       b.type = 'button';
       b.className = 'pshow-item' + (i === active ? ' active' : '');
-      b.textContent = entry.title;
+      b.title = TYPE_LABEL[entry.type] || '';
+      const ic = document.createElement('span');
+      ic.className = 'pshow-item-ic';
+      ic.textContent = TYPE_ICON[entry.type] || '';
+      ic.setAttribute('aria-hidden', 'true');
+      const lbl = document.createElement('span');
+      lbl.className = 'pshow-item-lbl';
+      lbl.textContent = entry.title;
+      b.appendChild(ic);
+      b.appendChild(lbl);
       b.addEventListener('click', () => { active = i; render(); });
       railEl.appendChild(b);
     });
