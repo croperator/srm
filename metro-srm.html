@@ -165,6 +165,13 @@
 <script>
 const DATA=JSON.parse(document.getElementById('data').textContent);
 const {phases,stations,deps}=DATA;
+stations.f2.splice(2,0,[
+  'SAST e DAST',
+  'Security testing',
+  ['cybersecurity','SAST','DAST'],
+  'SAST (Static Application Security Testing) analizza codice sorgente, bytecode o binari senza eseguirli, cercando vulnerabilita note come SQL injection, XSS, hardcoded secrets e buffer overflow. Si esegue presto nel ciclo di sviluppo (shift-left); puo produrre falsi positivi e non rileva vulnerabilita di runtime o configurazione. DAST (Dynamic Application Security Testing) testa l applicazione in esecuzione dall esterno, sondando endpoint HTTP, form e API come farebbe un attaccante. Rileva problemi di runtime, autenticazione e configurazione; richiede un ambiente deployato, la copertura dipende dai percorsi raggiunti e non indica la riga di codice.',
+  ''
+]);
 const COL_W=200, R=8, TRACK_H=112;
 const $=s=>document.querySelector(s);
 function esc(t){return String(t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
