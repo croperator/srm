@@ -161,17 +161,10 @@
 <footer class="wrap">MOOVA SRM — Smart Real-Time Mobility · vista mappa della roadmap</footer>
 <div class="tip" id="tip"></div>
 
-<script id="data" type="application/json">{"phases": [{"id": "f0", "badge": "Fase 0", "title": "Progettazione e Realizzazione SRM per Trenord", "when": "T1-T2 2026", "c": "#0f8a66"}, {"id": "now", "badge": "Fase 1", "title": "Core operativo", "when": "T2 2026", "c": "#2563a8"}, {"id": "f2", "badge": "Fase 2", "title": "Assessment Architetturale", "when": "T3 2026 · da lug", "c": "#1d4e89"}, {"id": "f3", "badge": "Fase 3", "title": "Progettazione modello rete e composizione", "when": "T3 2026 · da lug", "c": "#92610f"}, {"id": "f31", "badge": "Fase 3.1", "title": "Strumenti Evoluti", "when": "T3 2026 · da lug", "c": "#b9711a"}, {"id": "f32", "badge": "Fase 3.2", "title": "Realizzazione modello rete e composizione", "when": "T3 2026 · da lug", "c": "#cf8a28"}, {"id": "f33", "badge": "Fase 3.3", "title": "Assessment applicativo sui progetti", "when": "T3 2026 · da lug", "c": "#e0a63f"}, {"id": "f4", "badge": "Fase 4", "title": "Regia, gestione operativa, console e porting", "when": "T4 2026", "c": "#9333a8"}, {"id": "f5", "badge": "Fase 5", "title": "Applicazione Mobile", "when": "T4 2026", "c": "#c2410c"}, {"id": "ai", "badge": "Fase 6", "title": "AI assistant - ampliamento", "when": "T1 2027", "c": "#6d4ad1"}, {"id": "tbd", "badge": "Fase TBD", "title": "Da definire", "when": "TBD", "c": "#6b7280"}], "stations": {"f0": [["SRM per Trenord", "Progettazione e realizzazione", ["fondamenta"], "Progettazione e realizzazione della base SRM per Trenord (T1-T2 2026).", "done"]], "now": [["Home page", "Dashboard personalizzabile", ["nuovo FE/BE"], "Dashboard operativa personalizzabile con layout configurabile.", "done"], ["Mappa corse live", "Mezzi real-time", ["realtime", "filtri", "interscambi"], "Posizionamento real-time dei mezzi. Filtri per linea e modalità, interscambi e dettaglio punti.", "done"], ["Andamenti manuali", "Eventi non automatici", ["nuovo FE/BE"], "Inserimento manuale di eventi non coperti dalle sorgenti automatiche.", "done"], ["Lista Operational Event", "Eventi operativi", [], "Lista degli operational event.", "done"], ["Avvio integrazione SKM", "Integrazione SKM", ["integrazione"], "Avvio delle attività di integrazione con SKM.", "done"], ["Lista Notice", "Notice", [], "Lista notice.", "done"], ["Ricerca Corsa Mappa", "Ricerca su mappa", [], "Ricerca corsa sulla mappa.", "done"], ["Scheda Corsa", "Dettaglio corsa", ["SchedaCorsa"], "Dettaglio corsa: tabella di marcia, provvedimenti, avvisi, note, localizzazioni, messaggi.", "done"], ["Nuovo ambiente", "DB Postgres, split MOOVA", ["infrastruttura", "postgres"], "Attivazione nuovo ambiente di sviluppo con DB Postgres. Avvio separazione da MOOVA.", "wip"]], "f2": [["Integrazione Foundation", "Foundation", [], "Integrazione Foundation.", ""], ["Solution Assessment", "& Cybersecurity Compliance", [], "Solution assessment e cybersecurity compliance.", ""], ["Deploy nuovo ambiente", "Deploy", [], "Deploy sul nuovo ambiente.", ""], ["Def. strumenti monitoraggio", "Monitoraggio", [], "Definizione strumenti di monitoraggio.", ""], ["Lotta all'indipendenza", "Autonomia da MOOVA", [], "Lotta all'indipendenza.", ""]], "f3": [["Analisi standard rete", "GeoJSON/GTFS/NeTEx/SIRI", ["analisi", "prerequisito"], "Studio comparativo degli standard. Scelta del formato di import.", "done"], ["Import GeoJSON/GTFS", "Ingestione topologia", ["network MS", "BE"], "Pipeline di ingestione della topologia di rete.", "done"], ["Prog. modello rete", "Modello dati di rete", ["progettazione", "network MS"], "Progettazione del modello dati di rete: topologia, linee, fermate, relazioni.", "wip"], ["Prog. hub interscambio", "Hub multimodali", ["progettazione", "network MS"], "Progettazione degli hub multimodali. Connessioni tra modalità.", "wip"], ["Prog. corrispondenze", "Coincidenze su hub", ["progettazione", "servicerunmonitoring"], "Progettazione del tracciamento coincidenze su hub.", "wip"], ["Prog. composizione", "Materiale rotabile", ["progettazione", "anagrafica"], "Progettazione della configurazione materiale rotabile per corsa.", "done"], ["Mockup Coinc. Tabella", "Mockup", [], "Mockup coincidenze in vista tabella.", "wip"], ["Mockup Coinc. Mappa", "Mockup", [], "Mockup coincidenze in vista mappa.", "wip"]], "f31": [["Smart Workflow Manager", "Workflow", [], "Smart Workflow Manager.", "wip"], ["Prog. Smart Workflow Mgr", "Checklist configurabili", ["nuovo FE/BE", "configurabile"], "Progettazione Smart Workflow Manager: task riutilizzabili come checklist. Template admin, item con severità/criticità, allegati come evidenza.", "wip"], ["Applicazione - Notifiche", "Notifiche", [], "Notifiche applicazione.", "wip"], ["Tutorial AI", "Onboarding", [], "Tutorial AI.", "wip"], ["Linearizzata multimodale", "Vista linearizzata", [], "Vista linearizzata multimodale.", "wip"], ["Invio Ticket", "Segnalazioni dallo strumento", ["ticketing"], "Apertura e invio di segnalazioni (ticket) direttamente dallo strumento operativo.", "wip"], ["Processo di Triage", "Smistamento segnalazioni", ["triage", "troubleshooting"], "Smistamento automatico delle segnalazioni verso il canale di risoluzione corretto.", "wip"]], "f32": [["Real. modello rete", "Implementazione rete", ["network MS", "BE"], "Implementazione del modello dati di rete progettato in fase 3.", ""], ["Real. hub interscambio", "Implementazione hub", ["network MS", "FE/BE"], "Implementazione degli hub multimodali e connessioni tra modalità.", ""], ["Real. corrispondenze", "Coincidenze real-time", ["servicerunmonitoring", "real-time"], "Implementazione del tracciamento real-time delle coincidenze su hub.", ""], ["Real. composizione", "Composizione materiali", ["nuovo FE/BE", "anagrafica"], "Implementazione della gestione composizione materiale rotabile per corsa.", "wip"]], "f33": [["Superset", "Analytics engine", ["analytics"], "Valutazione e integrazione di Apache Superset.", ""], ["KPI Dashboard", "Indicatori di servizio", ["KPI"], "Dashboard di indicatori chiave di prestazione del servizio.", ""]], "f4": [["Regia linee + bordo", "Operatori, voce, app bordo", ["srm-operator-management", "srm-voice-gateway", "app bordo"], "Blocco unico: assegnazione 1:1 linea-operatore, riduzione in morbida, failover supervisore. Voce PTT/VoIP, comunicazioni bordo-terra, app bordo, turnazione materiale.", ""], ["Variazione Gest. Operativa", "Variazioni operative", ["gestione operativa"], "Gestione delle variazioni operative.", ""], ["Monitoraggio Costi", "Costi di esercizio", ["costi"], "Monitoraggio dei costi di esercizio.", ""], ["Handover", "Passaggio consegne (porting)", ["porting", "nuovo MS", "FE/BE"], "Porting passaggio consegne sul nuovo MS SRM. Analisi delta old → new.", ""], ["Contratto di Servizio", "Con Authority", ["soglie"], "Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority.", ""]], "f5": [["Porting App AS IS", "Funzioni Trenord attuali", ["porting", "app"], "Porting delle funzionalità ad oggi disponibili per Trenord, con attestazione e invio localizzazioni e percorso.", ""], ["Sistema di terra + App", "Deviazioni, KM, attestazione", ["app", "sistema terra"], "Estensione capabilities app: deviazioni, attestazione SRM, calcolo KM, invio andamenti, attestazione automatica. Estensione sistema di terra.", ""], ["Altre capabilities App", "Lista/dettaglio corsa, alert", ["app", "alert"], "Lista corsa, dettaglio corsa (percorso tabellare e grafico, materiale, crew), alert.", ""]], "ai": [["AI · Info corsa", "Chat read-only", ["AI", "tool calling", "RAG"], "Chat contestuale con tool calling read-only su servicerunmonitoring. Ingresso più sicuro.", ""], ["AI · Report via mail", "Generazione + invio", ["AI", "generazione", "notifiche"], "Generazione report corsa e invio e-mail. Richiede SMTP e template.", ""], ["AI · Crea scorta", "Azione write + HITL", ["AI", "agentic", "human-in-loop"], "Azione operativa in linguaggio naturale con write access. Human-in-the-loop obbligatorio.", ""], ["AI · Checklist auto", "Azioni automatiche", ["AI", "agentic", "action"], "Automatismi AI con azioni automatiche sui task del workflow manager.", ""]], "tbd": [["Da definire", "Voci future", "", "Elementi ancora da definire.", ""]]}, "deps": [["Analisi standard rete", "Import GeoJSON/GTFS"], ["Import GeoJSON/GTFS", "Prog. modello rete"], ["Prog. modello rete", "Prog. hub interscambio"], ["Prog. hub interscambio", "Prog. corrispondenze"], ["Prog. corrispondenze", "Mockup Coinc. Tabella"], ["Prog. corrispondenze", "Mockup Coinc. Mappa"], ["Nuovo ambiente", "Deploy nuovo ambiente"], ["Prog. modello rete", "Real. modello rete"], ["Prog. hub interscambio", "Real. hub interscambio"], ["Prog. corrispondenze", "Real. corrispondenze"], ["Prog. composizione", "Real. composizione"], ["Superset", "KPI Dashboard"], ["Prog. Smart Workflow Mgr", "AI · Checklist auto"], ["AI · Info corsa", "AI · Report via mail"], ["AI · Info corsa", "AI · Crea scorta"]]}</script>
+<script src="content/roadmap.js"></script>
 <script>
-const DATA=JSON.parse(document.getElementById('data').textContent);
+const DATA=window.ROADMAP_CONTENT;
 const {phases,stations,deps}=DATA;
-stations.f2.splice(2,0,[
-  'SAST e DAST',
-  'Security testing',
-  ['cybersecurity','SAST','DAST'],
-  'SAST (Static Application Security Testing) analizza codice sorgente, bytecode o binari senza eseguirli, cercando vulnerabilita note come SQL injection, XSS, hardcoded secrets e buffer overflow. Si esegue presto nel ciclo di sviluppo (shift-left); puo produrre falsi positivi e non rileva vulnerabilita di runtime o configurazione. DAST (Dynamic Application Security Testing) testa l applicazione in esecuzione dall esterno, sondando endpoint HTTP, form e API come farebbe un attaccante. Rileva problemi di runtime, autenticazione e configurazione; richiede un ambiente deployato, la copertura dipende dai percorsi raggiunti e non indica la riga di codice.',
-  ''
-]);
 const COL_W=200, R=8, TRACK_H=112;
 const $=s=>document.querySelector(s);
 function esc(t){return String(t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
@@ -184,18 +177,18 @@ const posIndex={}; // title -> {rowEl, cx, cy(within svg), phase, ...}
 
 phases.forEach((p,pi)=>{
   const sts=stations[p.id]||[];
-  const done=sts.length>0&&sts.every(s=>s[4]==='done');
-  const part=!done&&sts.some(s=>s[4]==='done'||s[4]==='wip');
+  const done=sts.length>0&&sts.every(s=>s.status==='done');
+  const part=!done&&sts.some(s=>s.status==='done'||s.status==='wip');
   const row=document.createElement('div');
   row.className='prow open'; row.dataset.phase=p.id;
-  row.style.setProperty('--pc',p.c);
+  row.style.setProperty('--pc',p.color);
 
   // phase box: badge + when + FULL title (no truncation)
   const mark=done?'<span class="pdone">&#10003;</span>':(part?'<span class="ppart">&#9679;</span>':'');
   row.innerHTML=`
     <div class="ptime">${esc(p.when)}</div>
     <div class="pbox">
-      <div class="pb" style="--pc:${p.c};color:${p.c}">${esc(p.badge)} ${mark}</div>
+      <div class="pb" style="--pc:${p.color};color:${p.color}">${esc(p.badge)} ${mark}</div>
       <div class="pt">${esc(p.title)}</div>
       <span class="chev">&#9654;</span>
     </div>
@@ -206,29 +199,29 @@ phases.forEach((p,pi)=>{
   const n=sts.length;
   let html='';
   if(n>0){
-    html+='<div class="tline" style="background:'+p.c+'"></div>';
+    html+='<div class="tline" style="background:'+p.color+'"></div>';
     sts.forEach((s,si)=>{
-      const st=s[4]||'';
+      const st=s.status||'';
       const left = n===1 ? 6 : (6 + si*(88/(n-1)));  // percentage across track (6%..94%)
       const cls = st==='done'?'nd done':(st==='wip'?'nd wip':'nd todo');
       const above = si%2===0;
       html+='<div class="node" style="left:'+left+'%">'
-          + '<span class="'+cls+'" style="--nc:'+p.c+'" data-title="'+esc(s[0])+'">'+(st==='done'?'&#10003;':'')+'</span>'
-          + '<span class="nlabel '+(above?'above':'below')+'">'+esc(s[0])+'</span>'
+          + '<span class="'+cls+'" style="--nc:'+p.color+'" data-title="'+esc(s.title)+'">'+(st==='done'?'&#10003;':'')+'</span>'
+          + '<span class="nlabel '+(above?'above':'below')+'">'+esc(s.title)+'</span>'
           + '</div>';
-      posIndex[s[0]]={phase:p.id,row,title:s[0],short:s[1],tags:s[2],full:s[3]||s[1],st,c:p.c,phaseLabel:p.badge+' · '+p.title};
+      posIndex[s.title]={phase:p.id,row,title:s.title,short:s.short,tags:s.tags,full:s.desc||s.short,st,c:p.color,phaseLabel:p.badge+' · '+p.title};
     });
   }
   row.querySelector('.trackin').innerHTML=html;
 
   // toggle individual
   row.querySelector('.pbox').addEventListener('click',()=>{row.classList.toggle('open');scheduleDeps();updateBtn();});
-  // MVP commercial boundary: after the last T3 phase (f33)
-  if(p.id==='f33'){
+  // MVP commercial boundary: after Applicazione Mobile (f5)
+  if(p.id==='f5'){
     const div=document.createElement('div');
     div.className='mvpdiv';
     div.innerHTML='<span class="mvpbadge"><span class="chk">&#10003;</span> MVP commerciale</span>'
-      +'<span class="mvpnote">Tutto fino a T3 &egrave; gi&agrave; una soluzione vendibile: monitoraggio e gestione operativa di base.</span>'
+      +'<span class="mvpnote">Tutto quanto sopra &egrave; gi&agrave; una soluzione vendibile: monitoraggio e gestione operativa di base.</span>'
       +'<span class="mvpline"></span>';
     board.appendChild(div);
   }

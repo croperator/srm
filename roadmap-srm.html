@@ -91,13 +91,14 @@
   }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="content/roadmap.js"></script>
 </head>
 <body>
 <div class="wrap">
   <h1>Roadmap SRM &mdash; Smart Real-Time Mobility</h1>
   <p class="sub">Trascina dalla maniglia <strong>&#10303;</strong> per spostare blocchi o fasi. Clicca un titolo per modificarlo, la freccia per espandere.</p>
   <div class="toolbar">
-    <button class="btn primary" onclick="exportHTML()">Esporta HTML statico</button>
+    <button class="btn primary" onclick="exportRoadmapJSON()">Esporta JSON roadmap</button>
     <button class="btn" onclick="addPhase()">+ Nuova fase</button>
     <button class="btn" onclick="exportPNG(this)">Esporta immagine (PNG)</button>
     <button class="btn" onclick="resetLayout()">Ripristina</button>
@@ -131,13 +132,16 @@
 </dialog>
 
 <dialog id="exportDlg">
-  <div class="modal-head"><h2>HTML statico per Google Sites</h2>
+  <div class="modal-head"><h2>Dati roadmap (JSON)</h2>
     <button class="btn" onclick="exportDlg.close()">Chiudi</button></div>
   <div class="modal-body">
-    <p class="sub" style="margin:0 0 10px">Copia e incolla su Google Sites con <strong>Inserisci &rarr; Incorpora &rarr; Codice incorporato</strong>.</p>
+    <p class="sub" style="margin:0 0 10px">Aggiorna <code>content/roadmap.js</code> incollando questo contenuto al posto dell'oggetto assegnato a <code>window.ROADMAP_CONTENT</code>. Le dipendenze ("Dipende da") vanno riportate a mano nell'array <code>deps</code>.</p>
     <textarea id="exportArea" readonly></textarea>
   </div>
-  <div class="modal-foot"><button class="btn primary" onclick="copyExport(this)">Copia negli appunti</button></div>
+  <div class="modal-foot">
+    <button class="btn primary" onclick="copyExport(this)">Copia negli appunti</button>
+    <button class="btn" onclick="downloadExport()">Scarica roadmap.json</button>
+  </div>
 </dialog>
 
 <script>
@@ -146,82 +150,28 @@ const PALETTE=[
   {c:'#9333a8',bg:'#f6ebfa'},{c:'#6d4ad1',bg:'#efeafc'},{c:'#c2410c',bg:'#fbede5'},
   {c:'#0e7490',bg:'#e4f4f7'},{c:'#4d7c0f',bg:'#eef5e2'},
 ];
-const DEFAULT_PHASES=[
-  {id:'f0',   badge:'Fase 0',   title:'Progettazione e Realizzazione SRM per Trenord', when:'T1-T2 2026', c:'#0f8a66', bg:'#e6f5ef'},
-  {id:'now',  badge:'Fase 1',   title:'Core operativo', when:'T2 2026', c:'#2563a8', bg:'#eaf2fb'},
-  {id:'f2',   badge:'Fase 2',   title:'Assessment Architetturale', when:'T3 2026 - da Luglio', c:'#2563a8', bg:'#eaf2fb'},
-  {id:'f3',   badge:'Fase 3',   title:'Progettazione Modello rete, multimodalita e composizione', when:'T3 2026 - da Luglio', c:'#b9711a', bg:'#fbf0df'},
-  {id:'f31',  badge:'Fase 3.1', title:'Strumenti Evoluti', when:'T3 2026 - da Luglio', c:'#0f8a66', bg:'#e6f5ef'},
-  {id:'f32',  badge:'Fase 3.2', title:'Realizzazione modello rete, multimodalita e composizione', when:'T3 2026 - da Luglio', c:'#a16207', bg:'#faf0dc'},
-  {id:'f33',  badge:'Fase 3.3', title:'Assessment applicativo sui progetti', when:'T3 2026 - da Luglio', c:'#4d7c0f', bg:'#eef5e2'},
-  {id:'f4',   badge:'Fase 4',   title:'Regia, Gestione Operativa, Console di monitoraggio e porting vari', when:'T4 2026', c:'#9333a8', bg:'#f6ebfa'},
-  {id:'f5',   badge:'Fase 5',   title:'Applicazione Mobile', when:'T4 2026', c:'#c2410c', bg:'#fbede5'},
-  {id:'ai',   badge:'Fase 6',   title:'AI assistant - Ampliamento funzionalita', when:'T1 2027', c:'#6d4ad1', bg:'#efeafc'},
-  {id:'tbd',  badge:'Fase TBD', title:'Da definire', when:'TBD', c:'#6b7280', bg:'#eef0f2'},
-];
-const DEFAULT_CARDS=[
-  {phase:'now', title:'Home page', st:'done', desc:'Dashboard personalizzabile con layout come Configurazioni.', tags:['nuovo FE/BE']},
-  {phase:'now', title:'Mappa corse live', st:'done', desc:'Posizionamento real-time dei mezzi sulla mappa. Filtri per linea e modalita, interscambi e dettaglio punti.', tags:['realtime','filtri','interscambi']},
-  {phase:'now', title:'Andamenti manuali', st:'done', desc:'Inserimento manuale di eventi non coperti da sorgenti automatiche.', tags:['nuovo FE/BE']},
-  {phase:'now', title:'Lista Operational Event', st:'done', desc:'', tags:[]},
-  {phase:'now', title:'Avvio integrazione SKM', st:'done', desc:'Avvio delle attivita di integrazione con SKM.', tags:['integrazione']},
-  {phase:'now', title:'Lista Notice', st:'done', desc:'', tags:[]},
-  {phase:'now', title:'Ricerca Corsa Mappa', st:'done', desc:'', tags:[]},
-  {phase:'now', title:'Scheda Corsa', st:'done', desc:'Dettaglio corsa: tabella di marcia (previsto, reale, previsionale, delta, binari, motivi ritardo, frequentazioni), provvedimenti, avvisi, note, localizzazioni, messaggi.', tags:['SchedaCorsa']},
-  {phase:'now', title:'Nuovo ambiente', st:'wip', desc:'Attivazione nuovo ambiente di sviluppo in cui prendere: DB postgre. Avvio separazione da MOOVA.', tags:['infrastruttura','postgres']},
-
-  {phase:'f2', title:'Integrazione Foundation', desc:'', tags:[]},
-  {phase:'f2', title:'Solution Assessment & Cybersecurity Compliance', desc:'', tags:[]},
-  {phase:'f2', title:'SAST e DAST', desc:'SAST (Static Application Security Testing) analizza codice sorgente, bytecode o binari senza eseguirli, cercando vulnerabilita note come SQL injection, XSS, hardcoded secrets e buffer overflow. Si esegue presto nel ciclo di sviluppo (shift-left); puo produrre falsi positivi e non rileva vulnerabilita di runtime o configurazione. DAST (Dynamic Application Security Testing) testa l applicazione in esecuzione dall esterno, sondando endpoint HTTP, form e API come farebbe un attaccante. Rileva problemi di runtime, autenticazione e configurazione; richiede un ambiente deployato, la copertura dipende dai percorsi raggiunti e non indica la riga di codice.', tags:['cybersecurity','SAST','DAST']},
-  {phase:'f2', title:'Deploy sul nuovo ambiente', desc:'', tags:[], dep:'Dipende da: Nuovo ambiente'},
-  {phase:'f2', title:'Definizione strumenti monitoraggio', desc:'', tags:[]},
-  {phase:'f2', title:'Lotta all indipendenza', desc:'', tags:[]},
-
-  {phase:'f3', title:'Analisi standard rete', st:'done', desc:'Studio comparativo GeoJSON, GTFS, NeTEx, SIRI. Scelta formato import.', tags:['analisi','prerequisito']},
-  {phase:'f3', title:'Import GeoJSON / GTFS', st:'done', desc:'Pipeline ingestione topologia di rete. Formato da analisi precedente.', tags:['network MS','BE'], dep:'Dipende da: analisi standard'},
-  {phase:'f3', title:'Progettazione modello rete', st:'wip', desc:'Progettazione del modello dati di rete: topologia, linee, fermate, relazioni.', tags:['progettazione','network MS'], dep:'Dipende da: import rete'},
-  {phase:'f3', title:'Progettazione hub interscambio', st:'wip', desc:'Progettazione degli hub multimodali nel network service. Connessioni tra modalita.', tags:['progettazione','network MS'], dep:'Dipende da: modello rete'},
-  {phase:'f3', title:'Progettazione corrispondenze', st:'wip', desc:'Progettazione del tracciamento coincidenze su hub. Stati: garantita, a rischio, persa, trattenuta.', tags:['progettazione','servicerunmonitoring'], dep:'Dipende da: hub interscambio'},
-  {phase:'f3', title:'Progettazione composizione materiali', st:'done', desc:'Progettazione della configurazione materiale rotabile per corsa: carrozze, unita, composizioni.', tags:['progettazione','anagrafica'], dep:'Dipende da: Bus Registry completo'},
-  {phase:'f3', title:'Mockup Coincidenze - Tabella', st:'wip', desc:'', tags:[], dep:'Dipende da: progettazione corrispondenze'},
-  {phase:'f3', title:'Mockup Coincidenze - Mappa', st:'wip', desc:'', tags:[], dep:'Dipende da: progettazione corrispondenze'},
-
-  {phase:'f31', title:'Smart Workflow Manager', st:'wip', desc:'', tags:[]},
-  {phase:'f31', title:'Progettazione Smart Workflow Manager', st:'wip', desc:'Task riutilizzabili come checklist. Template admin, item con severita/criticita, allegati come evidenza.', tags:['nuovo FE/BE','configurabile']},
-  {phase:'f31', title:'Applicazione - Notifiche', st:'wip', desc:'', tags:[]},
-  {phase:'f31', title:'Tutorial AI', st:'wip', desc:'', tags:[]},
-  {phase:'f31', title:'Linearizzata multimodale', st:'wip', desc:'', tags:[]},
-  {phase:'f31', title:'Invio Ticket', desc:'Apertura e invio di segnalazioni (ticket) direttamente dallo strumento operativo.', tags:['ticketing']},
-  {phase:'f31', title:'Processo di Triage', desc:'Smistamento automatico delle segnalazioni verso il canale di risoluzione corretto.', tags:['triage','troubleshooting']},
-
-  {phase:'f32', title:'Realizzazione modello rete', desc:'Implementazione del modello dati di rete progettato in fase 3.', tags:['network MS','BE'], dep:'Dipende da: progettazione modello rete'},
-  {phase:'f32', title:'Realizzazione hub interscambio', desc:'Implementazione degli hub multimodali e delle connessioni tra modalita.', tags:['network MS','FE/BE'], dep:'Dipende da: progettazione hub'},
-  {phase:'f32', title:'Realizzazione corrispondenze', desc:'Implementazione del tracciamento real-time delle coincidenze su hub.', tags:['servicerunmonitoring','real-time'], dep:'Dipende da: progettazione corrispondenze'},
-  {phase:'f32', title:'Realizzazione composizione materiali', st:'wip', desc:'Implementazione della gestione composizione materiale rotabile per corsa.', tags:['nuovo FE/BE','anagrafica'], dep:'Dipende da: progettazione composizione'},
-
-  {phase:'f33', title:'Superset', desc:'Valutazione e integrazione di Apache Superset come motore di analytics.', tags:['analytics']},
-  {phase:'f33', title:'KPI Dashboard', desc:'Dashboard di indicatori chiave di prestazione del servizio.', tags:['KPI'], dep:'Dipende da: Superset'},
-
-  {phase:'f4', title:'Regia linee + bordo (blocco unico)', desc:'Assegnazione 1:1 linea-operatore, riduzione in morbida con redistribuzione, rilevamento abbandono + failover supervisore. Chiamate vocali PTT/VoIP, comunicazioni bordo-terra (testo+alert), app bordo (monitoraggio, deviazioni, km effettivi), integrazione turnazione materiale.', tags:['srm-operator-management','srm-voice-gateway','app bordo']},
-  {phase:'f4', title:'Variazione Gestione Operativa', desc:'Gestione delle variazioni operative.', tags:['gestione operativa']},
-  {phase:'f4', title:'Monitoraggio Costi Esercizio', desc:'Monitoraggio dei costi di esercizio.', tags:['costi']},
-  {phase:'f4', title:'Handover - porting', desc:'Porting passaggio consegne sul nuovo MS SRM. Analisi delta old -> new.', tags:['porting','nuovo MS','FE/BE']},
-  {phase:'f4', title:'Contratto di Servizio con Authority', desc:'Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority.', tags:['soglie']},
-
-  {phase:'f5', title:'Porting Applicazione AS IS', desc:'Porting delle funzionalita ad oggi disponibili per Trenord con attestazione e invio localizzazioni e percorso.', tags:['porting','app']},
-  {phase:'f5', title:'Sistema di terra e App', desc:'Estendere capabilities app: deviazioni, Attestazione SRM (non MOOVA), calcolo KM, invio andamenti, attestazione automatica. Estendere il sistema di terra.', tags:['app','sistema terra']},
-  {phase:'f5', title:'Altre capabilities APP', desc:'Lista corsa, dettaglio corsa (percorso tabellare e grafico, materiale, crew), alert.', tags:['app','alert']},
-
-  {phase:'ai', title:'AI - Info corsa', desc:'Chat contestuale. Tool calling read-only su servicerunmonitoring. Ingresso piu sicuro.', tags:['AI','tool calling','RAG']},
-  {phase:'ai', title:'AI - Report via mail', desc:'Generazione report corsa + invio e-mail. Richiede SMTP e template.', tags:['AI','generazione','notifiche'], dep:'Dipende da: AI info corsa'},
-  {phase:'ai', title:'AI - Crea scorta', desc:'Azione operativa in linguaggio naturale con write access. Human-in-the-loop obbligatorio.', tags:['AI','agentic','human-in-loop'], dep:'Dipende da: AI info corsa + scorte stabili'},
-  {phase:'ai', title:'AI - Gestione checklist automatica', desc:'Automatismi AI con azioni automatiche sui task activity manager.', tags:['AI','agentic','action'], dep:'Dipende da: Smart Workflow Manager'},
-];
-
+// Fa fede il contenuto di content/roadmap.js (window.ROADMAP_CONTENT): e' la stessa
+// fonte dati usata dalla mappa (metro-srm.html), cosi l'editor parte sempre da quella
+// attuale invece che da un elenco duplicato e destinato a disallinearsi.
 let phases, cards, uid=1000, _ready=false;
 function init(){
-  phases=DEFAULT_PHASES.map(p=>({...p}));
-  cards=DEFAULT_CARDS.map((c,i)=>({...c,_id:i}));
+  const RC=window.ROADMAP_CONTENT;
+  phases=[]; cards=[];
+  if(!RC||!Array.isArray(RC.phases)){
+    alert('content/roadmap.js non trovato: impossibile caricare i dati della roadmap.');
+    return;
+  }
+  phases=RC.phases.map(p=>({id:p.id, badge:p.badge, title:p.title, when:p.when, c:p.color, bg:p.color+'1a'}));
+  const depsByTarget={};
+  (RC.deps||[]).forEach(([a,b])=>{(depsByTarget[b]=depsByTarget[b]||[]).push(a);});
+  let i=0;
+  phases.forEach(p=>{
+    (RC.stations[p.id]||[]).forEach(s=>{
+      const dep=depsByTarget[s.title]?('Dipende da: '+depsByTarget[s.title].join(', ')):undefined;
+      cards.push({phase:p.id, title:s.title, st:s.status||undefined, desc:s.desc||'', tags:(s.tags||[]).slice(), dep, _id:i++});
+    });
+  });
+  uid=1000+i;
 }
 init();
 const $=s=>document.querySelector(s);
@@ -364,32 +314,32 @@ function addPhase(){
 function resetLayout(){if(confirm('Ripristinare la disposizione originale?')){init();render();}}
 function esc(s){return String(s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
 
-function exportHTML(){
-  const css="*{box-sizing:border-box}body{margin:0;background:#fbfbf9;color:#1d1d1b;font-family:'Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;line-height:1.55}.wrap{max-width:1180px;margin:0 auto;padding:24px 20px 60px}h1{font-size:25px;font-weight:600;margin:0 0 4px}.sub{color:#5a5a54;font-size:14px;margin:0 0 18px}.phase{margin-bottom:22px;border:1px solid #e4e3dd;border-radius:12px;background:#fff;overflow:hidden}.phase-head{display:flex;align-items:center;gap:10px;padding:13px 14px;border-bottom:1px solid #e4e3dd}.phase-badge{font-size:12px;font-weight:600;padding:4px 11px;border-radius:20px;white-space:nowrap}.phase-title{font-size:16px;font-weight:600;flex:1}.phase-when{font-size:12.5px;color:#5a5a54;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;padding:14px}.card{border:1px solid #e4e3dd;border-left:3px solid var(--cardc,#bbb);border-radius:9px;background:#fff;padding:11px 12px}.card-title{font-size:13.5px;font-weight:600;margin:0 0 5px}.card p{margin:0 0 7px;font-size:12px;color:#5a5a54;line-height:1.45}.tags{font-size:11px;color:var(--cardc)}.dep{font-size:11px;color:#b9711a;margin-top:6px}.card.done{background:#fafaf7}.card.done .card-title{color:#7d7c75}.stx{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;font-size:9px;color:#fff;vertical-align:middle}.stx.done{background:#0f8a66}.stx.wip{background:#e9a23b}.legend-st{display:flex;gap:16px;font-size:12px;color:#5a5a54;margin:0 0 18px;flex-wrap:wrap}.legend-st span{display:inline-flex;align-items:center;gap:6px}.legend-st i{width:15px;height:15px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-style:normal}";
-  const body=phases.map(p=>{
-    const cs=cards.filter(c=>c.phase===p.id).map(c=>
-      '<div class="card'+(c.st==='done'?' done':'')+'" style="--cardc:'+p.c+'">'+
-        '<p class="card-title">'+(c.st==='done'?'<span class="stx done">&#10003;</span> ':(c.st==='wip'?'<span class="stx wip">&#9679;</span> ':''))+esc(c.title)+'</p>'+
-        (c.desc?'<p>'+esc(c.desc)+'</p>':'')+
-        (c.tags&&c.tags.length?'<div class="tags">'+c.tags.map(esc).join(' &middot; ')+'</div>':'')+
-        (c.dep?'<div class="dep">'+esc(c.dep)+'</div>':'')+
-      '</div>').join('');
-    return '<section class="phase">'+
-      '<div class="phase-head">'+
-        '<span class="phase-badge" style="background:'+p.bg+';color:'+p.c+'">'+esc(p.badge)+'</span>'+
-        '<span class="phase-title">'+esc(p.title)+'</span>'+
-        '<span class="phase-when">'+esc(p.when)+'</span>'+
-      '</div>'+
-      '<div class="grid">'+cs+'</div>'+
-    '</section>';
-  }).join('');
-  const leg='<div class="legend-st"><span><i style="background:#0f8a66">&#10003;</i> Fatto</span><span><i style="background:#e9a23b">&#9679;</i> In corso</span><span><i style="background:#fff;border:1.5px solid #cfcec6"></i> Da fare</span></div>';
-  $('#exportArea').value='<style>'+css+'</style>\n<div class="wrap">\n  <h1>Roadmap SRM &mdash; Smart Real-Time Mobility</h1>\n  <p class="sub">Pianificazione per fasi del progetto SRM.</p>\n  '+leg+'\n  '+body+'\n</div>';
+function exportRoadmapJSON(){
+  const out={phases:[],stations:{},deps:[]};
+  const DEP_PREFIX=/^dipende da:\s*/i;
+  out.phases=phases.map(p=>({id:p.id,badge:p.badge,title:p.title,when:p.when,color:p.c}));
+  phases.forEach(p=>{
+    out.stations[p.id]=cards.filter(c=>c.phase===p.id).map(c=>{
+      if(c.dep&&DEP_PREFIX.test(c.dep)){
+        c.dep.replace(DEP_PREFIX,'').split(',').map(s=>s.trim()).filter(Boolean)
+          .forEach(src=>out.deps.push([src,c.title]));
+      }
+      return {title:c.title, short:'', tags:c.tags||[], status:c.st||'', desc:c.desc||''};
+    });
+  });
+  $('#exportArea').value=JSON.stringify(out,null,2);
   exportDlg.showModal();
 }
 function copyExport(btn){
   const ta=$('#exportArea'); ta.select();
   navigator.clipboard.writeText(ta.value).then(()=>{btn.textContent='Copiato \u2713';setTimeout(()=>btn.textContent='Copia negli appunti',1500);});
+}
+function downloadExport(){
+  const blob=new Blob([$('#exportArea').value],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='roadmap.json'; a.click();
+  URL.revokeObjectURL(url);
 }
 const LS_KEY='roadmapSRM.v1';
 function persist(){
