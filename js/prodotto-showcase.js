@@ -48,7 +48,7 @@
       lbl.textContent = entry.title;
       b.appendChild(ic);
       b.appendChild(lbl);
-      b.addEventListener('click', () => { active = i; render(); });
+      b.addEventListener('click', () => { active = i; render(true); });
       railEl.appendChild(b);
     });
   }
@@ -113,7 +113,7 @@
     capEl.appendChild(d);
   }
 
-  function render() {
+  function render(shouldScroll) {
     const entry = data[active];
     renderRail();
     renderMedia(entry);
@@ -122,12 +122,12 @@
     prevBtn.disabled = active === 0;
     nextBtn.disabled = active === data.length - 1;
     const activeItem = railEl.children[active];
-    if (activeItem) activeItem.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    if (shouldScroll && activeItem) activeItem.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }
 
   function goTo(i) {
     active = Math.max(0, Math.min(data.length - 1, i));
-    render();
+    render(true);
   }
 
   prevBtn.addEventListener('click', () => goTo(active - 1));

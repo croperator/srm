@@ -29,9 +29,8 @@ window.ROADMAP_CONTENT = {
   { id: "skill", badge: "Fase 4", title: "Porting SKILL Maintenance", when: "T3 2026", color: "#0f8a78" },
   { id: "f5", badge: "Fase 5", title: "Applicazione Mobile", when: "T4 2026", color: "#c2410c" },
   { id: "f51", badge: "Fase 5.1", title: "Applicazione Mobile — evoluzioni", when: "T4 2026", color: "#c2410c" },
-  { id: "f4", badge: "Fase 6", title: "Regia, gestione operativa, console e porting", when: "T3 2026", color: "#9333a8" },
-  { id: "ai", badge: "Fase 7", title: "AI assistant - ampliamento", when: "T1 2027", color: "#6d4ad1" },
-  { id: "tbd", badge: "Fase TBD", title: "Da definire", when: "TBD", color: "#6b7280" }
+  { id: "f6", badge: "Fase 6", title: "Regia, gestione operativa, console e porting", when: "T1 2027", color: "#9333a8" },
+  { id: "ai", badge: "Fase 7", title: "AI assistant - ampliamento", when: "T1 2027", color: "#6d4ad1" }
   ],
 
   stations: {
@@ -145,7 +144,7 @@ window.ROADMAP_CONTENT = {
       desc: "Integrazione di SRM con sistemi HR, IVU Crew, turnazione, firma digitale e piattaforme LMS tramite adapter e API." }
     ],
 
-    "f4": [
+    "f6": [
     { title: "Regia linee + bordo", short: "Operatori, voce, app bordo", tags: ["srm-operator-management", "srm-voice-gateway", "app bordo"], status: "",
       desc: "Blocco unico: assegnazione 1:1 linea-operatore, riduzione in morbida, failover supervisore. Voce PTT/VoIP, comunicazioni bordo-terra, app bordo, turnazione materiale." },
     { title: "Variazione Gest. Operativa", short: "Variazioni operative", tags: ["gestione operativa"], status: "",

@@ -81,7 +81,8 @@
   #perche .fond-in .sec-intro{margin-bottom:8px!important}
   #perche .std{padding:5px 11px;font-size:12px}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  @media(max-width:760px){.grid3{grid-template-columns:1fr}}
+  @media(max-width:760px){.grid3{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:430px){.grid3{grid-template-columns:1fr}}
   .vp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
   .vp h3{font-size:14.5px;margin:0 0 4px;font-weight:600}
   .vp p{font-size:12.5px;color:var(--ink-soft);margin:0;line-height:1.45}
@@ -118,7 +119,7 @@
   .pshow-media.is-multi{padding:14px}
   .pshow-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
   .pshow-grid.cols-2{grid-template-columns:repeat(2,1fr)}
-  @media(max-width:600px){.pshow-grid{grid-template-columns:1fr;overflow-y:auto}}
+  @media(max-width:600px){.pshow-grid{grid-template-columns:1fr}}
   .pshow-grid .shot{flex-direction:column;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
   .pshow-grid .shot img{object-fit:cover}
   .pshow-grid .shot figcaption{flex:none;padding:8px 10px}
@@ -164,6 +165,16 @@
   footer{padding:26px 0 60px;color:var(--ink-mute);font-size:12.5px}
   .mapembed{width:100%;margin-top:6px}
   .mapembed iframe{width:100%;border:0;display:block;min-height:1400px;background:var(--bg)}
+  /* su mobile l'iframe della roadmap (1400px+ dentro la pagina) lascia il posto
+     a questa card, che apre la mappa a pieno schermo sulla sua pagina */
+  .mapcard{display:none;align-items:center;gap:13px;margin-top:10px;padding:15px 16px;text-decoration:none;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--ink)}
+  .mapcard .mc-ic{flex:none;width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-size:15px}
+  .mapcard .mc-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .mapcard .mc-t{font-size:14.5px;font-weight:600}
+  .mapcard .mc-d{font-size:12.5px;color:var(--ink-soft);line-height:1.4}
+  .mapcard .mc-go{flex:none;font-size:22px;color:var(--ink-mute)}
 
   /* lightbox */
   .lb{position:fixed;inset:0;background:rgba(18,18,16,.88);display:none;align-items:center;justify-content:center;z-index:100;padding:30px}
@@ -174,15 +185,68 @@
   .lb-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:38px;cursor:pointer;background:none;border:none;padding:0 18px;opacity:.7}
   .lb-nav:hover{opacity:1} .lb-prev{left:6px} .lb-next{right:6px}
 
-  /* Responsive */
+  /* ===== Mobile (<=900px) =====
+     Sotto questa soglia il modello "una sezione = uno schermo" non regge: i contenuti
+     non ci stanno, lo scroll-snap combatte con lo scroll interno delle sezioni (e con
+     quello del rail e dell'iframe) e 100vh viene tagliato dalla barra URL del browser.
+     Qui si passa quindi a pagina a flusso continuo, con un solo scroll, e si ricalibra
+     densita' e tipografia per lo schermo stretto. Il desktop resta invariato. */
   @media(max-width:900px){
+    html{scroll-snap-type:none}
     .sidebar{transform:translateX(-100%);width:280px;box-shadow:0 0 40px rgba(0,0,0,.15)}
     .sidebar.open{transform:translateX(0)}
-    .main{margin-left:0}
+    .main{margin-left:0;padding:0 20px}
     .topbar{display:flex}
     .scrim.show{display:block}
-    h1{font-size:31px}
-    .sec{height:calc(100vh - 61px)}
+
+    /* sezioni ad altezza naturale: niente contenitori con scroll proprio */
+    .sec{height:auto;overflow:visible;padding:26px 0 30px;scroll-margin-top:61px}
+    .sec:first-of-type{padding-top:18px}
+    #perche{padding-top:26px;padding-bottom:30px}
+
+    h1{font-size:30px;max-width:none}
+    .lead{font-size:16px;margin-bottom:20px}
+    h2{font-size:21px}
+    .sec-intro{font-size:14.5px;margin-bottom:16px}
+
+    /* #perche: annullo la compressione che serviva solo a far stare tutto in 100vh */
+    #perche .sec-intro{font-size:14.5px;line-height:1.55}
+    #perche .grid3{gap:10px}
+    #perche .vp{padding:12px 13px}
+    #perche .vp .ic{width:26px;height:26px;margin-bottom:7px}
+    #perche .vp h3{font-size:14px;margin-bottom:4px}
+    #perche .vp p{font-size:12.8px;line-height:1.45}
+    #perche .std{padding:6px 12px;font-size:12.5px}
+
+    /* showcase: rail come riga di chip, media a larghezza piena, nessuno scroll annidato */
+    .pshow{gap:14px}
+    .pshow-rail{gap:6px;padding:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .pshow-rail::-webkit-scrollbar{display:none}
+    .pshow-item{width:auto;padding:8px 13px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+    .pshow-item.active{border-color:transparent}
+    .pshow-media{max-height:none}
+    .pshow-media.is-multi{aspect-ratio:auto;height:auto;padding:10px}
+    .pshow-grid{grid-template-columns:repeat(2,1fr);gap:9px}
+    .pshow-grid .shot img{aspect-ratio:16/10}
+    .pshow-cap .cap-t{font-size:15px}
+    .pshow-nav{margin-top:10px}
+    .slide-nav{width:42px;height:42px}
+
+    /* roadmap: card al posto dell'iframe alto 1400px */
+    .mapembed{display:none}
+    .mapcard{display:flex}
+
+    .lb{padding:12px}
+    .lb img{max-width:100%;max-height:78vh}
+    .lb-close{top:8px;right:10px;font-size:34px;padding:4px 10px}
+    .lb-nav{font-size:32px;padding:0 10px}
+
+    footer{padding:20px 0 40px}
+  }
+  @media(max-width:600px){
+    .main{padding:0 14px}
+    h1{font-size:27px}
+    .lead{font-size:15.5px}
   }
 </style>
 </head>
@@ -260,7 +324,7 @@
   </div>
 </div></section>
   
-  <section id="roadmap-sec" class="sec"><div class="inner"><p class="sec-label">Dove stiamo andando</p><h2>La roadmap del percorso</h2><p class="sec-intro">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo. Per modificarla usa la Roadmap (admin) dal menù.</p><div class="mapembed"><iframe id="metroFrame" src="metro-srm.html?embed=1" title="Mappa roadmap" loading="lazy"></iframe></div></div></section>
+  <section id="roadmap-sec" class="sec"><div class="inner"><p class="sec-label">Dove stiamo andando</p><h2>La roadmap del percorso</h2><p class="sec-intro">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo. Per modificarla usa la Roadmap (admin) dal menù.</p><div class="mapembed"><iframe id="metroFrame" src="metro-srm.html?embed=1" title="Mappa roadmap" loading="lazy"></iframe></div><a class="mapcard" href="metro-srm.html"><span class="mc-ic">&#10140;</span><span class="mc-txt"><span class="mc-t">Apri la mappa della roadmap</span><span class="mc-d">Fasi e attivit&agrave; su una pagina dedicata, pi&ugrave; leggibile da telefono.</span></span><span class="mc-go">&#8250;</span></a></div></section>
   <footer>MOOVA SRM — Smart Real-Time Mobility · pagina di presentazione</footer>
 </main>
 
