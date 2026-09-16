@@ -14,12 +14,15 @@
   // elenco piatto delle immagini "zoomabili", nell'ordine di visualizzazione,
   // usato dalla lightbox condivisa (#lb) per prev/next
   const zoomList = [];
+  function addZoomItem(item) {
+    if (!zoomList.some((zoomItem) => zoomItem.src === item.src)) zoomList.push(item);
+  }
   data.forEach((entry) => {
     if (entry.type === 'image') {
-      zoomList.push({ src: entry.src, title: entry.title });
+      addZoomItem({ src: entry.src, title: entry.title });
     } else if (entry.type === 'group') {
       entry.items.forEach((it) => {
-        zoomList.push({ src: it.src, title: entry.title + ' — ' + it.label });
+        addZoomItem({ src: it.src, title: entry.title + ' — ' + it.label });
       });
     }
   });

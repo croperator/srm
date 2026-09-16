@@ -59,14 +59,21 @@
   h1{font-size:40px;line-height:1.12;font-weight:700;margin:0 0 16px;letter-spacing:-.5px;max-width:17ch}
   .lead{font-size:18px;color:var(--ink-soft);max-width:62ch;margin:0 0 26px}
   .meta{display:flex;flex-wrap:wrap;gap:10px}
-  .intro-shot{margin-top:26px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#f4f3ee}
-  .intro-shot img{display:block;width:100%;max-height:44vh;object-fit:cover;object-position:top}
+  .intro-shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:26px}
+  .intro-shot{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f4f3ee}
+  .intro-shot img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top}
+  .intro-shot figcaption{padding:9px 12px;font-size:12.5px;font-weight:600;color:var(--ink-soft);background:var(--surface);border-top:1px solid var(--line)}
+  @media(max-width:680px){.intro-shots{grid-template-columns:1fr}}
   .pill{font-size:12.5px;padding:5px 12px;border-radius:20px;background:var(--surface);border:1px solid var(--line);color:var(--ink-soft)}
   .pill.accent{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:600}
   .sec-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);font-weight:600;margin:0 0 8px}
   h2{font-size:25px;font-weight:600;margin:0 0 8px;letter-spacing:-.3px}
   .sec-intro{color:var(--ink-soft);max-width:70ch;margin:0 0 20px;font-size:15.5px}
   #perche .sec-intro{max-width:none;margin-bottom:16px}
+  .skill-value{display:grid;grid-template-columns:190px 1fr;gap:18px;align-items:center;margin:0 0 14px;padding:13px 15px;border-left:3px solid var(--accent);background:var(--accent-soft)}
+  .skill-value h3{font-size:15px;margin:0;color:var(--accent)}
+  .skill-value p{font-size:13px;line-height:1.5;color:var(--ink-soft);margin:0}
+  @media(max-width:680px){.skill-value{grid-template-columns:1fr;gap:4px}}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   @media(max-width:760px){.grid3{grid-template-columns:1fr}}
   .vp{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
@@ -197,32 +204,42 @@
   <section id="intro" class="sec"><div class="inner">
   <div class="wrap">
     <p class="brand">MOOVA SRM · Smart Real-Time Mobility</p>
-    <h1>La sala operativa per il trasporto multimodale, in tempo reale.</h1>
-    <p class="lead">Una control room leggera e rapida da installare per il monitoraggio multimodale e multirete. Costruita sugli standard Transmodel, NeTEx e SIRI, pensata per gli operatori di esercizio.</p>
+    <h1>La piattaforma integrata per l'esercizio e le competenze.</h1>
+    <p class="lead">SRM riunisce in un unico ecosistema il monitoraggio della circolazione, la gestione operativa del trasporto e il mantenimento delle competenze del personale. Multimodale, modulare e integrabile con i sistemi aziendali, supporta operatori, istruttori e amministratori nei processi quotidiani e nelle decisioni basate sui dati.</p>
     <div class="meta">
       <span class="pill accent">Real-time multimodale</span>
       <span class="pill">Ferro + Bus</span>
-      <span class="pill">Standard-aligned</span>
+      <span class="pill">Gestione competenze</span>
       <span class="pill">Cloud-native · AWS EKS</span>
     </div>
-    <div class="intro-shot"><img src="assets/img/mappa-rete.jpg" alt="Mappa di rete real-time — MOOVA SRM"></div>
+    <div class="intro-shots">
+      <figure class="intro-shot">
+        <img src="assets/img/mappa-rete.jpg" alt="Mappa di rete real-time di MOOVA SRM">
+        <figcaption>Monitoraggio della circolazione in tempo reale</figcaption>
+      </figure>
+      <figure class="intro-shot">
+        <img src="assets/img/skill-maintenance.png" alt="Dashboard SKILL Maintenance di MOOVA SRM">
+        <figcaption>Gestione delle competenze con SKILL Maintenance</figcaption>
+      </figure>
+    </div>
   </div>
 </div></section>
   <section id="perche" class="sec"><div class="inner">
   <div class="wrap">
     <p class="sec-label">Perché SRM</p>
-    <h2>Monitorare, decidere, agire — da un'unica console</h2>
-    <p class="sec-intro">SRM è una piattaforma che raccoglie e coordina tutte le informazioni operative — posizione delle corse, stato del servizio, avvisi e risorse di esercizio — consentendo agli operatori di monitorare e gestire il servizio in tempo reale. La piattaforma supporta inoltre attività di analisi attraverso dashboard e KPI, consentendo di valutare le performance operative e orientare le decisioni sulla base dei dati.</p>
+    <h2>Monitorare, gestire, qualificare — da un unico ecosistema</h2>
+    <p class="sec-intro">SRM coordina dati operativi e informazioni sul personale per offrire una visione completa del servizio: dalla posizione delle corse e dagli eventi di esercizio fino ad abilitazioni, visite mediche, valutazioni e continuità operativa. Dashboard, KPI e alert trasformano i dati in azioni tempestive e verificabili.</p>
+    <div class="skill-value"><h3>Sicurezza e conformità</h3><p>Una visione unica e aggiornata di abilitazioni, idoneità sanitarie, valutazioni e formazione. Alert e regole configurabili aiutano a prevenire le scadenze, mentre l'integrazione con HR e sistemi di turnazione consente di pianificare il personale sulla base di competenze valide e verificate.</p></div>
     <div class="grid3"><div class="vp"><div class="ic">◉</div><h3>Strumenti di monitoraggio</h3><p>Tutti i classici strumenti del monitoraggio — mappe, liste, viste linearizzate, schede di dettaglio, storico dei percorsi — per corse vestite e non.</p></div><div class="vp"><div class="ic">◧</div><h3>Gestione operativa</h3><p>Avvisi, allarmi e motivi di ritardo, scorte e spole, vestizione dei mezzi e del personale: la gestione operativa in un unico posto.</p></div><div class="vp"><div class="ic">✦</div><h3>AI a supporto</h3><p>Strumenti di intelligenza artificiale integrati a supporto del monitoraggio e della gestione operativa.</p></div><div class="vp"><div class="ic">⚙</div><h3>Configurabile</h3><p>Home a widget personalizzabile, cataloghi, tipi di nota/avviso, ruoli e soglie gestiti a runtime. Dizionario multilingua integrato.</p></div><div class="vp"><div class="ic">▢</div><h3>Leggera sull'hardware</h3><p>Sviluppata per richiedere poche risorse hardware: può girare anche su cluster di piccole dimensioni.</p></div><div class="vp"><div class="ic">⬡</div><h3>Multimodale nativa</h3><p>Focus spiccato sul monitoraggio multimodale, con algoritmi per il calcolo di coincidenze e corrispondenze e strumenti dedicati agli interscambi.</p></div><div class="vp"><div class="ic">▤</div><h3>Ottimizzata per mobile</h3><p>Interfaccia pienamente responsiva: la sala operativa e gli strumenti di monitoraggio funzionano perfettamente anche da smartphone e tablet.</p></div><div class="vp"><div class="ic">◱</div><h3>App terra-bordo</h3><p>Applicazione dedicata alla comunicazione terra-bordo, con interfacce già progettate — alcune già implementate — per il personale a bordo.</p></div><div class="vp"><div class="ic">✉</div><h3>Ticketing e triage</h3><p>Gli operatori aprono segnalazioni direttamente dallo strumento: ogni evento diventa un ticket tracciato. Un sistema di triage smista automaticamente le segnalazioni verso il canale di risoluzione corretto, accelerando la presa in carico.</p></div></div><div class="fond-in"><p class="sec-label" style="margin-top:20px">I fondamenti</p><h3 style="font-size:17px;font-weight:600;margin:0 0 6px">Costruita sugli standard e lavorando a stretto contatto con i clienti</h3><p class="sec-intro" style="max-width:none;margin-bottom:12px">Questi sono i fondamenti effettivi della piattaforma: non solo l'aderenza ai modelli dati del trasporto pubblico &mdash; che rende SRM interoperabile e a prova di futuro, evitando il lock-in &mdash; ma anche anni di esperienza sul campo con i clienti del settore, tradotta in funzionalità concrete e implementate.</p><div class="stds">
       <span class="std">Transmodel</span><span class="std">NeTEx</span><span class="std">SIRI · VM / SX / ET</span>
-      <span class="std">GTFS / GTFS-RT</span><span class="std">TPEG</span>
+      <span class="std">GTFS / GTFS-RT</span><span class="std">TPEG</span><span class="std">D.Lgs. 247/2010 · Certificato Complementare</span>
     </div></div></div></section>
 <section id="architettura" class="sec"><div class="inner"><p class="sec-label">Architettura</p><h2>Architettura &mdash; scelte e valore per il business</h2><p class="sec-intro">SRM &egrave; un'applicazione a microservizi che unifica processi eterogenei &mdash; pianificazione, mappa real-time, equipaggi, controlli medici, reportistica, KPI, anagrafiche &mdash; in un unico frontend modulare.</p><div class="archgrid"><div class="archcard"><span class="an">1</span><div><h4>Frontend modulare</h4><p>Un modulo per processo, isolati tra loro: deploy indipendenti, blast radius contenuto, meno regressioni per rilascio.</p></div></div><div class="archcard"><span class="an">2</span><div><h4>React + TypeScript</h4><p>Type-safety in fase di compilazione, tooling standard di settore, competenze reperibili sul mercato.</p></div></div><div class="archcard"><span class="an">3</span><div><h4>Design system + store centralizzato</h4><p>Libreria di componenti condivisa e single source of truth dei dati: UX coerente, riuso, nessun disallineamento tra viste.</p></div></div><div class="archcard"><span class="an">4</span><div><h4>Backend disaccoppiato</h4><p>Ogni servizio (veicoli, equipaggi, pianificazione, KPI, rete, AI) esposto tramite un contratto dedicato: le evoluzioni restano confinate all'interfaccia.</p></div></div><div class="archcard"><span class="an">5</span><div><h4>Multilingua + real-time + AI nativi</h4><p>Multilingua, streaming di dati live e assistente AI integrati alla base, non aggiunti a posteriori.</p></div></div><div class="archcard"><span class="an">6</span><div><h4>CI con test automatici</h4><p>Verifica continua ad ogni modifica: evoluzione del prodotto a basso rischio.</p></div></div><div class="archcard"><span class="an">7</span><div><h4>Responsive by design</h4><p>Layout adattivo su tutte le viste: la stessa applicazione gira senza compromessi da desktop a mobile, senza codice duplicato.</p></div></div></div><div class="stackbox"><div class="sbh">Stack</div><div class="stackgrid"><div class="stk"><span class="skt">Microservizi</span><span class="skd">Spring Boot · Java</span></div><div class="stk"><span class="skt">AI</span><span class="skd">Python</span></div><div class="stk"><span class="skt">Database</span><span class="skd">PostgreSQL</span></div><div class="stk"><span class="skt">Streaming</span><span class="skd">Redpanda · Kafka-compat.</span></div><div class="stk"><span class="skt">Frontend</span><span class="skd">React · TypeScript</span></div></div></div></div></section>
   <section id="prodotto" class="sec"><div class="inner">
   <div class="wrap">
     <p class="sec-label">Il prodotto</p>
     <h2>Uno sguardo dentro SRM</h2>
-    <p class="sec-intro">Schermate e video dalla piattaforma in esercizio nel contesto dell'integrazione Trenord. Scegli una voce dall'elenco, clicca un'immagine per ingrandirla.</p>
+    <p class="sec-intro">Schermate e video delle funzionalità operative e di gestione delle competenze disponibili nell'ecosistema SRM. Scegli una voce dall'elenco, clicca un'immagine per ingrandirla.</p>
     <div class="pshow" id="pshow">
       <nav class="pshow-rail" id="pshowRail" aria-label="Elenco funzionalita"></nav>
       <div class="pshow-stage">
@@ -253,6 +270,29 @@
 <script src="content/prodotto.js"></script>
 <script src="js/prodotto-showcase.js"></script>
 <script>
+// Ordina i benefici per area e completa la griglia con le capability SKILL Maintenance.
+const whyGrid=document.querySelector('#perche .grid3');
+if(whyGrid){
+  const currentCards=[...whyGrid.children];
+  const skillCards=[
+    ['✓','Competenze e idoneità','Titoli abilitativi, qualifiche, visite mediche e valutazioni in una vista unica, con storico e alert sulle scadenze.'],
+    ['▣','Formazione continua','Piani formativi, corsi in presenza ed e-learning, presenze, test e attestati collegati alle qualifiche del personale.'],
+    ['⇄','Integrazione aziendale','Dati sincronizzati con HR, IVU Crew, sistemi di turnazione, firma digitale e piattaforme LMS tramite adapter e API protette.']
+  ].map(([icon,title,description])=>{
+    const card=document.createElement('div');
+    card.className='vp';
+    card.innerHTML='<div class="ic">'+icon+'</div><h3>'+title+'</h3><p>'+description+'</p>';
+    return card;
+  });
+  const orderedCards=[
+    currentCards[0],currentCards[1],currentCards[5],
+    currentCards[3],currentCards[4],currentCards[8],
+    ...skillCards,
+    currentCards[2],currentCards[6],currentCards[7]
+  ];
+  whyGrid.replaceChildren(...orderedCards);
+}
+
 // scroll-spy (position based: last section whose top passed the reference line)
 const items=[...document.querySelectorAll('.tocitem')];
 const secEls=items.map(a=>document.getElementById(a.dataset.target)).filter(Boolean);

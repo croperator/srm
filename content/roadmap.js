@@ -28,7 +28,7 @@ window.ROADMAP_CONTENT = {
   { id: "f33", badge: "Fase 3.3", title: "Assessment applicativo sui progetti", when: "T3 2026 · da lug", color: "#e0a63f" },
   { id: "f5", badge: "Fase 5", title: "Applicazione Mobile", when: "T4 2026", color: "#c2410c" },
   { id: "f51", badge: "Fase 5.1", title: "Applicazione Mobile — evoluzioni", when: "T4 2026", color: "#c2410c" },
-  { id: "f4", badge: "Fase 4", title: "Regia, gestione operativa, console e porting", when: "T4 2026", color: "#9333a8" },
+  { id: "f4", badge: "Fase 4", title: "Regia, gestione operativa, console e porting", when: "T3 2026", color: "#9333a8" },
   { id: "ai", badge: "Fase 6", title: "AI assistant - ampliamento", when: "T1 2027", color: "#6d4ad1" },
   { id: "tbd", badge: "Fase TBD", title: "Da definire", when: "TBD", color: "#6b7280" }
   ],
@@ -136,6 +136,8 @@ window.ROADMAP_CONTENT = {
       desc: "Monitoraggio dei costi di esercizio." },
     { title: "Handover", short: "Passaggio consegne (porting)", tags: ["porting", "nuovo MS", "FE/BE"], status: "",
       desc: "Porting passaggio consegne sul nuovo MS SRM. Analisi delta old → new." },
+    { title: "Porting SKILL Maintenance", short: "Competenze integrate in SRM", tags: ["porting", "skill maintenance", "FE/BE"], status: "",
+      desc: "Porting di SKILL Maintenance all'interno di SRM, con integrazione di competenze, titoli e qualifiche, scadenze sanitarie, agenda e valutazioni, formazione e collegamenti con i sistemi aziendali." },
     { title: "Contratto di Servizio", short: "Con Authority", tags: ["soglie"], status: "",
       desc: "Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority." }
     ],
@@ -147,7 +149,7 @@ window.ROADMAP_CONTENT = {
 
     "f51": [
     { title: "Sistema di terra + App", short: "Deviazioni, KM, attestazione", tags: ["app", "sistema terra"], status: "",
-      desc: "Estensione capabilities app: deviazioni, attestazione SRM, calcolo KM, invio andamenti, attestazione automatica. Estensione sistema di terra." },
+      desc: "Estensione capabilities app: deviazioni, attestazione SRM, calcolo KM, invio andamenti, attestazione automatica, notifiche di lettura. Estensione sistema di terra." },
     { title: "Altre capabilities App", short: "Lista/dettaglio corsa, alert", tags: ["app", "alert"], status: "",
       desc: "Lista corsa, dettaglio corsa (percorso tabellare e grafico, materiale, crew), alert." }
     ],
