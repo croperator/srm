@@ -26,10 +26,11 @@ window.ROADMAP_CONTENT = {
   { id: "f31", badge: "Fase 3.1", title: "Strumenti Evoluti", when: "T3 2026 · da lug", color: "#b9711a" },
   { id: "f32", badge: "Fase 3.2", title: "Realizzazione modello rete e composizione", when: "T3 2026 · da lug", color: "#cf8a28" },
   { id: "f33", badge: "Fase 3.3", title: "Assessment applicativo sui progetti", when: "T3 2026 · da lug", color: "#e0a63f" },
+  { id: "skill", badge: "Fase 4", title: "Porting SKILL Maintenance", when: "T3 2026", color: "#0f8a78" },
   { id: "f5", badge: "Fase 5", title: "Applicazione Mobile", when: "T4 2026", color: "#c2410c" },
   { id: "f51", badge: "Fase 5.1", title: "Applicazione Mobile — evoluzioni", when: "T4 2026", color: "#c2410c" },
-  { id: "f4", badge: "Fase 4", title: "Regia, gestione operativa, console e porting", when: "T3 2026", color: "#9333a8" },
-  { id: "ai", badge: "Fase 6", title: "AI assistant - ampliamento", when: "T1 2027", color: "#6d4ad1" },
+  { id: "f4", badge: "Fase 6", title: "Regia, gestione operativa, console e porting", when: "T3 2026", color: "#9333a8" },
+  { id: "ai", badge: "Fase 7", title: "AI assistant - ampliamento", when: "T1 2027", color: "#6d4ad1" },
   { id: "tbd", badge: "Fase TBD", title: "Da definire", when: "TBD", color: "#6b7280" }
   ],
 
@@ -127,6 +128,23 @@ window.ROADMAP_CONTENT = {
       desc: "Dashboard di indicatori chiave di prestazione del servizio." }
     ],
 
+    "skill": [
+    { title: "Porting gestione competenze", short: "Competenze integrate in SRM", tags: ["porting", "skill maintenance", "FE/BE"], status: "done",
+      desc: "Integrazione in SRM della gestione delle competenze e della continuità operativa del personale." },
+    { title: "Porting squadre istruttori", short: "Agenti assegnati agli istruttori", tags: ["porting", "skill maintenance", "istruttori"], status: "done",
+      desc: "Integrazione in SRM della creazione e gestione delle squadre di agenti assegnate agli istruttori." },
+    { title: "Porting titoli e qualifiche", short: "Abilitazioni integrate in SRM", tags: ["porting", "skill maintenance", "qualifiche"], status: "done",
+      desc: "Integrazione in SRM di titoli abilitativi, qualifiche su linee, impianti e veicoli e relativi certificati." },
+    { title: "Porting scadenziario sanitario", short: "Visite e revisioni", tags: ["porting", "skill maintenance", "scadenze"], status: "done",
+      desc: "Integrazione in SRM del monitoraggio delle visite mediche, degli esiti, delle revisioni e degli alert di scadenza." },
+    { title: "Porting agenda e valutazioni", short: "Attività degli istruttori", tags: ["porting", "skill maintenance", "valutazioni"], status: "done",
+      desc: "Integrazione in SRM dell'agenda degli istruttori, delle attività svolte e delle valutazioni delle competenze." },
+    { title: "Porting formazione ed e-learning", short: "Percorsi formativi", tags: ["porting", "skill maintenance", "formazione"], status: "",
+      desc: "Integrazione in SRM di corsi, sessioni, presenze, attestati, materiali didattici, test e questionari online." },
+    { title: "Generalizzazione integrazioni aziendali", short: "HR, turnazione e firma digitale", tags: ["porting", "skill maintenance", "integrazioni"], status: "",
+      desc: "Integrazione di SRM con sistemi HR, IVU Crew, turnazione, firma digitale e piattaforme LMS tramite adapter e API." }
+    ],
+
     "f4": [
     { title: "Regia linee + bordo", short: "Operatori, voce, app bordo", tags: ["srm-operator-management", "srm-voice-gateway", "app bordo"], status: "",
       desc: "Blocco unico: assegnazione 1:1 linea-operatore, riduzione in morbida, failover supervisore. Voce PTT/VoIP, comunicazioni bordo-terra, app bordo, turnazione materiale." },
@@ -136,8 +154,6 @@ window.ROADMAP_CONTENT = {
       desc: "Monitoraggio dei costi di esercizio." },
     { title: "Handover", short: "Passaggio consegne (porting)", tags: ["porting", "nuovo MS", "FE/BE"], status: "",
       desc: "Porting passaggio consegne sul nuovo MS SRM. Analisi delta old → new." },
-    { title: "Porting SKILL Maintenance", short: "Competenze integrate in SRM", tags: ["porting", "skill maintenance", "FE/BE"], status: "",
-      desc: "Porting di SKILL Maintenance all'interno di SRM, con integrazione di competenze, titoli e qualifiche, scadenze sanitarie, agenda e valutazioni, formazione e collegamenti con i sistemi aziendali." },
     { title: "Contratto di Servizio", short: "Con Authority", tags: ["soglie"], status: "",
       desc: "Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority." }
     ],

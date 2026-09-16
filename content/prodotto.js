@@ -78,37 +78,31 @@ window.PRODOTTO_CONTENT = [
     src: "assets/img/skill-gestione-competenze.png"
   },
   {
-    title: "SKILL — squadra dell'istruttore",
+    title: "SKILL Maintenance — agenda e valutazioni",
+    desc: "L'istruttore verifica lo stato delle competenze della squadra e registra colloqui, affiancamenti, letture zona e valutazioni sulle competenze configurate. Le attività possono sanare situazioni negative, restano consultabili nello storico e sono disponibili anche in una vista a calendario.",
+    type: "image",
+    src: "assets/img/skill-agenda-valutazioni.png"
+  },  
+  {
+    title: "SKILL Maintenance — squadra dell'istruttore",
     desc: "L'istruttore crea e gestisce la propria squadra di agenti, anche appartenenti a impianti diversi, per verificarne le competenze e monitorare scadenze professionali e sanitarie. L'associazione rispetta area e tipologia del titolo abilitativo; anche l'istruttore deve possedere qualifiche valide e coerenti con quelle che è autorizzato a valutare.",
     type: "image",
     src: "assets/img/skill-squadra-istruttore.png"
   },
   {
-    title: "SKILL — titoli e qualifiche",
+    title: "SKILL Maintenance— titoli e qualifiche",
     desc: "Per ogni agente è possibile associare e aggiornare il titolo abilitativo per area, definire qualifiche su linee, impianti e veicoli e gestirne lo stato mediante attivazione, sospensione o revoca. Il sistema produce il Certificato Complementare secondo gli standard europei previsti dal D.Lgs. 247.",
     type: "image",
     src: "assets/img/skill-titoli-qualifiche.png"
   },
   {
-    title: "SKILL — scadenziario sanitario",
+    title: "SKILL Maintenance —scadenziario sanitario",
     desc: "Lo scadenziario monitora visite, esiti e revisioni del personale impiegato in sicurezza di esercizio. Un algoritmo configurabile calcola la prossima visita secondo le normative aziendali e gli alert cromatici evidenziano l'avvicinarsi delle scadenze; lo storico conserva visite fisiche, psicologiche, revisioni e controlli.",
     type: "image",
     src: "assets/img/skill-scadenziario-sanitario.png"
   },
   {
-    title: "SKILL — agenda e valutazioni",
-    desc: "L'istruttore verifica lo stato delle competenze della squadra e registra colloqui, affiancamenti, letture zona e valutazioni sulle competenze configurate. Le attività possono sanare situazioni negative, restano consultabili nello storico e sono disponibili anche in una vista a calendario.",
-    type: "image",
-    src: "assets/img/skill-agenda-valutazioni.png"
-  },
-  {
-    title: "SKILL — formazione ed e-learning",
-    desc: "Il modulo gestisce catalogo corsi, piani formativi per ruolo e qualifica, sessioni in presenza o online, partecipanti, docenti, calendari e sedi. Registra presenze, materiali, valutazioni e attestati; l'e-learning traccia moduli digitali, test, questionari, completamento ed esiti, mantenendo allineati formazione, competenze e requisiti normativi.",
-    type: "image",
-    src: "assets/img/skill-maintenance.png"
-  },
-  {
-    title: "SKILL — integrazioni aziendali",
+    title: "SKILL Maintenance — integrazioni aziendali",
     desc: "Adapter e API protette integrano SKILL Maintenance con sistemi HR, IVU Crew, turnazione, firma digitale e piattaforme LMS. Sono previsti scambio bidirezionale delle anagrafiche, trasferimento continuo di qualifiche e autorizzazioni validate, import Excel per licenze, visite e continuità operativa e funzioni manuali per accompagnare l'avvio delle integrazioni.",
     type: "image",
     src: "assets/img/skill-integrazioni-aziendali.png"
