@@ -77,6 +77,13 @@ window.PRODOTTO_CONTENT = [
     src: "assets/img/kpi-drilldown-linea.jpg"
   },
   {
+    title: "Triage AI delle segnalazioni",
+    category: "ai",
+    desc: "Dalla Control Room l'operatore può aprire e inviare una segnalazione con screenshot e log già allegati. Un processo di intelligenza artificiale analizza i log, classifica automaticamente la severity e individua il gruppo più adatto a cui assegnare la segnalazione, accelerandone la presa in carico.",
+    type: "video",
+    src: "assets/video/ai_triage.mp4"
+  },
+  {
     title: "SKILL Maintenance — gestione delle competenze",
     category: "skills",
     desc: "Il modulo supporta il mantenimento delle competenze del personale ferroviario e automobilistico. Riunisce abilitazioni e qualifiche su mezzi, linee e impianti, visite mediche, valutazioni degli istruttori, squadre e continuità operativa, con storico e alert configurabili. Integrato con l'ecosistema MOOVA e i sistemi aziendali, utilizza dati HR, turni, servizi e rete; offre profilazione puntuale, import massivi, monitoraggio dei processi e report Excel, con possibilità di firma digitale.",
