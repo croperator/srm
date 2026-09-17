@@ -92,53 +92,70 @@
   .cap-t{display:block;font-size:14.5px;font-weight:600;margin-bottom:3px}
   .cap-d{display:block;font-size:12.5px;color:var(--ink-soft);line-height:1.5}
 
-  /* "Il prodotto" showcase: left rail (feature list) + right stage (media + caption).
-     Stage media accepts a single image, a single video (.vid), or a small
-     grid of images (.pshow-grid) for entries with more than one screenshot. */
-  .pshow{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:stretch}
-  @media(max-width:820px){.pshow{grid-template-columns:1fr}}
+  /* "Il prodotto": catalogo per aree con dettaglio immersivo. */
+  #prodotto{padding-top:14px;padding-bottom:14px}
+  #prodotto .sec-intro{margin-bottom:10px}
+  .product-filters{position:sticky;top:-14px;z-index:5;display:flex;gap:7px;overflow-x:auto;padding:8px 0 10px;
+    margin-bottom:10px;background:linear-gradient(var(--bg) 78%,rgba(251,251,249,0));scrollbar-width:none}
+  .product-filters::-webkit-scrollbar{display:none}
+  .product-filter{flex:none;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink-soft);
+    padding:7px 13px;font:600 12px var(--font);cursor:pointer;white-space:nowrap}
+  .product-filter:hover{border-color:#aaa9a2;color:var(--ink)}
+  .product-filter.active{border-color:var(--accent);background:var(--accent);color:#fff}
+  .product-group{margin-bottom:18px}
+  .product-group-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:8px}
+  .product-group-title{margin:0;font-size:17px;font-weight:650}
+  .product-group-count{font-size:12px;color:var(--ink-mute)}
+  .product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 12px}
+  .feature-card{display:flex;flex-direction:column;min-width:0;padding:0;text-align:left;font-family:inherit;color:var(--ink);
+    border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;cursor:pointer;
+    transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+  .feature-card:hover{transform:translateY(-2px);border-color:#b8c9dc;box-shadow:0 8px 24px rgba(31,95,166,.09)}
+  .feature-card:focus-visible,.product-filter:focus-visible,.viewer-close:focus-visible,.viewer-arrow:focus-visible,
+  .viewer-thumb:focus-visible{outline:3px solid rgba(31,95,166,.28);outline-offset:2px}
+  .feature-thumb{position:relative;aspect-ratio:2.15/1;background:#f2f2ee;overflow:hidden}
+  .feature-thumb img,.feature-thumb video{display:block;width:100%;height:100%;object-fit:cover;object-position:top}
+  .feature-video-preview{display:flex;width:100%;height:100%;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#e7edf4,#d7e3f0);color:var(--accent);font-size:30px}
+  .feature-kind{position:absolute;right:7px;bottom:7px;padding:3px 7px;border-radius:14px;background:rgba(20,20,18,.8);
+    color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.02em;backdrop-filter:blur(5px)}
+  .feature-body{display:flex;flex:1;flex-direction:column;padding:9px 11px 10px}
+  .feature-title{font-size:13.5px;font-weight:650;line-height:1.25;margin-bottom:3px}
+  .feature-desc{display:-webkit-box;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:1;
+    font-size:11.5px;line-height:1.4;color:var(--ink-soft)}
+  .feature-open{margin-top:auto;padding-top:6px;color:var(--accent);font-size:11.5px;font-weight:700}
 
-  .pshow-rail{display:flex;flex-direction:column;gap:2px;overflow-y:auto;min-height:0;
-    max-height:calc(58vh + 108px);
-    border:1px solid var(--line);border-radius:12px;padding:8px;background:var(--surface)}
-  @media(max-width:820px){.pshow-rail{flex-direction:row;overflow-x:auto;overflow-y:visible;max-height:none;flex-wrap:nowrap}}
-  .pshow-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;padding:9px 12px;border:none;background:transparent;
-    border-radius:8px;cursor:pointer;font-size:13.5px;color:var(--ink-soft);font-weight:500;font-family:inherit}
-  @media(max-width:820px){.pshow-item{flex:none;white-space:nowrap}}
-  .pshow-item:hover{background:#f4f3ee;color:var(--ink)}
-  .pshow-item.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
-  .pshow-item-ic{flex:none;width:16px;text-align:center;font-size:11px;color:var(--ink-mute)}
-  .pshow-item.active .pshow-item-ic{color:var(--accent)}
-  .pshow-item-lbl{flex:1;min-width:0}
-
-  .pshow-media{aspect-ratio:16/10;max-height:58vh;background:#f4f3ee;border:1px solid var(--line);
-    border-radius:12px;overflow:hidden;display:flex}
-  .pshow-media .shot{flex:1;min-height:0;display:flex;margin:0;border:0;cursor:zoom-in}
-  .pshow-media .shot img{flex:1;min-height:0;width:100%;object-fit:contain;background:#f4f3ee}
-  .pshow-media .vid{flex:1;min-height:0;border:0;border-radius:0;aspect-ratio:auto}
-  .pshow-media.is-multi{padding:14px}
-  .pshow-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
-  .pshow-grid.cols-2{grid-template-columns:repeat(2,1fr)}
-  @media(max-width:600px){.pshow-grid{grid-template-columns:1fr}}
-  .pshow-grid .shot{flex-direction:column;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
-  .pshow-grid .shot img{object-fit:cover}
-  .pshow-grid .shot figcaption{flex:none;padding:8px 10px}
-
-  .pshow-cap{margin-top:10px;max-width:74ch}
-  .pshow-cap .cap-t{font-size:16px}
-  .pshow-cap .cap-d{font-size:13.5px}
-
-  .pshow-nav{display:flex;align-items:center;gap:10px;margin-top:8px}
-  .slide-nav{flex:none;width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--surface);
-    cursor:pointer;font-size:16px;color:var(--ink-soft);display:flex;align-items:center;justify-content:center}
-  .slide-nav:hover{background:#f4f3ee;color:var(--ink)}
-  .slide-nav:disabled{opacity:.3;cursor:default}
-  .slide-counter{flex:none;font-size:12.5px;color:var(--ink-mute);font-variant-numeric:tabular-nums}
-
-  .vid{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9}
-  .vid video{display:block;width:100%;height:100%;border:0}
-  .st{font-size:11.5px;font-weight:600;display:block;margin-bottom:2px}
-  .sd{font-size:11.5px;color:var(--ink-soft);line-height:1.45;display:block}
+  .viewer{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:28px;
+    background:rgba(18,18,16,.78);backdrop-filter:blur(6px)}
+  .viewer.open{display:flex}
+  .viewer-panel{display:flex;flex-direction:column;width:min(1180px,96vw);max-height:94vh;border-radius:16px;
+    background:var(--surface);box-shadow:0 24px 80px rgba(0,0,0,.35);overflow:hidden}
+  .viewer-head{display:flex;align-items:center;gap:20px;padding:15px 18px;border-bottom:1px solid var(--line)}
+  .viewer-title{flex:1;margin:0;font-size:18px;line-height:1.3}
+  .viewer-close{flex:none;width:38px;height:38px;border:1px solid var(--line);border-radius:9px;background:var(--surface);
+    color:var(--ink);font-size:25px;line-height:1;cursor:pointer}
+  .viewer-content{display:grid;grid-template-columns:minmax(0,1fr) 300px;min-height:0}
+  .viewer-gallery{min-width:0;padding:18px;background:#f4f3ee}
+  .viewer-media{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:16/10;
+    min-height:0;border-radius:11px;overflow:hidden;background:#e9e9e4}
+  .viewer-media img,.viewer-media video{display:block;width:100%;height:100%;object-fit:contain}
+  .viewer-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:42px;border:0;
+    border-radius:50%;background:rgba(20,20,18,.76);color:#fff;font-size:24px;cursor:pointer}
+  .viewer-arrow[hidden]{display:none}
+  .viewer-prev{left:12px}.viewer-next{right:12px}
+  .viewer-gallery-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+  .viewer-counter{font-size:12.5px;font-weight:700;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+  .viewer-hint{font-size:11.5px;color:var(--ink-mute)}
+  .viewer-thumbs{display:flex;gap:8px;overflow-x:auto;margin-top:10px;padding:2px}
+  .viewer-thumb{flex:none;width:88px;padding:0;border:2px solid transparent;border-radius:8px;background:#ddd;
+    overflow:hidden;cursor:pointer;opacity:.62}
+  .viewer-thumb.active{border-color:var(--accent);opacity:1}
+  .viewer-thumb img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top}
+  .viewer-info{display:flex;flex-direction:column;padding:22px;overflow-y:auto}
+  .viewer-category{margin-bottom:9px;color:var(--accent);font-size:11px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
+  .viewer-description{margin:0;color:var(--ink-soft);font-size:13.5px;line-height:1.6}
+  .viewer-slide-label{margin-top:auto;padding-top:18px;color:var(--ink);font-size:12.5px;font-weight:700}
+  body.viewer-open{overflow:hidden}
   .stds{display:flex;flex-wrap:wrap;gap:10px}
   .std{font-size:13px;font-weight:600;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft)}
   .cta h2{margin-bottom:8px}
@@ -164,7 +181,9 @@
   .stk .skd{font-size:13.5px;font-weight:600;color:var(--ink)}
   footer{padding:26px 0 60px;color:var(--ink-mute);font-size:12.5px}
   .mapembed{width:100%;margin-top:6px}
-  .mapembed iframe{width:100%;border:0;display:block;min-height:1400px;background:var(--bg)}
+  #roadmap-sec{padding-top:14px;padding-bottom:14px}
+  #roadmap-sec .sec-intro{margin-bottom:8px}
+  .mapembed iframe{width:100%;height:calc(100vh - 154px);border:0;display:block;min-height:0;background:var(--bg)}
   /* su mobile l'iframe della roadmap (1400px+ dentro la pagina) lascia il posto
      a questa card, che apre la mappa a pieno schermo sulla sua pagina */
   .mapcard{display:none;align-items:center;gap:13px;margin-top:10px;padding:15px 16px;text-decoration:none;
@@ -175,15 +194,6 @@
   .mapcard .mc-t{font-size:14.5px;font-weight:600}
   .mapcard .mc-d{font-size:12.5px;color:var(--ink-soft);line-height:1.4}
   .mapcard .mc-go{flex:none;font-size:22px;color:var(--ink-mute)}
-
-  /* lightbox */
-  .lb{position:fixed;inset:0;background:rgba(18,18,16,.88);display:none;align-items:center;justify-content:center;z-index:100;padding:30px}
-  .lb.open{display:flex}
-  .lb img{max-width:96vw;max-height:88vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-  .lb-close{position:absolute;top:18px;right:24px;color:#fff;font-size:30px;cursor:pointer;line-height:1;background:none;border:none}
-  .lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:#fff;font-size:14px;opacity:.9}
-  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);color:#fff;font-size:38px;cursor:pointer;background:none;border:none;padding:0 18px;opacity:.7}
-  .lb-nav:hover{opacity:1} .lb-prev{left:6px} .lb-next{right:6px}
 
   /* ===== Mobile (<=900px) =====
      Sotto questa soglia il modello "una sezione = uno schermo" non regge: i contenuti
@@ -218,28 +228,18 @@
     #perche .vp p{font-size:12.8px;line-height:1.45}
     #perche .std{padding:6px 12px;font-size:12.5px}
 
-    /* showcase: rail come riga di chip, media a larghezza piena, nessuno scroll annidato */
-    .pshow{gap:14px}
-    .pshow-rail{gap:6px;padding:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-    .pshow-rail::-webkit-scrollbar{display:none}
-    .pshow-item{width:auto;padding:8px 13px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
-    .pshow-item.active{border-color:transparent}
-    .pshow-media{max-height:none}
-    .pshow-media.is-multi{aspect-ratio:auto;height:auto;padding:10px}
-    .pshow-grid{grid-template-columns:repeat(2,1fr);gap:9px}
-    .pshow-grid .shot img{aspect-ratio:16/10}
-    .pshow-cap .cap-t{font-size:15px}
-    .pshow-nav{margin-top:10px}
-    .slide-nav{width:42px;height:42px}
+    .product-filters{top:61px;margin-left:-20px;margin-right:-20px;padding:10px 20px 14px}
+    .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .viewer{padding:0}
+    .viewer-panel{width:100%;height:100%;max-height:none;border-radius:0}
+    .viewer-content{display:flex;flex:1;flex-direction:column;overflow-y:auto}
+    .viewer-gallery{padding:12px}
+    .viewer-info{overflow:visible;padding:18px 20px 26px}
+    .viewer-slide-label{margin-top:0}
 
     /* roadmap: card al posto dell'iframe alto 1400px */
     .mapembed{display:none}
     .mapcard{display:flex}
-
-    .lb{padding:12px}
-    .lb img{max-width:100%;max-height:78vh}
-    .lb-close{top:8px;right:10px;font-size:34px;padding:4px 10px}
-    .lb-nav{font-size:32px;padding:0 10px}
 
     footer{padding:20px 0 40px}
   }
@@ -247,6 +247,18 @@
     .main{padding:0 14px}
     h1{font-size:27px}
     .lead{font-size:15.5px}
+    .product-filters{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
+    .product-grid{grid-template-columns:1fr}
+    .product-group{margin-bottom:24px}
+    .feature-card{display:grid;grid-template-columns:128px 1fr}
+    .feature-thumb{height:100%;min-height:116px;aspect-ratio:auto}
+    .feature-desc{-webkit-line-clamp:2}
+    .viewer-head{padding:11px 12px}
+    .viewer-title{font-size:16px}
+    .viewer-gallery{padding:8px}
+    .viewer-media{aspect-ratio:4/3}
+    .viewer-arrow{width:38px;height:38px}
+    .viewer-hint{font-size:11px}
   }
 </style>
 </head>
@@ -308,32 +320,41 @@
   <div class="wrap">
     <p class="sec-label">Il prodotto</p>
     <h2>Uno sguardo dentro SRM</h2>
-    <p class="sec-intro">Schermate e video delle funzionalità operative e di gestione delle competenze disponibili nell'ecosistema SRM. Scegli una voce dall'elenco, clicca un'immagine per ingrandirla.</p>
-    <div class="pshow" id="pshow">
-      <nav class="pshow-rail" id="pshowRail" aria-label="Elenco funzionalita"></nav>
-      <div class="pshow-stage">
-        <div class="pshow-media" id="pshowMedia"></div>
-        <div class="pshow-cap" id="pshowCap"></div>
-        <div class="pshow-nav">
-          <button class="slide-nav" id="pshowPrev" type="button" aria-label="Precedente">&#8249;</button>
-          <span class="slide-counter" id="pshowCounter"></span>
-          <button class="slide-nav" id="pshowNext" type="button" aria-label="Successivo">&#8250;</button>
-        </div>
-      </div>
-    </div>
+    <p class="sec-intro">Esplora le funzionalità operative e di gestione delle competenze per area. Apri una scheda per vedere immagini, video e dettagli.</p>
+    <nav class="product-filters" id="productFilters" aria-label="Filtra le funzionalita per area"></nav>
+    <div class="product-groups" id="productGroups"></div>
   </div>
 </div></section>
   
-  <section id="roadmap-sec" class="sec"><div class="inner"><p class="sec-label">Dove stiamo andando</p><h2>La roadmap del percorso</h2><p class="sec-intro">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo. Per modificarla usa la Roadmap (admin) dal menù.</p><div class="mapembed"><iframe id="metroFrame" src="metro-srm.html?embed=1" title="Mappa roadmap" loading="lazy"></iframe></div><a class="mapcard" href="metro-srm.html"><span class="mc-ic">&#10140;</span><span class="mc-txt"><span class="mc-t">Apri la mappa della roadmap</span><span class="mc-d">Fasi e attivit&agrave; su una pagina dedicata, pi&ugrave; leggibile da telefono.</span></span><span class="mc-go">&#8250;</span></a></div></section>
+  <section id="roadmap-sec" class="sec"><div class="inner"><p class="sec-label">Dove stiamo andando</p><h2>La roadmap del percorso</h2><p class="sec-intro">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo.</p><div class="mapembed"><iframe id="metroFrame" src="metro-srm.html?embed=1&amp;view=mvp" title="Mappa roadmap" loading="lazy"></iframe></div><a class="mapcard" href="metro-srm.html"><span class="mc-ic">&#10140;</span><span class="mc-txt"><span class="mc-t">Apri la mappa della roadmap</span><span class="mc-d">Fasi e attivit&agrave; su una pagina dedicata, pi&ugrave; leggibile da telefono.</span></span><span class="mc-go">&#8250;</span></a></div></section>
   <footer>MOOVA SRM — Smart Real-Time Mobility · pagina di presentazione</footer>
 </main>
 
-<div class="lb" id="lb">
-  <button class="lb-close" onclick="closeLb()">×</button>
-  <button class="lb-nav lb-prev" onclick="nav(-1)">‹</button>
-  <img id="lbImg" src="" alt="">
-  <button class="lb-nav lb-next" onclick="nav(1)">›</button>
-  <div class="lb-cap" id="lbCap"></div>
+<div class="viewer" id="productViewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
+  <div class="viewer-panel">
+    <header class="viewer-head">
+      <h3 class="viewer-title" id="viewerTitle"></h3>
+      <button class="viewer-close" id="viewerClose" type="button" aria-label="Chiudi dettaglio">&times;</button>
+    </header>
+    <div class="viewer-content">
+      <div class="viewer-gallery">
+        <div class="viewer-media" id="viewerMedia">
+          <button class="viewer-arrow viewer-prev" id="viewerPrev" type="button" aria-label="Immagine precedente">&#8249;</button>
+          <button class="viewer-arrow viewer-next" id="viewerNext" type="button" aria-label="Immagine successiva">&#8250;</button>
+        </div>
+        <div class="viewer-gallery-meta">
+          <span class="viewer-counter" id="viewerCounter"></span>
+          <span class="viewer-hint" id="viewerHint">Scorri o usa le frecce per vedere le altre immagini</span>
+        </div>
+        <div class="viewer-thumbs" id="viewerThumbs" aria-label="Anteprime immagini"></div>
+      </div>
+      <aside class="viewer-info">
+        <span class="viewer-category" id="viewerCategory"></span>
+        <p class="viewer-description" id="viewerDescription"></p>
+        <span class="viewer-slide-label" id="viewerSlideLabel"></span>
+      </aside>
+    </div>
+  </div>
 </div>
 
 <script src="content/prodotto.js"></script>

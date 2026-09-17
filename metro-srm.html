@@ -26,6 +26,11 @@
     font-weight:500;padding:8px 14px;border-radius:8px;cursor:pointer}
   .btn:hover{border-color:#8f8e86}
   .btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .roadmap-filterbar{display:flex;gap:8px;align-items:center;margin:16px 0 10px}
+  .view-filter{border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink-soft);
+    padding:7px 13px;font:600 12px var(--font);cursor:pointer;white-space:nowrap}
+  .view-filter:hover{border-color:#aaa9a2;color:var(--ink)}
+  .view-filter.active{border-color:var(--accent);background:var(--accent);color:#fff}
 
   /* Legenda stati esplicita */
   .legend{display:flex;flex-wrap:wrap;gap:10px 22px;padding:14px 16px;margin:14px 0 20px;
@@ -37,6 +42,7 @@
   .board{position:relative;padding:6px 0 40px}
     .spine{position:absolute;left:36px;top:14px;bottom:54px;width:4px;border-radius:2px;background:#d8d7cf;z-index:0}
   .prow{position:relative;display:flex;align-items:flex-start;gap:0;margin:0 0 18px;z-index:1;width:100%}
+  .prow[hidden]{display:none}
   .pbox{position:relative;flex:0 0 300px;background:#fff;border:1.5px solid var(--pc,#999);
     border-radius:11px;padding:12px 14px 12px 16px;cursor:pointer;user-select:none;
     box-shadow:0 1px 4px rgba(0,0,0,.05);transition:box-shadow .15s}
@@ -86,7 +92,12 @@
     font-size:12.5px;font-weight:700;padding:7px 15px;border-radius:20px;box-shadow:0 2px 8px rgba(15,138,102,.25)}
   .mvpdiv .mvpbadge .chk{font-size:12px}
   .mvpdiv .mvpnote{flex:none;font-size:12px;color:var(--ink-soft);max-width:320px;line-height:1.35}
-  @media(max-width:700px){.mvpdiv{flex-wrap:wrap}.mvpdiv .mvpnote{max-width:none}}
+  @media(max-width:700px){
+    .mvpdiv{flex-wrap:wrap}
+    .mvpdiv .mvpnote{flex:1 1 200px;max-width:none}
+    .mvpdiv .mvpline{flex-basis:100%}
+    #depsvg{max-width:100%;overflow:hidden}
+  }
 
   @media(max-width:700px){
     .prow{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin-bottom:24px}
@@ -123,6 +134,34 @@
   body.embed .wrap{padding:0;max-width:none}
   body.embed footer{display:none}
   body.embed{background:transparent}
+  body.embed .roadmap-filterbar{margin:0 0 5px}
+  body.embed .board{padding:0 0 4px}
+  body.embed .spine{left:30px;top:8px;bottom:35px;width:3px}
+  body.embed .prow{align-items:center;margin-bottom:4px}
+  body.embed .ptime{flex-basis:100px;padding:5px 8px 0 44px;font-size:9.5px}
+  body.embed .ptime::before{left:25px;top:8px;width:9px;height:9px;border-width:2px}
+  body.embed .pbox{flex-basis:252px;padding:6px 10px 7px 12px;border-radius:9px}
+  body.embed .pbox .pb{font-size:9.5px;gap:5px}
+  body.embed .pbox .pt{font-size:12px;line-height:1.18;margin-top:2px}
+  body.embed .pbox .chev{top:7px;right:9px;font-size:10px}
+  body.embed .pdone,body.embed .ppart{width:15px;height:15px;font-size:9px}
+  body.embed .trackin{height:57px}
+  body.embed .tline{top:28px;height:4px}
+  body.embed .node{top:28px}
+  body.embed .nd{width:14px;height:14px;border-width:2px;font-size:8px}
+  body.embed .nlabel{width:100px;font-size:9px;line-height:1.08}
+  body.embed .nlabel.above{bottom:calc(50% + 11px)}
+  body.embed .nlabel.below{top:calc(50% + 11px)}
+  body.embed .mvpdiv{gap:9px;margin:2px 0 4px}
+  body.embed .mvpdiv .mvpbadge{font-size:10px;padding:4px 10px}
+  body.embed .mvpdiv .mvpnote{font-size:9.5px;max-width:270px}
+  @media(max-width:700px){
+    body.embed .roadmap-filterbar{overflow-x:auto;padding:8px 0;position:sticky;top:0;background:var(--bg);z-index:10}
+    body.embed .prow{margin-bottom:16px}
+    body.embed .ptime{padding-left:42px}
+    body.embed .pbox{width:100%}
+    body.embed .trackin{height:auto}
+  }
 </style>
 </head>
 <body>
@@ -133,7 +172,6 @@
     <p class="lead">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo.</p>
     <nav class="nav">
       <a href="index.html">Presentazione</a>
-      <a href="roadmap-srm.html">Roadmap (admin)</a>
       <a href="metro-srm.html" class="cur">Mappa</a>
     </nav>
     <div class="toolbar">
@@ -150,6 +188,10 @@
 </header>
 
 <div class="wrap">
+  <nav class="roadmap-filterbar" aria-label="Seleziona il perimetro della roadmap">
+    <button class="view-filter active" id="showMvp" type="button" aria-pressed="true">Fino all'MVP</button>
+    <button class="view-filter" id="showAllPhases" type="button" aria-pressed="false">Roadmap completa</button>
+  </nav>
   <div class="scroller">
     <div class="board" id="board">
       <div class="spine"></div>
@@ -165,6 +207,7 @@
 <script>
 const DATA=window.ROADMAP_CONTENT;
 const {phases,stations,deps}=DATA;
+const MVP_PHASE_ID='f5';
 const COL_W=200, R=8, TRACK_H=112;
 const $=s=>document.querySelector(s);
 function esc(t){return String(t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
@@ -211,6 +254,7 @@ phases.forEach((p,pi)=>{
           + '</div>';
       posIndex[s.title]={phase:p.id,row,title:s.title,short:s.short,tags:s.tags,full:s.desc||s.short,st,c:p.color,phaseLabel:p.badge+' · '+p.title};
     });
+
   }
   row.querySelector('.trackin').innerHTML=html;
 
@@ -227,10 +271,40 @@ phases.forEach((p,pi)=>{
   }
 });
 
+const showMvpBtn=$('#showMvp');
+const showAllPhasesBtn=$('#showAllPhases');
+let roadmapMode='mvp';
+
+function setRoadmapMode(mode){
+  roadmapMode=mode;
+  const mvpIndex=phases.findIndex(p=>p.id===MVP_PHASE_ID);
+  const depSvg=$('#depsvg');
+  depSvg.classList.remove('on');
+  depSvg.innerHTML='';
+  depSvg.removeAttribute('width');
+  depSvg.removeAttribute('height');
+  depSvg.removeAttribute('viewBox');
+  document.body.classList.toggle('mvp-mode',mode==='mvp');
+  document.querySelectorAll('.prow').forEach(row=>{
+    const phaseIndex=phases.findIndex(p=>p.id===row.dataset.phase);
+    row.hidden=mode==='mvp'&&phaseIndex>mvpIndex;
+  });
+  showMvpBtn.classList.toggle('active',mode==='mvp');
+  showAllPhasesBtn.classList.toggle('active',mode==='all');
+  showMvpBtn.setAttribute('aria-pressed',String(mode==='mvp'));
+  showAllPhasesBtn.setAttribute('aria-pressed',String(mode==='all'));
+  equalizeBoxes();
+  scheduleDeps();
+}
+
+showMvpBtn.addEventListener('click',()=>setRoadmapMode('mvp'));
+showAllPhasesBtn.addEventListener('click',()=>setRoadmapMode('all'));
+
 // ---- equalize phase box heights ----
 function equalizeBoxes(){
-  const boxes=[...document.querySelectorAll('.pbox')];
-  boxes.forEach(b=>b.style.minHeight='');
+  const boxes=[...document.querySelectorAll('.prow:not([hidden]) .pbox')];
+  document.querySelectorAll('.pbox').forEach(b=>b.style.minHeight='');
+  if(!boxes.length)return;
   const h=Math.max(...boxes.map(b=>b.offsetHeight));
   boxes.forEach(b=>b.style.minHeight=h+'px');
 }
@@ -247,19 +321,22 @@ setTimeout(()=>{
 
 // ---- toggle all ----
 const btn=$('#toggleAll');
-function allOpen(){return [...document.querySelectorAll('.prow')].every(r=>r.classList.contains('open'));}
+function visibleRows(){return [...document.querySelectorAll('.prow:not([hidden])')];}
+function allOpen(){return visibleRows().every(r=>r.classList.contains('open'));}
 function updateBtn(){btn.textContent=allOpen()?'Raggruppa tutte':'Espandi tutte';}
 btn.addEventListener('click',()=>{
   const target=!allOpen();
-  document.querySelectorAll('.prow').forEach((r,i)=>{
-    setTimeout(()=>{r.classList.toggle('open',target); if(i===phases.length-1)scheduleDeps();},i*70);
+  const rows=visibleRows();
+  rows.forEach((r,i)=>{
+    setTimeout(()=>{r.classList.toggle('open',target); if(i===rows.length-1)scheduleDeps();},i*70);
   });
-  setTimeout(updateBtn,phases.length*70+50);
+  setTimeout(updateBtn,rows.length*70+50);
 });
 
 // ---- dependencies overlay (only when everything open) ----
 let depTimer=null;
 function scheduleDeps(){clearTimeout(depTimer);$('#depsvg').classList.remove('on');depTimer=setTimeout(drawDeps,650);}
+setRoadmapMode('mvp');
 function drawDeps(){
   const svg=$('#depsvg');
   if(!allOpen()){svg.classList.remove('on');svg.innerHTML='';return;}
@@ -268,7 +345,7 @@ function drawDeps(){
   svg.setAttribute('viewBox',`0 0 ${board.scrollWidth} ${board.scrollHeight}`);
   let g='';
   deps.forEach(([a,b])=>{
-    const A=posIndex[a],B=posIndex[b]; if(!A||!B||A.phase===B.phase)return;
+    const A=posIndex[a],B=posIndex[b]; if(!A||!B||A.phase===B.phase||A.row.hidden||B.row.hidden)return;
     const ga=A.row.querySelector(`.nd[data-title="${CSS.escape(a)}"]`);
     const gb=B.row.querySelector(`.nd[data-title="${CSS.escape(b)}"]`);
     if(!ga||!gb)return;
