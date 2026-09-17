@@ -1,4 +1,5 @@
 // Contenuti della sezione "Il prodotto" (index.html).
+// Guida completa: content/GUIDA-IL-PRODOTTO.md
 //
 // Per aggiungere una nuova voce:
 //  1. metti il file immagine in assets/img/ (jpg/png) oppure il video in assets/video/ (mp4)
