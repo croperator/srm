@@ -48,16 +48,16 @@
 
   /* main */
   html{scroll-snap-type:y mandatory}
-  .main{margin-left:var(--sidebar);max-width:1400px;padding:0 48px}
+  .main{margin-left:var(--sidebar);padding:0 clamp(32px,4vw,96px)}
   .sec{padding:20px 0 24px;border-bottom:1px solid var(--line);scroll-margin-top:0;
     height:100vh;overflow-y:auto;scroll-snap-align:start;scroll-snap-stop:always}
   .sec:last-of-type{border-bottom:none}
-  .inner{max-width:1240px;width:100%}
+  .inner{width:100%}
 
   /* preserved content styles */
   .brand{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 14px}
-  h1{font-size:40px;line-height:1.12;font-weight:700;margin:0 0 16px;letter-spacing:-.5px;max-width:17ch}
-  .lead{font-size:18px;color:var(--ink-soft);max-width:62ch;margin:0 0 26px}
+  h1{font-size:clamp(40px,2.4vw,68px);line-height:1.12;font-weight:700;margin:0 0 16px;letter-spacing:-.5px;max-width:17ch}
+  .lead{font-size:clamp(18px,1.05vw,24px);color:var(--ink-soft);max-width:62ch;margin:0 0 26px}
   .meta{display:flex;flex-wrap:wrap;gap:10px}
   .intro-shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:26px}
   .intro-shot{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f4f3ee}
@@ -67,7 +67,7 @@
   .pill{font-size:12.5px;padding:5px 12px;border-radius:20px;background:var(--surface);border:1px solid var(--line);color:var(--ink-soft)}
   .pill.accent{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:600}
   .sec-label{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);font-weight:600;margin:0 0 8px}
-  h2{font-size:25px;font-weight:600;margin:0 0 8px;letter-spacing:-.3px}
+  h2{font-size:clamp(25px,1.5vw,40px);font-weight:600;margin:0 0 8px;letter-spacing:-.3px}
   .sec-intro{color:var(--ink-soft);max-width:70ch;margin:0 0 20px;font-size:15.5px}
   #perche{padding-top:14px;padding-bottom:14px}
   #perche .sec-intro{max-width:none;margin-bottom:10px;font-size:14.5px;line-height:1.45}
@@ -128,15 +128,16 @@
   .viewer{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:28px;
     background:rgba(18,18,16,.78);backdrop-filter:blur(6px)}
   .viewer.open{display:flex}
-  .viewer-panel{display:flex;flex-direction:column;width:min(1180px,96vw);max-height:94vh;border-radius:16px;
+  .viewer-panel{display:flex;flex-direction:column;width:min(2400px,96vw);height:94vh;max-height:94vh;border-radius:16px;
     background:var(--surface);box-shadow:0 24px 80px rgba(0,0,0,.35);overflow:hidden}
-  .viewer-head{display:flex;align-items:center;gap:20px;padding:15px 18px;border-bottom:1px solid var(--line)}
+  .viewer-head{display:flex;flex:none;align-items:center;gap:20px;padding:15px 18px;border-bottom:1px solid var(--line)}
   .viewer-title{flex:1;margin:0;font-size:18px;line-height:1.3}
   .viewer-close{flex:none;width:38px;height:38px;border:1px solid var(--line);border-radius:9px;background:var(--surface);
     color:var(--ink);font-size:25px;line-height:1;cursor:pointer}
-  .viewer-content{display:grid;grid-template-columns:minmax(0,1fr) 300px;min-height:0}
-  .viewer-gallery{min-width:0;padding:18px;background:#f4f3ee}
-  .viewer-media{position:relative;display:flex;align-items:center;justify-content:center;aspect-ratio:16/10;
+  .viewer-content{display:grid;flex:1;grid-template-columns:minmax(0,1fr) clamp(300px,22vw,480px);
+    min-height:0;overflow:hidden}
+  .viewer-gallery{display:flex;min-width:0;min-height:0;flex-direction:column;padding:18px;background:#f4f3ee}
+  .viewer-media{position:relative;display:flex;flex:1;align-items:center;justify-content:center;
     min-height:0;border-radius:11px;overflow:hidden;background:#e9e9e4}
   .viewer-media img,.viewer-media video{display:block;width:100%;height:100%;object-fit:contain}
   .viewer-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:42px;border:0;
@@ -151,7 +152,7 @@
     overflow:hidden;cursor:pointer;opacity:.62}
   .viewer-thumb.active{border-color:var(--accent);opacity:1}
   .viewer-thumb img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top}
-  .viewer-info{display:flex;flex-direction:column;padding:22px;overflow-y:auto}
+  .viewer-info{display:flex;min-height:0;flex-direction:column;padding:22px;overflow-y:auto}
   .viewer-category{margin-bottom:9px;color:var(--accent);font-size:11px;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
   .viewer-description{margin:0;color:var(--ink-soft);font-size:13.5px;line-height:1.6}
   .viewer-slide-label{margin-top:auto;padding-top:18px;color:var(--ink);font-size:12.5px;font-weight:700}
@@ -183,7 +184,7 @@
   .mapembed{width:100%;margin-top:6px}
   #roadmap-sec{padding-top:14px;padding-bottom:14px}
   #roadmap-sec .sec-intro{margin-bottom:8px}
-  .mapembed iframe{width:100%;height:calc(100vh - 154px);border:0;display:block;min-height:0;background:var(--bg)}
+  .mapembed iframe{width:100%;height:100%;border:0;display:block;min-height:0;background:var(--bg)}
   /* su mobile l'iframe della roadmap (1400px+ dentro la pagina) lascia il posto
      a questa card, che apre la mappa a pieno schermo sulla sua pagina */
   .mapcard{display:none;align-items:center;gap:13px;margin-top:10px;padding:15px 16px;text-decoration:none;
@@ -194,6 +195,45 @@
   .mapcard .mc-t{font-size:14.5px;font-weight:600}
   .mapcard .mc-d{font-size:12.5px;color:var(--ink-soft);line-height:1.4}
   .mapcard .mc-go{flex:none;font-size:22px;color:var(--ink-mute)}
+
+  @media(min-width:901px){
+    html{scrollbar-width:none}
+    html::-webkit-scrollbar{width:0;height:0}
+    #intro{overflow-y:hidden}
+    #roadmap-sec .inner{display:flex;height:100%;min-height:0;flex-direction:column}
+    #roadmap-sec .mapembed{flex:1;min-height:0}
+  }
+  @media(min-width:1600px){
+    .product-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  }
+  @media(min-width:2400px){
+    .product-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
+    .archgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .brand,.sec-label{font-size:15px}
+    .sec-intro{font-size:19px}
+    .vp{padding:18px 20px}
+    .vp h3{font-size:18px}
+    .vp p{font-size:16px}
+  }
+
+  /* Desktop compatti (es. 1366x768): riduce l'ingombro verticale senza
+     modificare il layout mobile o quello degli schermi Full HD e 4K. */
+  @media(min-width:901px) and (max-height:850px){
+    .main{padding:0 32px}
+    .sec{padding-top:12px;padding-bottom:12px}
+    #perche,#prodotto,#roadmap-sec{padding-top:8px;padding-bottom:8px}
+
+    #intro .brand{margin-bottom:8px}
+    #intro h1{max-width:28ch;font-size:34px;margin-bottom:10px}
+    #intro .lead{max-width:80ch;font-size:15px;line-height:1.45;margin-bottom:14px}
+    #intro .intro-shots{margin-top:14px}
+    #intro .intro-shot img{aspect-ratio:16/7}
+
+    #perche .grid3{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+    #perche .vp{padding:8px 9px}
+    #perche .vp p{font-size:11px;line-height:1.3}
+    #perche .fond-in .sec-label{margin-top:8px!important}
+  }
 
   /* ===== Mobile (<=900px) =====
      Sotto questa soglia il modello "una sezione = uno schermo" non regge: i contenuti
@@ -233,7 +273,8 @@
     .viewer{padding:0}
     .viewer-panel{width:100%;height:100%;max-height:none;border-radius:0}
     .viewer-content{display:flex;flex:1;flex-direction:column;overflow-y:auto}
-    .viewer-gallery{padding:12px}
+    .viewer-gallery{display:block;flex:none;padding:12px}
+    .viewer-media{aspect-ratio:16/10}
     .viewer-info{overflow:visible;padding:18px 20px 26px}
     .viewer-slide-label{margin-top:0}
 
