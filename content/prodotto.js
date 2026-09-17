@@ -91,6 +91,13 @@ window.PRODOTTO_CONTENT = [
     src: "assets/video/ai_network_status.mp4"
   },
   {
+    title: "Tutorial contestuali con assistente AI",
+    category: "ai",
+    desc: "L'operatore può chiedere all'assistente come utilizzare una funzione della Control Room. L'AI interpreta la richiesta, individua il tutorial più adatto e lo apre direttamente nel passaggio più pertinente, avviando una guida contestuale passo-passo sull'interfaccia.",
+    type: "video",
+    src: "assets/video/ai_tutorial.mp4"
+  },
+  {
     title: "SKILL Maintenance — gestione delle competenze",
     category: "skills",
     desc: "Il modulo supporta il mantenimento delle competenze del personale ferroviario e automobilistico. Riunisce abilitazioni e qualifiche su mezzi, linee e impianti, visite mediche, valutazioni degli istruttori, squadre e continuità operativa, con storico e alert configurabili. Integrato con l'ecosistema MOOVA e i sistemi aziendali, utilizza dati HR, turni, servizi e rete; offre profilazione puntuale, import massivi, monitoraggio dei processi e report Excel, con possibilità di firma digitale.",
