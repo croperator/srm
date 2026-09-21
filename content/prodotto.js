@@ -216,5 +216,33 @@ window.PRODOTTO_CONTENT = [
     desc: "Il sistema riceve le localizzazioni GPS dei mezzi in tempo reale e ne deduce automaticamente il passaggio alle fermate pianificate.",
     type: "video",
     src: "assets/video/andamenti-localizzazioni.mp4"
+  },
+  {
+    title: "App mobile — attestazione alla corsa",
+    category: "mobile",
+    desc: "Dall'app il personale di bordo cerca la corsa per numero, ne verifica orari, tratta e linea e conferma la targa del mezzo, inserendola a mano o leggendo il QR code. Completata la verifica, l'attestazione associa mezzo, corsa e personale in servizio.",
+    type: "image",
+    src: "assets/img/app_attestazione.png"
+  },
+  {
+    title: "App mobile — percorso della corsa",
+    category: "mobile",
+    desc: "Dopo l'attestazione l'app mostra l'elenco delle fermate della corsa con orari di arrivo e partenza. Da ogni fermata, o dalla corsa, è possibile aggiungere una segnalazione.",
+    type: "image",
+    src: "assets/img/app_percorso.png"
+  },
+  {
+    title: "App mobile — percorso su mappa",
+    category: "mobile",
+    desc: "Il percorso della corsa è disegnato su mappa con le fermate pianificate e la posizione corrente del mezzo, per seguire l'avanzamento del viaggio.",
+    type: "image",
+    src: "assets/img/app_percorsomappa.png"
+  },
+  {
+    title: "App mobile — localizzazione di bordo",
+    category: "mobile",
+    desc: "Il pannello di localizzazione riepiloga lo stato del servizio: corsa attestata, permessi di localizzazione e notifiche, tracciamento in background e numero di posizioni rilevate e inviate alla Control Room. Dallo stesso pannello il personale può chiudere l'attestazione.",
+    type: "image",
+    src: "assets/img/app_lcoationmanager.png"
   }
 ];

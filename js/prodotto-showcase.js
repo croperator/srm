@@ -9,6 +9,7 @@
     { id: 'realtime', label: 'Circolazione real-time' },
     { id: 'operations', label: 'Gestione operativa' },
     { id: 'ground-onboard', label: 'Comunicazione terra-bordo' },
+    { id: 'mobile', label: 'App mobile' },
     { id: 'analytics', label: 'KPI e analisi' },
     { id: 'ai', label: 'Intelligenza artificiale' },
     { id: 'skills', label: 'Gestione competenze' },
