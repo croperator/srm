@@ -99,6 +99,13 @@ window.PRODOTTO_CONTENT = [
     src: "assets/video/ai_tutorial.mp4"
   },
   {
+    title: "Workflow Manager con assistente AI",
+    category: "ai",
+    desc: "L'operatore affida al Workflow Manager le attività ricorrenti e continua a monitorare la rete. Secondo la configurazione definita, il workflow procede in autonomia con il supporto dell'assistente AI: invia le email, attende e verifica le risposte, chiude i task completati e notifica all'operatore gli interventi eseguiti.",
+    type: "video",
+    src: "assets/video/ai_workflow_manager.mp4"
+  },
+  {
     title: "SKILL Maintenance — gestione delle competenze",
     category: "skills",
     desc: "Il modulo supporta il mantenimento delle competenze del personale ferroviario e automobilistico. Riunisce abilitazioni e qualifiche su mezzi, linee e impianti, visite mediche, valutazioni degli istruttori, squadre e continuità operativa, con storico e alert configurabili. Integrato con l'ecosistema MOOVA e i sistemi aziendali, utilizza dati HR, turni, servizi e rete; offre profilazione puntuale, import massivi, monitoraggio dei processi e report Excel, con possibilità di firma digitale.",
@@ -191,21 +198,21 @@ window.PRODOTTO_CONTENT = [
   },
   {
     title: "Attestazione alla corsa",
-    category: "operations",
+    category: "ground-onboard",
     desc: "L'autista o il macchinista si attesta sulla corsa assegnata, creando l'associazione tra materiale rotabile, corsa e personale in servizio.",
     type: "video",
     src: "assets/video/attestazione.mp4"
   },
   {
     title: "Notifiche terra-bordo",
-    category: "operations",
+    category: "ground-onboard",
     desc: "Canale di comunicazione bidirezionale terra-bordo basato su notifiche e allarmi, per informare tempestivamente il personale in servizio.",
     type: "video",
     src: "assets/video/notifiche.mp4"
   },
   {
     title: "Andamenti e localizzazioni in tempo reale",
-    category: "realtime",
+    category: "ground-onboard",
     desc: "Il sistema riceve le localizzazioni GPS dei mezzi in tempo reale e ne deduce automaticamente il passaggio alle fermate pianificate.",
     type: "video",
     src: "assets/video/andamenti-localizzazioni.mp4"

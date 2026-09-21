@@ -100,6 +100,7 @@ Usare esclusivamente uno degli identificativi seguenti:
 |---|---|
 | `realtime` | Circolazione real-time |
 | `operations` | Gestione operativa |
+| `ground-onboard` | Comunicazione terra-bordo |
 | `analytics` | KPI e analisi |
 | `ai` | Intelligenza artificiale |
 | `skills` | Gestione competenze |
