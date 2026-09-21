@@ -19,7 +19,7 @@ window.PRODOTTO_CONTENT = [
     category: "realtime",
     desc: "Posizionamento live dei mezzi su mappa con KPI di esercizio in tempo reale: puntualità, corse soppresse, corse in circolazione, coincidenze a rischio, occupazione. 219 linee, 1000 fermate, sorgenti GTFS / NeTEx / geoJSON.",
     type: "image",
-    src: "assets/img/mappa-rete.jpg"
+    src: "assets/img/mappa-rete.png"
   },
   {
     title: "Ricerca e focus sulla corsa",
@@ -27,8 +27,8 @@ window.PRODOTTO_CONTENT = [
     desc: "Ricerca sempre disponibile per numero corsa, con scelta tra i risultati corrispondenti. Selezionando una corsa, la mappa si focalizza sulla sua posizione e apre il pannello con stato, percorso, materiale, personale, avvisi e note.",
     type: "group",
     items: [
-      { label: "Ricerca della corsa", src: "assets/img/ricerca-corsa.jpg" },
-      { label: "Focus e dettaglio", src: "assets/img/zoom-corsa-selezionata.jpg" }
+      { label: "Ricerca della corsa", src: "assets/img/ricerca-corsa.png" },
+      { label: "Focus e dettaglio", src: "assets/img/zoom-corsa-selezionata.png" }
     ]
   },
   {
@@ -37,9 +37,9 @@ window.PRODOTTO_CONTENT = [
     desc: "Vista schematica delle linee e dei loro interscambi. Tre funzioni: scelta e ordinamento delle linee, visualizzazione linearizzata, e dettaglio degli hub di interscambio multimodale.",
     type: "group",
     items: [
-      { label: "Scelta delle linee", src: "assets/img/linee-scelta.jpg" },
-      { label: "Visualizzazione linee", src: "assets/img/linee-visualizzazione.jpg" },
-      { label: "Hub di interscambio", src: "assets/img/linee-hub-interscambio.jpg" }
+      { label: "Scelta delle linee", src: "assets/img/linee-scelta.png" },
+      { label: "Visualizzazione linee", src: "assets/img/linee-visualizzazione.png" },
+      { label: "Hub di interscambio", src: "assets/img/linee-hub-interscambio.png" }
     ]
   },
   {
@@ -47,21 +47,21 @@ window.PRODOTTO_CONTENT = [
     category: "platform",
     desc: "Percorso guidato che supporta l'operatore nella scoperta della rete e delle funzionalità della Control Room, con informazioni contestuali, riepiloghi e navigazione flessibile tra i contenuti.",
     type: "image",
-    src: "assets/img/tutorial-interattivo.jpg"
+    src: "assets/img/tutorial-interattivo.png"
   },
   {
     title: "Note e avvisi",
     category: "operations",
     desc: "Registro unificato di note e avvisi con tipo, categoria, titolo, destinatario e stato (bozza / aperto / pubblicato), collegati a corsa, linea o fermata.",
     type: "image",
-    src: "assets/img/note-avvisi.jpg"
+    src: "assets/img/note-avvisi.png"
   },
   {
     title: "Allarmi operativi",
     category: "operations",
     desc: "Vista centralizzata degli allarmi con conteggio per tipologia e accesso immediato al dettaglio. Evidenzia eventi come mancata partenza dal capolinea, mancata partenza e mancato arrivo alle fermate intermedie, facilitando il monitoraggio e gli interventi tempestivi.",
     type: "image",
-    src: "assets/img/allarmi-operativi.jpg"
+    src: "assets/img/allarmi-operativi.png"
   },
   {
     title: "KPI",
@@ -152,28 +152,28 @@ window.PRODOTTO_CONTENT = [
     category: "realtime",
     desc: "Vista completa della corsa con informazioni operative e di monitoraggio: tabella di marcia con orari previsti ed effettivi, dati di carico e affollamento, personale e materiale assegnati, avvisi, note e dettagli utili per l'analisi e la gestione del servizio.",
     type: "image",
-    src: "assets/img/scheda-corsa.jpg"
+    src: "assets/img/scheda-corsa.png"
   },
   {
     title: "Scheda corsa — percorso su mappa",
     category: "realtime",
     desc: "Dalla scheda corsa è possibile visualizzare il tracciato geografico del servizio, confrontando percorso e fermate pianificate con quelle effettivamente rilevate. Una legenda dedicata facilita l'interpretazione delle informazioni e l'individuazione di eventuali scostamenti.",
     type: "image",
-    src: "assets/img/scheda-corsa-mappa.jpg"
+    src: "assets/img/scheda-corsa-mappa.png"
   },
   {
     title: "Scorte — macchina a stati",
     category: "operations",
     desc: "Gestione veicoli di scorta con ciclo di stati (richiesta → assegnazione → autista → conferma), punto e tempo di attesa.",
     type: "image",
-    src: "assets/img/scorte-macchina-stati.jpg"
+    src: "assets/img/scorte-macchina-stati.png"
   },
   {
     title: "Anagrafica materiale rotabile",
     category: "platform",
     desc: "Registro bus con telaio, vettore, classe emissioni, capienza, PMR e omologazioni. Alert su dati incompleti.",
     type: "image",
-    src: "assets/img/anagrafica-materiale.jpg"
+    src: "assets/img/anagrafica-materiale.png"
   },
   {
     title: "Rubrica operativa",
@@ -187,14 +187,14 @@ window.PRODOTTO_CONTENT = [
     category: "platform",
     desc: "Pannello admin a riquadri: tipi anagrafica, tipi notice con gravità, destinatari, ruoli. Catalogo configurabile a runtime.",
     type: "image",
-    src: "assets/img/configurazioni.jpg"
+    src: "assets/img/configurazioni.png"
   },
   {
     title: "Dizionario multilingua",
     category: "platform",
     desc: "Wizard a 5 step: lingue, aree, namespace, label, traduzioni. Localizzazione gestita dal sistema.",
     type: "image",
-    src: "assets/img/dizionario-multilingua.jpg"
+    src: "assets/img/dizionario-multilingua.png"
   },
   {
     title: "Attestazione alla corsa",

@@ -59,6 +59,20 @@ Non inserire entrambe le lingue nella stessa scheda e non creare campi paralleli
 come `titleEn` o `descEn`: il dizionario condiviso evita duplicazioni nel
 renderer e permette di aggiungere altre lingue in modo scalabile.
 
+### Immagini in inglese
+
+Le immagini seguono una convenzione sul nome, senza campi aggiuntivi in
+`content/prodotto.js`:
+
+- `assets/img/nome.png` (o `.jpg`) è la versione italiana, referenziata nel
+  contenuto;
+- `assets/img/nome_en.png` è la versione inglese, sempre in formato `.png`.
+
+In inglese `js/i18n.js` sostituisce automaticamente ogni immagine di
+`assets/img/` con la variante `_en.png`. Se questa non esiste, viene mostrata
+l'immagine italiana. Se si cambia l'estensione di un'immagine italiana (ad
+esempio da `.jpg` a `.png`), aggiornare il percorso in `content/prodotto.js`.
+
 ## 2. Principi editoriali
 
 Ogni contenuto deve descrivere una funzionalità osservabile, non una promessa

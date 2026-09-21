@@ -91,6 +91,24 @@
     if (translated !== source) element.setAttribute(attribute, translated);
   }
 
+  // Immagini localizzate: assets/img/nome.jpg|png -> assets/img/nome_en.png.
+  // Se la versione nella lingua richiesta non esiste, torna all'immagine italiana.
+  const LOCALIZED_IMAGE = /^(.*assets\/img\/[^/?#]+?)\.(?:jpe?g|png)$/i;
+
+  function localizeImage(image) {
+    if (locale === DEFAULT_LOCALE || image.dataset.i18nSrc) return;
+    const source = image.getAttribute('src');
+    const match = source && source.match(LOCALIZED_IMAGE);
+    if (!match || match[1].endsWith('_' + locale)) return;
+
+    image.dataset.i18nSrc = source;
+    image.addEventListener('error', function fallback() {
+      image.removeEventListener('error', fallback);
+      image.src = source;
+    });
+    image.setAttribute('src', match[1] + '_' + locale + '.png');
+  }
+
   function translateElement(root) {
     if (!root || root.nodeType !== Node.ELEMENT_NODE) return;
     if (root.closest('[data-i18n-ignore]')) return;
@@ -121,6 +139,7 @@
       ['title', 'aria-label', 'placeholder', 'alt'].forEach((attribute) => {
         translateAttribute(element, attribute);
       });
+      if (element instanceof HTMLImageElement) localizeImage(element);
       if (locale !== DEFAULT_LOCALE && element instanceof HTMLInputElement && element.value) {
         const translated = translate(element.value);
         if (translated !== element.value) element.value = translated;
