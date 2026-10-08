@@ -43,6 +43,13 @@ window.PRODOTTO_CONTENT = [
     ]
   },
   {
+    title: "Modello di rete — calcolo automatico dei link con OSRM",
+    category: "network",
+    desc: "Nella pagina Modello Rete l'operatore consulta fermate, service link e connection importati, in elenco e su mappa, con strati attivabili e distinzione tra autobus e treno. Aprendo un service link tracciato in linea d'aria, il comando Calcola percorso ricostruisce automaticamente il tracciato sui binari tra le due fermate con OSRM (Open Source Routing Machine) sulla rete ferroviaria di OpenStreetMap. La mappa mostra il nuovo tracciato accanto a quello salvato e la lunghezza calcolata può essere usata come distanza del link; prima del salvataggio la modifica si può annullare, e un percorso molto più lungo della linea d'aria non viene applicato.",
+    type: "video",
+    src: "assets/video/modellorete_modificalink.mp4"
+  },
+  {
     title: "Tutorial interattivo",
     category: "platform",
     desc: "Percorso guidato che supporta l'operatore nella scoperta della rete e delle funzionalità della Control Room, con informazioni contestuali, riepiloghi e navigazione flessibile tra i contenuti.",

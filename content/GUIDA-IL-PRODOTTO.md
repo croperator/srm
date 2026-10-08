@@ -113,6 +113,7 @@ Usare esclusivamente uno degli identificativi seguenti:
 | Identificativo | Etichetta |
 |---|---|
 | `realtime` | Circolazione real-time |
+| `network` | Modello di rete |
 | `operations` | Gestione operativa |
 | `ground-onboard` | Comunicazione terra-bordo |
 | `mobile` | App mobile |

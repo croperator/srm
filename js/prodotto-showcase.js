@@ -7,6 +7,7 @@
 
   const categories = [
     { id: 'realtime', label: 'Circolazione real-time' },
+    { id: 'network', label: 'Modello di rete' },
     { id: 'operations', label: 'Gestione operativa' },
     { id: 'ground-onboard', label: 'Comunicazione terra-bordo' },
     { id: 'mobile', label: 'App mobile' },
