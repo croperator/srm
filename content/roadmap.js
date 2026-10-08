@@ -121,8 +121,8 @@ window.ROADMAP_CONTENT = {
     ],
 
     "f33": [
-    { title: "Superset", short: "Analytics engine", tags: ["analytics"], status: "",
-      desc: "Valutazione e integrazione di Apache Superset." },
+    { title: "Superset", short: "Analytics engine", tags: ["analytics"], status: "done",
+      desc: "Integrazione di Apache Superset con le dashboard Monitoraggio corse e Accessi SRM." },
     { title: "KPI Dashboard", short: "Indicatori di servizio", tags: ["KPI"], status: "",
       desc: "Dashboard di indicatori chiave di prestazione del servizio." }
     ],

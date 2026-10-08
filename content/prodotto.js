@@ -78,6 +78,13 @@ window.PRODOTTO_CONTENT = [
     src: "assets/img/kpi-drilldown-linea.jpg"
   },
   {
+    title: "Analisi dati con Apache Superset",
+    category: "analytics",
+    desc: "Apache Superset mette a disposizione dashboard di analisi pubblicate, costruite su dataset dedicati e filtrabili per periodo, linea, modo e utente. Monitoraggio corse riepiloga stato delle corse, puntualità e ritardi, alert operativi, avvisi, personale assegnato ed elenco delle corse; Accessi SRM analizza gli eventi di autenticazione con login riusciti e falliti, utenti con accesso, applicazioni utilizzate, cause degli errori e blocchi brute-force. Il catalogo di grafici e dataset permette di estendere le analisi con nuove viste, a supporto del controllo della qualità del servizio e della sicurezza degli accessi.",
+    type: "video",
+    src: "assets/video/superset.mp4"
+  },
+  {
     title: "Triage AI delle segnalazioni",
     category: "ai",
     desc: "Dalla Control Room l'operatore può aprire e inviare una segnalazione con screenshot e log già allegati. Un processo di intelligenza artificiale analizza i log, classifica automaticamente la severity e individua il gruppo più adatto a cui assegnare la segnalazione, accelerandone la presa in carico.",
