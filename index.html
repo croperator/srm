@@ -180,57 +180,110 @@
   .stk{display:flex;flex-direction:column;gap:3px}
   .stk .skt{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute);font-weight:600}
   .stk .skd{font-size:13.5px;font-weight:600;color:var(--ink)}
-  /* "Team e metodo": il gruppo di lavoro per ruolo, a fasce (non un organigramma), e il metodo di lavoro. */
-  #team .sec-intro{max-width:110ch;margin-bottom:16px}
-  .team-tiers{display:flex;flex-direction:column;gap:8px}
-  .tier{display:grid;grid-template-columns:minmax(240px,320px) minmax(0,1fr);gap:20px;align-items:center;
-    background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 16px}
-  .tier-head h3{margin:0 0 3px;font-size:15px;font-weight:650}
-  .tier-head p{margin:0;font-size:12.5px;color:var(--ink-soft);line-height:1.45}
-  .tier-people{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
-  /* collegamento tra responsabili tecnici e project management */
-  .tier-bridge{position:relative;display:flex;align-items:center;gap:6px;margin:-4px 0;padding:0 16px;
-    font-size:12.5px;line-height:1.4;color:var(--ink-soft)}
-  .tier-bridge::before{content:'';position:absolute;left:26px;top:-4px;bottom:-4px;border-left:2px dashed #b9cde4}
-  .tier-bridge>*{position:relative}
-  .tier-bridge b{color:var(--accent);font-weight:650}
-  .person{display:flex;align-items:center;gap:10px;min-width:0;padding:7px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+  /* "Il team": tre card per ruolo affiancate (non un organigramma), collegamento RT-PM e conduzione del progetto */
+  #team .sec-intro{max-width:110ch;margin-bottom:22px}
+  .team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 20px}
+  .team-card{display:flex;flex-direction:column;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+  .team-card h3{display:flex;align-items:center;gap:9px;margin:0 0 4px;font-size:16px;font-weight:650}
+  .team-card>p{margin:0 0 16px;font-size:13px;line-height:1.5;color:var(--ink-soft);text-wrap:pretty}
+  .people{display:flex;flex-direction:column;gap:10px}
+  .person{display:flex;align-items:center;gap:12px;min-width:0}
   .avatar{flex:none;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
     font-size:12.5px;font-weight:700;letter-spacing:.03em;background:var(--accent-soft);color:var(--accent)}
-  .tier-lead .avatar{background:var(--accent);color:#fff}
-  .tier-pm .avatar{background:var(--ink);color:#fff}
-  .person-t{display:flex;flex-direction:column;min-width:0}
-  .person-n{font-size:14px;font-weight:600;line-height:1.25}
-  .person-r{font-size:11.5px;color:var(--ink-mute)}
-  .team-method{margin-top:14px;padding:14px 18px 16px;background:#f7f6f1;border:1px solid var(--line);border-radius:12px}
-  .team-method h3{margin:0 0 5px;font-size:16px;font-weight:650}
-  .team-method .sec-label{margin-bottom:5px}
-  /* principio "client driven", in testa al metodo di lavoro */
-  .method-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 28px;margin-bottom:6px}
-  .method-top h3{margin:0}
-  .client-driven{display:flex;align-items:center;gap:10px;max-width:400px;padding:8px 14px;
-    border:1px solid #c9dbef;border-radius:10px;background:var(--accent-soft);font-size:12.5px;line-height:1.4;color:var(--ink)}
-  .cd-tag{flex:none;padding:3px 11px;border-radius:20px;background:var(--accent);color:#fff;
-    font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-  .team-method>p{margin:0 0 10px;font-size:13px;color:var(--ink-soft);line-height:1.5}
-  .method-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0;padding:0;list-style:none}
-  .method-steps li{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);
-    border-top:3px solid var(--accent);border-radius:10px;padding:11px 14px 12px}
-  .method-steps h4{margin:0 0 8px;font-size:14.5px;font-weight:650}
-  .method-roles{display:flex;gap:6px;margin:0 0 10px}
-  .role-badge{flex:none;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
-    font-size:10.5px;font-weight:700;letter-spacing:.02em}
+  .tc-rt .avatar{background:var(--accent);color:#fff}
+  .tc-pm .avatar{background:var(--ink);color:#fff}
+  .person-n{font-size:14.5px;font-weight:600;line-height:1.25}
+  /* parentesi tratteggiata sotto responsabili tecnici e project management */
+  .pair-bridge{grid-column:1/3;display:flex;flex-direction:column;align-items:center}
+  .pair-bracket{align-self:stretch;height:18px;margin:0 25%;border:2px dashed #b9cde4;border-top:0;border-radius:0 0 16px 16px}
+  .pair-bridge p{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 8px;margin:8px 0 0;
+    font-size:13px;line-height:1.45;color:var(--ink-soft);text-align:center}
+  .pair-bridge b{color:var(--accent);font-weight:650}
+  .bridge-badges{display:inline-flex;gap:4px}
+  .team-conduct{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px;margin-top:22px;
+    padding:16px 20px;border:1px solid #c9dbef;border-radius:14px;background:var(--accent-soft)}
+  .team-conduct h3{margin:0 0 2px;font-size:16px;font-weight:650}
+  .team-conduct p{margin:0;font-size:13px;line-height:1.5;color:var(--ink-soft)}
+  .ref-roles{display:flex;flex-wrap:wrap;gap:8px}
+  .ref-chip{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border:1px solid #c9dbef;border-radius:20px;
+    background:var(--surface);font-size:12.5px;font-weight:600;color:var(--ink)}
+  .role-badge{flex:none;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    font-size:10px;font-weight:700;letter-spacing:.02em}
   .role-badge.sm{width:22px;height:22px;font-size:8.5px}
   .rb-rt{background:var(--accent);color:#fff}
   .rb-pm{background:var(--ink);color:#fff}
   .rb-dev{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px #c9dbef}
-  .role-legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 10px;font-size:12px;color:var(--ink-soft)}
+  .rb-sm{background:#0f8a78;color:#fff}
+  /* solution manager: riferimento per le richieste dal mercato, sopra le tre card */
+  .team-sm{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-bottom:16px;padding:14px 20px;
+    border:1px solid #bfe4da;border-radius:14px;background:#eff8f6}
+  .team-sm h3{display:flex;align-items:center;gap:9px;margin:0 0 2px;font-size:16px;font-weight:650}
+  .team-sm p{margin:0;font-size:13px;line-height:1.5;color:var(--ink-soft)}
+  .team-sm .person{padding-left:28px;border-left:1px solid #bfe4da}
+  .team-sm .avatar{background:#0f8a78;color:#fff}
+  @media(max-width:700px){.team-sm .person{padding-left:0;border-left:0}}
+  @media(max-width:700px){
+    .team-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+    .tc-rt{order:1} .pair-bridge{order:2;grid-column:1/-1} .tc-pm{order:3} .tc-dev{order:4}
+    .pair-bracket{display:none}
+    .pair-bridge p{justify-content:flex-start;margin:0;padding:0 4px;text-align:left}
+  }
+
+  /* "Metodo di lavoro": quattro fasi in cerchio, in senso orario, attorno all'IA */
+  .method-wrap{max-width:1180px}
+  #metodo .sec-intro{max-width:110ch;margin-bottom:14px}
+  .method-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px}
+  .client-driven{display:flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid #c9dbef;border-radius:10px;
+    background:var(--accent-soft);font-size:12.5px;line-height:1.4;color:var(--ink)}
+  .cd-tag{flex:none;padding:3px 11px;border-radius:20px;background:var(--accent);color:#fff;
+    font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .role-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-soft)}
   .role-legend span{display:inline-flex;align-items:center;gap:6px}
-  .method-ai{display:flex;gap:7px;align-items:flex-start;padding-top:9px;border-top:1px dashed var(--line);
-    font-size:12px;line-height:1.45;color:var(--ink)}
-  .ai-tag{flex:none;padding:1px 6px;border-radius:5px;background:var(--accent-soft);color:var(--accent);
-    font-size:10.5px;font-weight:700;letter-spacing:.06em}
-  @media(max-width:1100px){.method-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  /* il diagramma e' un quadrato dimensionato su larghezza e altezza disponibili; i testi interni scalano in unita' cqw */
+  .cycle{position:relative;width:min(100%,720px,calc(100vh - 270px));aspect-ratio:1;margin:10px auto 0;container-type:inline-size}
+  .cycle-arrows{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .cycle-steps{margin:0;padding:0;list-style:none}
+  .cstep{position:absolute;z-index:1;width:41%;aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:1.2cqw;padding:0 5cqw;text-align:center;background:var(--t);
+    box-shadow:inset 0 0 0 2px var(--r),0 8px 22px rgba(20,30,50,.07)}
+  .cs-1{--t:#fdf3dc;--r:#f1d38c;--d:#94600e;left:3%;top:3%}
+  .cs-2{--t:#fde8d8;--r:#f3c09d;--d:#a24e17;right:3%;top:3%}
+  .cs-3{--t:#e2f1f9;--r:#b5daee;--d:#1f6a91;right:3%;bottom:3%}
+  .cs-4{--t:#e1ebf7;--r:#b3cbea;--d:#1f5fa6;left:3%;bottom:3%}
+  .cs-ic,.core-ic{display:flex;color:var(--d)}
+  .cs-ic svg,.core-ic svg{width:clamp(20px,5.4cqw,34px);height:auto;fill:none;stroke:currentColor;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round}
+  .cstep h4{margin:0;font-size:clamp(11px,2.55cqw,17px);font-weight:700;line-height:1.2;color:var(--d)}
+  .method-roles{display:flex;gap:4px;justify-content:center}
+  .cstep .role-badge{width:clamp(18px,4.3cqw,28px);height:clamp(18px,4.3cqw,28px);font-size:clamp(7px,1.55cqw,10px)}
+  .cs-ai{margin:0;font-size:clamp(9px,1.9cqw,13px);line-height:1.35;color:var(--ink)}
+  .ai-tag{display:inline-block;margin-right:4px;padding:1px 6px;border-radius:5px;background:#fff;color:var(--accent);
+    font-size:.85em;font-weight:700;letter-spacing:.06em}
+  .cycle-core{--d:var(--accent);position:absolute;z-index:2;left:50%;top:50%;width:35%;aspect-ratio:1;transform:translate(-50%,-50%);
+    border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqw;padding:0 5.5cqw;
+    text-align:center;background:var(--surface);box-shadow:0 0 0 1.2cqw var(--bg),0 10px 30px rgba(20,30,50,.14)}
+  .cycle-core strong{font-size:clamp(11px,2.55cqw,17px);line-height:1.2;color:var(--accent)}
+  .cycle-core span:last-child{font-size:clamp(9px,1.8cqw,13px);line-height:1.35;color:var(--ink-soft)}
+  @media(max-width:900px){.cycle{width:min(100%,640px)}}
+  /* telefono: sequenza verticale, ogni fase con il suo cerchio colorato e una linea verso la successiva */
+  @media(max-width:640px){
+    .cycle{width:auto;aspect-ratio:auto;margin-top:18px;container-type:normal}
+    .cycle-arrows{display:none}
+    .cstep,.cycle-core{position:relative;inset:auto;transform:none;width:auto;aspect-ratio:auto;border-radius:0;background:none;
+      box-shadow:none;display:grid;grid-template-columns:56px minmax(0,1fr);column-gap:14px;row-gap:5px;align-items:start;
+      justify-items:start;padding:0 0 22px;text-align:left}
+    .cstep>:not(.cs-ic),.cycle-core>:not(.core-ic){grid-column:2}
+    .cs-ic,.core-ic{grid-row:1/span 3;width:56px;height:56px;border-radius:50%;align-items:center;justify-content:center;
+      background:var(--t);box-shadow:inset 0 0 0 2px var(--r)}
+    .core-ic{background:var(--surface);box-shadow:0 4px 14px rgba(20,30,50,.12)}
+    .cs-ic svg,.core-ic svg{width:26px}
+    .cstep::after{content:'';position:absolute;left:27px;top:62px;bottom:4px;border-left:2px dashed var(--r)}
+    .cstep h4,.cycle-core strong{margin-top:5px;font-size:16px}
+    .cs-ai,.cycle-core span:last-child{font-size:12.5px}
+    .method-roles{justify-content:flex-start}
+    .cstep .role-badge{width:24px;height:24px;font-size:9px}
+    .cycle-core{padding-bottom:0}
+  }
   footer{padding:26px 0 60px;color:var(--ink-mute);font-size:12.5px}
   .mapembed{width:100%;margin-top:6px}
   #roadmap-sec{padding-top:14px;padding-bottom:14px}
@@ -329,7 +382,6 @@
     .viewer-info{overflow:visible;padding:18px 20px 26px}
     .viewer-slide-label{margin-top:0}
 
-    .tier{grid-template-columns:1fr;gap:12px}
 
     /* roadmap: card al posto dell'iframe alto 1400px */
     .mapembed{display:none}
@@ -343,7 +395,6 @@
     .lead{font-size:15.5px}
     .product-filters{margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px}
     .product-grid{grid-template-columns:1fr}
-    .method-steps{grid-template-columns:1fr}
     .product-group{margin-bottom:24px}
     .feature-card{display:grid;grid-template-columns:128px 1fr}
     .feature-thumb{height:100%;min-height:116px;aspect-ratio:auto}
@@ -366,7 +417,7 @@
   </div>
   <nav class="toc" id="toc">
     <div class="toc-label">Presentazione</div>
-    <a href="#intro" class="tocitem" data-target="intro"><span class="ti">◆</span><span>Cosa è SRM</span></a><a href="#perche" class="tocitem" data-target="perche"><span class="ti">▣</span><span>Perché SRM</span></a><a href="#architettura" class="tocitem" data-target="architettura"><span class="ti">◫</span><span>Architettura</span></a><a href="#prodotto" class="tocitem" data-target="prodotto"><span class="ti">◉</span><span>Il prodotto</span></a><a href="#roadmap-sec" class="tocitem" data-target="roadmap-sec"><span class="ti">➔</span><span>Roadmap</span></a><a href="#team" class="tocitem" data-target="team"><span class="ti">◎</span><span>Team e metodo</span></a><a href="smart-services.html" class="tocitem"><span class="ti">✦</span><span>Smart Services</span></a>
+    <a href="#intro" class="tocitem" data-target="intro"><span class="ti">◆</span><span>Cosa è SRM</span></a><a href="#perche" class="tocitem" data-target="perche"><span class="ti">▣</span><span>Perché SRM</span></a><a href="#architettura" class="tocitem" data-target="architettura"><span class="ti">◫</span><span>Architettura</span></a><a href="#prodotto" class="tocitem" data-target="prodotto"><span class="ti">◉</span><span>Il prodotto</span></a><a href="#roadmap-sec" class="tocitem" data-target="roadmap-sec"><span class="ti">➔</span><span>Roadmap</span></a><a href="#team" class="tocitem" data-target="team"><span class="ti">◎</span><span>Il team</span></a><a href="#metodo" class="tocitem" data-target="metodo"><span class="ti">↻</span><span>Metodo di lavoro</span></a><a href="smart-services.html" class="tocitem"><span class="ti">✦</span><span>Smart Services</span></a>
   </nav>
   <div class="sb-foot">v1.0 · pagina di presentazione</div>
 </aside>
@@ -424,51 +475,72 @@
   <section id="roadmap-sec" class="sec"><div class="inner"><p class="sec-label">Dove stiamo andando</p><h2>La roadmap del percorso</h2><p class="sec-intro">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo.</p><div class="mapembed"><iframe id="metroFrame" src="metro-srm.html?embed=1&amp;view=mvp" title="Mappa roadmap" loading="lazy"></iframe></div><a class="mapcard" href="metro-srm.html"><span class="mc-ic">&#10140;</span><span class="mc-txt"><span class="mc-t">Apri la mappa della roadmap</span><span class="mc-d">Fasi e attivit&agrave; su una pagina dedicata, pi&ugrave; leggibile da telefono.</span></span><span class="mc-go">&#8250;</span></a></div></section>
   <section id="team" class="sec"><div class="inner">
   <div class="wrap">
-    <p class="sec-label">Team e metodo</p>
+    <p class="sec-label">Il team</p>
     <h2>Il gruppo di lavoro che ha realizzato SRM</h2>
     <p class="sec-intro">SRM è stato ideato, progettato e realizzato interamente dal gruppo di lavoro qui presentato, che ne presidia l'intero ciclo di vita: dall'analisi dei processi di esercizio, condotta in stretta collaborazione con i clienti, alla definizione dell'architettura, dallo sviluppo al rilascio in produzione, fino all'evoluzione funzionale della piattaforma. Direzione tecnica, gestione di progetto e sviluppo operano in modo integrato, con responsabilità chiare e un riferimento comune: la qualità del prodotto in esercizio.</p>
     <!-- Nomi: sostituire il testo di .person-n con nome e cognome (le iniziali in .avatar restano) -->
-    <div class="team-tiers">
-      <div class="tier tier-lead">
-        <div class="tier-head"><h3>Responsabili tecnici</h3><p>Definiscono architettura e funzionalità del core e garantiscono la coerenza di ogni implementazione.</p></div>
-        <div class="tier-people">
-          <div class="person"><span class="avatar" data-i18n-ignore>SP</span><span class="person-t"><span class="person-n" data-i18n-ignore>Stefano Propato</span><span class="person-r">Responsabile tecnico</span></span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>AM</span><span class="person-t"><span class="person-n" data-i18n-ignore>Antonino Marrara</span><span class="person-r">Responsabile tecnico</span></span></div>
-        </div>
-      </div>
-      <div class="tier-bridge"><span class="role-badge sm rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge sm rb-pm" title="Project management">PM</span><span><b>Cooperano alla crescita del prodotto:</b> condividono roadmap e priorità, perché ogni evoluzione resti coerente con il core.</span></div>
-      <div class="tier tier-pm">
-        <div class="tier-head"><h3>Project management</h3><p>Governano pianificazione, priorità e rilasci, traducendo le esigenze dei clienti in requisiti.</p></div>
-        <div class="tier-people">
-          <div class="person"><span class="avatar" data-i18n-ignore>FP</span><span class="person-t"><span class="person-n" data-i18n-ignore>Francesca Peron</span><span class="person-r">Project manager</span></span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>IL</span><span class="person-t"><span class="person-n" data-i18n-ignore>Isabella Laino</span><span class="person-r">Project manager</span></span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>RF</span><span class="person-t"><span class="person-n" data-i18n-ignore>Rossella Forciniti</span><span class="person-r">Project manager</span></span></div>
-        </div>
-      </div>
-      <div class="tier tier-dev">
-        <div class="tier-head"><h3>Sviluppo</h3><p>Progettano e realizzano microservizi, interfacce, integrazioni e componenti di IA.</p></div>
-        <div class="tier-people">
-          <div class="person"><span class="avatar" data-i18n-ignore>FM</span><span class="person-t"><span class="person-n" data-i18n-ignore>Fabrizio Macaluso</span><span class="person-r">Sviluppatore</span></span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>ADM</span><span class="person-t"><span class="person-n" data-i18n-ignore>Andrea Di Massimo</span><span class="person-r">Sviluppatore</span></span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>FG</span><span class="person-t"><span class="person-n" data-i18n-ignore>Francesco Galletta</span><span class="person-r">Sviluppatore</span></span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>CC</span><span class="person-t"><span class="person-n" data-i18n-ignore>Cristiano Coni</span><span class="person-r">Sviluppatore</span></span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>DN</span><span class="person-t"><span class="person-n" data-i18n-ignore>Davide Napolitano</span><span class="person-r">Sviluppatore</span></span></div>
-        </div>
-      </div>
+    <div class="team-sm">
+      <div><h3><span class="role-badge sm rb-sm">SM</span>Solution manager</h3><p>Il riferimento per le richieste provenienti dal mercato.</p></div>
+      <div class="person"><span class="avatar" data-i18n-ignore>MC</span><span class="person-n" data-i18n-ignore>Marco Ciraolo</span></div>
     </div>
-    <div class="team-method">
-      <div class="method-top">
-        <div><p class="sec-label">Metodo di lavoro</p><h3>Specifiche definite, implementate e validate con il supporto dell'intelligenza artificiale</h3></div>
-        <div class="client-driven"><span class="cd-tag">Client driven</span><span>Oltre il core, l'evoluzione di SRM è guidata dalle esigenze dei clienti.</span></div>
+    <div class="team-grid">
+      <div class="team-card tc-rt">
+        <h3><span class="role-badge sm rb-rt">RT</span>Responsabili tecnici</h3>
+        <p>Definiscono architettura e funzionalità del core e garantiscono la coerenza di ogni implementazione.</p>
+        <div class="people">
+          <div class="person"><span class="avatar" data-i18n-ignore>SP</span><span class="person-n" data-i18n-ignore>Stefano Propato</span></div>
+          <div class="person"><span class="avatar" data-i18n-ignore>AM</span><span class="person-n" data-i18n-ignore>Antonino Marrara</span></div>
+        </div>
       </div>
-      <p>Ogni evoluzione di SRM parte da specifiche condivise, che guidano sviluppo e verifica. In ogni fase il gruppo di lavoro si avvale di strumenti di intelligenza artificiale; decisioni e approvazione finale restano in capo alle persone.</p>
+      <div class="team-card tc-pm">
+        <h3><span class="role-badge sm rb-pm">PM</span>Project management</h3>
+        <p>Governano pianificazione, priorità e rilasci, traducendo le esigenze dei clienti in requisiti.</p>
+        <div class="people">
+          <div class="person"><span class="avatar" data-i18n-ignore>FP</span><span class="person-n" data-i18n-ignore>Francesca Peron</span></div>
+          <div class="person"><span class="avatar" data-i18n-ignore>IL</span><span class="person-n" data-i18n-ignore>Isabella Laino</span></div>
+          <div class="person"><span class="avatar" data-i18n-ignore>RF</span><span class="person-n" data-i18n-ignore>Rossella Forciniti</span></div>
+        </div>
+      </div>
+      <div class="team-card tc-dev">
+        <h3><span class="role-badge sm rb-dev">DEV</span>Sviluppo</h3>
+        <p>Progettano e realizzano microservizi, interfacce, integrazioni e componenti di IA.</p>
+        <div class="people">
+          <div class="person"><span class="avatar" data-i18n-ignore>FM</span><span class="person-n" data-i18n-ignore>Fabrizio Macaluso</span></div>
+          <div class="person"><span class="avatar" data-i18n-ignore>ADM</span><span class="person-n" data-i18n-ignore>Andrea Di Massimo</span></div>
+          <div class="person"><span class="avatar" data-i18n-ignore>FG</span><span class="person-n" data-i18n-ignore>Francesco Galletta</span></div>
+          <div class="person"><span class="avatar" data-i18n-ignore>CC</span><span class="person-n" data-i18n-ignore>Cristiano Coni</span></div>
+          <div class="person"><span class="avatar" data-i18n-ignore>DN</span><span class="person-n" data-i18n-ignore>Davide Napolitano</span></div>
+        </div>
+      </div>
+      <div class="pair-bridge"><span class="pair-bracket" aria-hidden="true"></span><p><span class="bridge-badges"><span class="role-badge sm rb-rt">RT</span><span class="role-badge sm rb-pm">PM</span></span><span><b>Cooperano alla crescita del prodotto:</b> condividono roadmap e priorità, perché ogni evoluzione resti coerente con il core.</span></p></div>
+    </div>
+    <div class="team-conduct">
+      <div><h3>Conduzione del progetto</h3><p>Per ogni cliente è previsto un riferimento dedicato per ciascun ruolo:</p></div>
+      <div class="ref-roles"><span class="ref-chip"><span class="role-badge sm rb-pm">PM</span>Project manager</span><span class="ref-chip"><span class="role-badge sm rb-rt">RT</span>Responsabile tecnico</span><span class="ref-chip"><span class="role-badge sm rb-dev">DEV</span>Sviluppatore</span></div>
+    </div>
+  </div>
+</div></section>
+  <section id="metodo" class="sec"><div class="inner">
+  <div class="wrap method-wrap">
+    <p class="sec-label">Metodo di lavoro</p>
+    <h2>Specifiche definite, implementate e validate con il supporto dell'intelligenza artificiale</h2>
+    <p class="sec-intro">Ogni evoluzione di SRM parte da specifiche condivise, che guidano sviluppo e verifica.</p>
+    <div class="method-bar">
+      <div class="client-driven"><span class="cd-tag">Client driven</span><span>Oltre il core, l'evoluzione di SRM è guidata dalle esigenze dei clienti.</span></div>
       <div class="role-legend"><span><span class="role-badge sm rb-rt">RT</span>Responsabili tecnici</span><span><span class="role-badge sm rb-pm">PM</span>Project management</span><span><span class="role-badge sm rb-dev">DEV</span>Sviluppo</span></div>
-      <ol class="method-steps">
-        <li><h4>Definizione delle specifiche</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-pm" title="Project management">PM</span></div><div class="method-ai"><span class="ai-tag">IA</span><span>Analisi di completezza, coerenza e impatto sui componenti esistenti.</span></div></li>
-        <li><h4>Implementazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-dev" title="Sviluppo">DEV</span></div><div class="method-ai"><span class="ai-tag">IA</span><span>Supporto alla scrittura e al refactoring del codice e alla documentazione tecnica.</span></div></li>
-        <li><h4>Validazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-pm" title="Project management">PM</span><span class="role-badge rb-dev" title="Sviluppo">DEV</span></div><div class="method-ai"><span class="ai-tag">IA</span><span>Generazione dei casi di test, revisione del codice e analisi delle regressioni.</span></div></li>
-        <li><h4>Tracciabilità</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-dev" title="Sviluppo">DEV</span></div><div class="method-ai"><span class="ai-tag">IA</span><span>Aggiornamento della documentazione e verifica dell'allineamento con il codice.</span></div></li>
+    </div>
+    <div class="cycle">
+      <svg class="cycle-arrows" viewBox="0 0 100 100" aria-hidden="true">
+        <defs><marker id="cyc-a1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e3a63a"/></marker><marker id="cyc-a2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e8894a"/></marker><marker id="cyc-a3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#6db4da"/></marker><marker id="cyc-a4" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#4a86c6"/></marker></defs>
+        <g fill="none" stroke-width="2.6"><path d="M38.1 11.3Q49 -2 59.65 9.36" stroke="#e3a63a" marker-end="url(#cyc-a1)"/><path d="M88.7 38.1Q102 49 90.64 59.65" stroke="#e8894a" marker-end="url(#cyc-a2)"/><path d="M61.9 88.7Q51 102 40.35 90.64" stroke="#6db4da" marker-end="url(#cyc-a3)"/><path d="M11.3 61.9Q-2 51 9.36 40.35" stroke="#4a86c6" marker-end="url(#cyc-a4)"/></g>
+      </svg>
+      <ol class="cycle-steps">
+        <li class="cstep cs-1"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.8h6v2.8H9z"/><path d="M8.2 10.5l1.3 1.3 2.3-2.4"/><path d="M8.2 15.5l1.3 1.3 2.3-2.4"/><path d="M13.8 10.8h2.4"/><path d="M13.8 15.8h2.4"/></svg></span><h4>Definizione delle specifiche</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-pm" title="Project management">PM</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Analisi di completezza, coerenza e impatto sui componenti esistenti.</p></li>
+        <li class="cstep cs-2"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5 4 12l4.5 4.5"/><path d="M15.5 7.5 20 12l-4.5 4.5"/><path d="M13.5 5.5l-3 13"/></svg></span><h4>Implementazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-dev" title="Sviluppo">DEV</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Supporto alla scrittura e al refactoring del codice e alla documentazione tecnica.</p></li>
+        <li class="cstep cs-3"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.2c0 4.3-2.9 8-7 9.3-4.1-1.3-7-5-7-9.3V6z"/><path d="M8.8 12.1l2.2 2.2 4.3-4.4"/></svg></span><h4>Validazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-pm" title="Project management">PM</span><span class="role-badge rb-dev" title="Sviluppo">DEV</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Generazione dei casi di test, revisione del codice e analisi delle regressioni.</p></li>
+        <li class="cstep cs-4"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.2 13.8a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1.2 1.2"/><path d="M13.8 10.2a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.2-1.2"/></svg></span><h4>Tracciabilità</h4><div class="method-roles"><span class="role-badge rb-rt" title="Responsabili tecnici">RT</span><span class="role-badge rb-dev" title="Sviluppo">DEV</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Aggiornamento della documentazione e verifica dell'allineamento con il codice.</p></li>
       </ol>
+      <div class="cycle-core"><span class="core-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l1.7 4.6 4.6 1.7-4.6 1.7L12 16.1l-1.7-4.6-4.6-1.7 4.6-1.7z"/><path d="M18.2 14.6l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7z"/></svg></span><strong>Intelligenza artificiale</strong><span>a supporto di ogni fase. Decisioni e approvazione finale restano alle persone.</span></div>
     </div>
   </div>
 </div></section>
