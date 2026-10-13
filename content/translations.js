@@ -150,8 +150,6 @@
     ['ferro e gomma sulla stessa piattaforma, con coincidenze e interscambi sotto controllo.', 'rail and bus on the same platform, with connections and interchanges under control.'],
     ['Evoluzioni rapide', 'Fast evolution'],
     ['quando i progetti attivi richiedono modifiche frequenti e uno sviluppo guidato dalle esigenze del cliente.', 'when active projects need frequent changes and development driven by customer needs.'],
-    ['Standard e integrazione', 'Standards and integration'],
-    ['aderenza a Transmodel, NeTEx, SIRI e GTFS e integrazione con i sistemi aziendali esistenti.', 'compliance with Transmodel, NeTEx, SIRI and GTFS and integration with existing enterprise systems.'],
     ['per portare l\'IA nei processi operativi in modo graduale e controllato.', 'to bring AI into operational processes gradually and under control.'],
     ['Per chi è SRM', 'Who SRM is for'],
     ['Quando scegliere SRM', 'When to choose SRM'],
