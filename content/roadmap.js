@@ -156,7 +156,9 @@ window.ROADMAP_CONTENT = {
     { title: "Handover", short: "Passaggio consegne (porting)", tags: ["porting", "nuovo MS", "FE/BE"], status: "",
       desc: "Porting passaggio consegne sul nuovo MS SRM. Analisi delta old → new." },
     { title: "Contratto di Servizio", short: "Con Authority", tags: ["soglie"], status: "",
-      desc: "Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority." }
+      desc: "Creazione, modifiche, monitoraggio e rendicontazione dei contratti di servizio con authority." },
+    { title: "Orario grafico", short: "Linearizzata con storico", tags: ["realtime", "storico"], status: "",
+      desc: "Evoluzione della linearizzata: per ogni corsa la traccia tempo-distanza già percorsa, a confronto con il programmato. Richiede lo storico di andamenti e localizzazioni delle corse." }
     ],
 
     "f5": [
