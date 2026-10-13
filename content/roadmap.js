@@ -56,22 +56,22 @@ window.ROADMAP_CONTENT = {
       desc: "Ricerca corsa sulla mappa." },
     { title: "Scheda Corsa", short: "Dettaglio corsa", tags: ["SchedaCorsa"], status: "done",
       desc: "Dettaglio corsa: tabella di marcia, provvedimenti, avvisi, note, localizzazioni, messaggi." },
-    { title: "Nuovo ambiente", short: "DB Postgres, split MOOVA", tags: ["infrastruttura", "postgres"], status: "wip",
+    { title: "Nuovo ambiente", short: "DB Postgres, split MOOVA", tags: ["infrastruttura", "postgres"], status: "done",
       desc: "Attivazione nuovo ambiente di sviluppo con DB Postgres. Avvio separazione da MOOVA." }
     ],
 
     "f2": [
-    { title: "Deploy nuovo ambiente", short: "Deploy", tags: [], status: "",
+    { title: "Deploy nuovo ambiente", short: "Deploy", tags: [], status: "done",
       desc: "Deploy sul nuovo ambiente." },
-    { title: "Solution Assessment", short: "& Cybersecurity Compliance", tags: [], status: "",
+    { title: "Solution Assessment", short: "& Cybersecurity Compliance", tags: [], status: "wip",
       desc: "Solution assessment e cybersecurity compliance." },
-    { title: "SAST e DAST", short: "Security testing", tags: ["cybersecurity", "SAST", "DAST"], status: "",
+    { title: "SAST e DAST", short: "Security testing", tags: ["cybersecurity", "SAST", "DAST"], status: "wip",
       desc: "SAST (Static Application Security Testing) analizza codice sorgente, bytecode o binari senza eseguirli, cercando vulnerabilita note come SQL injection, XSS, hardcoded secrets e buffer overflow. Si esegue presto nel ciclo di sviluppo (shift-left); puo produrre falsi positivi e non rileva vulnerabilita di runtime o configurazione. DAST (Dynamic Application Security Testing) testa l applicazione in esecuzione dall esterno, sondando endpoint HTTP, form e API come farebbe un attaccante. Rileva problemi di runtime, autenticazione e configurazione; richiede un ambiente deployato, la copertura dipende dai percorsi raggiunti e non indica la riga di codice." },
-    { title: "Def. strumenti monitoraggio", short: "Monitoraggio", tags: [], status: "",
+    { title: "Def. strumenti monitoraggio", short: "Monitoraggio", tags: [], status: "wip",
       desc: "Definizione strumenti di monitoraggio." },
-    { title: "Integrazione Foundation", short: "Foundation", tags: [], status: "",
+    { title: "Integrazione Foundation", short: "Foundation", tags: [], status: "wip",
       desc: "Integrazione Foundation." },
-    { title: "Lotta all'indipendenza", short: "Autonomia da MOOVA", tags: [], status: "",
+    { title: "Lotta all'indipendenza", short: "Autonomia da MOOVA", tags: [], status: "wip",
       desc: "Lotta all'indipendenza." }
     ],
 
@@ -80,11 +80,11 @@ window.ROADMAP_CONTENT = {
       desc: "Studio comparativo degli standard. Scelta del formato di import." },
     { title: "Import GeoJSON/GTFS", short: "Ingestione topologia", tags: ["network MS", "BE"], status: "done",
       desc: "Pipeline di ingestione della topologia di rete." },
-    { title: "Prog. modello rete", short: "Modello dati di rete", tags: ["progettazione", "network MS"], status: "wip",
+    { title: "Prog. modello rete", short: "Modello dati di rete", tags: ["progettazione", "network MS"], status: "done",
       desc: "Progettazione del modello dati di rete: topologia, linee, fermate, relazioni." },
     { title: "Prog. hub interscambio", short: "Hub multimodali", tags: ["progettazione", "network MS"], status: "wip",
       desc: "Progettazione degli hub multimodali. Connessioni tra modalità." },
-    { title: "Prog. corrispondenze", short: "Coincidenze su hub", tags: ["progettazione", "servicerunmonitoring"], status: "wip",
+    { title: "Prog. corrispondenze", short: "Coincidenze su hub", tags: ["progettazione", "servicerunmonitoring"], status: "done",
       desc: "Progettazione del tracciamento coincidenze su hub." },
     { title: "Prog. composizione", short: "Materiale rotabile", tags: ["progettazione", "anagrafica"], status: "done",
       desc: "Progettazione della configurazione materiale rotabile per corsa." },
@@ -106,15 +106,17 @@ window.ROADMAP_CONTENT = {
     { title: "Invio Ticket", short: "Segnalazioni dallo strumento", tags: ["ticketing"], status: "wip",
       desc: "Apertura e invio di segnalazioni (ticket) direttamente dallo strumento operativo." },
     { title: "Processo di Triage", short: "Smistamento segnalazioni", tags: ["triage", "troubleshooting"], status: "wip",
-      desc: "Smistamento automatico delle segnalazioni verso il canale di risoluzione corretto." }
+      desc: "Smistamento automatico delle segnalazioni verso il canale di risoluzione corretto." },
+    { title: "Staff Coverage", short: "Copertura del personale", tags: ["nuovo FE/BE", "personale", "assenze"], status: "wip",
+      desc: "Nuovo strumento per il personale dei gruppi di lavoro: dipendenti, ruoli operativi, assenze inserite dai dipendenti stessi e copertura per ruolo, cioè quanti presenti ci sono rispetto al minimo richiesto, giorno per giorno." }
     ],
 
     "f32": [
-    { title: "Real. modello rete", short: "Implementazione rete", tags: ["network MS", "BE"], status: "",
+    { title: "Real. modello rete", short: "Implementazione rete", tags: ["network MS", "BE"], status: "wip",
       desc: "Implementazione del modello dati di rete progettato in fase 3." },
     { title: "Real. hub interscambio", short: "Implementazione hub", tags: ["network MS", "FE/BE"], status: "",
       desc: "Implementazione degli hub multimodali e connessioni tra modalità." },
-    { title: "Real. corrispondenze", short: "Coincidenze real-time", tags: ["servicerunmonitoring", "real-time"], status: "",
+    { title: "Real. corrispondenze", short: "Coincidenze real-time", tags: ["servicerunmonitoring", "real-time"], status: "wip",
       desc: "Implementazione del tracciamento real-time delle coincidenze su hub." },
     { title: "Real. composizione", short: "Composizione materiali", tags: ["nuovo FE/BE", "anagrafica"], status: "wip",
       desc: "Implementazione della gestione composizione materiale rotabile per corsa." }
@@ -158,7 +160,7 @@ window.ROADMAP_CONTENT = {
     ],
 
     "f5": [
-    { title: "Porting App AS IS", short: "Funzioni Trenord attuali", tags: ["porting", "app"], status: "",
+    { title: "Porting App AS IS", short: "Funzioni Trenord attuali", tags: ["porting", "app"], status: "wip",
       desc: "Porting delle funzionalità ad oggi disponibili per Trenord, con attestazione e invio localizzazioni e percorso." }
     ],
 
