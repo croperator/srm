@@ -58,6 +58,7 @@
   .brand{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 14px}
   h1{font-size:clamp(40px,2.4vw,68px);line-height:1.12;font-weight:700;margin:0 0 16px;letter-spacing:-.5px;max-width:17ch}
   .lead{font-size:clamp(18px,1.05vw,24px);color:var(--ink-soft);max-width:62ch;margin:0 0 26px}
+  @media(min-width:901px){#intro h1{max-width:30ch} #intro .lead{max-width:80ch} #intro .intro-shot img{aspect-ratio:16/8}}
   .meta{display:flex;flex-wrap:wrap;gap:10px}
   .intro-shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:26px}
   .intro-shot{margin:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#f4f3ee}
@@ -303,6 +304,24 @@
     .cstep .role-badge{width:24px;height:24px;font-size:9px}
     .cycle-core{padding-bottom:0}
   }
+  /* "Per chi e' SRM": a chi si rivolge e quando sceglierla (slide sintetica) */
+  #perchi .sec-intro{max-width:90ch;margin-bottom:24px}
+  .fit-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 44px;align-items:start}
+  .fit-col h3{margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute)}
+  .audience{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .aud{padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+  .aud-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+    background:var(--accent-soft);color:var(--accent);font-size:15px}
+  .aud h4{margin:10px 0 4px;font-size:15.5px;font-weight:650}
+  .aud p{margin:0;font-size:13px;line-height:1.5;color:var(--ink-soft)}
+  .when{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+  .when li{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;border:1px solid var(--line);border-radius:12px;
+    background:var(--surface);font-size:14px;line-height:1.5;color:var(--ink-soft)}
+  .when li::before{content:"✓";flex:none;width:24px;height:24px;margin-top:-1px;border-radius:50%;display:flex;
+    align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:12px;font-weight:700}
+  .when b{color:var(--ink);font-weight:650}
+  @media(max-width:900px){.fit-grid{grid-template-columns:minmax(0,1fr)}}
+  @media(max-width:520px){.audience{grid-template-columns:minmax(0,1fr)}}
   footer{padding:26px 0 60px;color:var(--ink-mute);font-size:12.5px}
   .mapembed{width:100%;margin-top:6px}
   #roadmap-sec{padding-top:14px;padding-bottom:14px}
@@ -445,7 +464,7 @@
   </div>
   <nav class="toc" id="toc">
     <div class="toc-label">Presentazione</div>
-    <a href="#intro" class="tocitem" data-target="intro"><span class="ti">◆</span><span>Cosa è SRM</span></a><a href="#perche" class="tocitem" data-target="perche"><span class="ti">▣</span><span>Perché SRM</span></a><a href="#architettura" class="tocitem" data-target="architettura"><span class="ti">◫</span><span>Architettura</span></a><a href="#prodotto" class="tocitem" data-target="prodotto"><span class="ti">◉</span><span>Il prodotto</span></a><a href="#team" class="tocitem" data-target="team"><span class="ti">◎</span><span>Il team</span></a><a href="#metodo" class="tocitem" data-target="metodo"><span class="ti">↻</span><span>Metodo di lavoro</span></a><a href="#roadmap-sec" class="tocitem" data-target="roadmap-sec"><span class="ti">➔</span><span>Roadmap</span></a><a href="smart-services.html" class="tocitem"><span class="ti">✦</span><span>Smart Services</span></a>
+    <a href="#intro" class="tocitem" data-target="intro"><span class="ti">◆</span><span>Cosa è SRM</span></a><a href="#perchi" class="tocitem" data-target="perchi"><span class="ti">◇</span><span>Per chi è SRM</span></a><a href="#perche" class="tocitem" data-target="perche"><span class="ti">▣</span><span>Perché SRM</span></a><a href="#architettura" class="tocitem" data-target="architettura"><span class="ti">◫</span><span>Architettura</span></a><a href="#prodotto" class="tocitem" data-target="prodotto"><span class="ti">◉</span><span>Il prodotto</span></a><a href="#team" class="tocitem" data-target="team"><span class="ti">◎</span><span>Il team</span></a><a href="#metodo" class="tocitem" data-target="metodo"><span class="ti">↻</span><span>Metodo di lavoro</span></a><a href="#roadmap-sec" class="tocitem" data-target="roadmap-sec"><span class="ti">➔</span><span>Roadmap</span></a><a href="smart-services.html" class="tocitem"><span class="ti">✦</span><span>Smart Services</span></a>
   </nav>
   <div class="sb-foot">v1.0 · pagina di presentazione</div>
 </aside>
@@ -461,13 +480,12 @@
   <div class="wrap">
     <p class="brand">MOOVA SRM · Smart Real-Time Mobility</p>
     <h1>La piattaforma integrata per l'esercizio e le competenze.</h1>
-    <p class="lead">SRM riunisce in un unico ecosistema il monitoraggio della circolazione, la gestione operativa del trasporto e il mantenimento delle competenze del personale. Multimodale, modulare e integrabile con i sistemi aziendali, supporta operatori, istruttori e amministratori nei processi quotidiani e nelle decisioni basate sui dati.</p>
+    <p class="lead">Nata nell'area Smart Service for Transport Operator come iniziativa per studiare le nuove tecnologie legate all'intelligenza artificiale e rendere più snella l'introduzione di modifiche nei progetti attivi, SRM riunisce in un unico ecosistema il monitoraggio della circolazione, la gestione operativa del trasporto e il mantenimento delle competenze del personale. Multimodale, modulare e integrabile con i sistemi aziendali, è pensata per soddisfare i clienti: supporta operatori, istruttori e amministratori nei processi quotidiani e nelle decisioni basate sui dati.</p>
     <div class="meta">
       <span class="pill accent">Real-time multimodale</span>
-      <span class="pill">Ferro + Bus</span>
-      <span class="pill">Gestione competenze</span>
-      <span class="pill">Cloud-native · AWS EKS</span>
-      <span class="pill accent">Compliant · AlmavivA T&amp;L Reference Architecture 2026 v1.0</span>
+      <span class="pill accent">Gestione competenze</span>
+      <span class="pill accent">Cloud-native</span>
+      <span class="pill accent">Compliant · AlmavivA T&amp;L Reference Architecture 2026</span>
     </div>
     <div class="intro-shots">
       <figure class="intro-shot">
@@ -481,6 +499,28 @@
     </div>
   </div>
 </div></section>
+  <section id="perchi" class="sec"><div class="inner">
+  <div class="wrap">
+    <p class="sec-label">Per chi è SRM</p>
+    <h2>Quando scegliere SRM</h2>
+    <p class="sec-intro">SRM è pensata per gli operatori del trasporto pubblico che vogliono governare esercizio e personale da un'unica piattaforma, capace di evolvere insieme alle loro esigenze.</p>
+    <div class="fit-grid">
+      <div class="fit-col"><h3>A chi si rivolge</h3><div class="audience">
+        <div class="aud"><span class="aud-ic" aria-hidden="true">⇄</span><h4>Aziende di trasporto pubblico</h4><p>Operatori ferroviari e di autolinee che gestiscono ogni giorno un servizio, anche multimodale.</p></div>
+        <div class="aud"><span class="aud-ic" aria-hidden="true">◉</span><h4>Sale operative</h4><p>Chi monitora la circolazione in tempo reale e interviene su ritardi, eventi e coincidenze.</p></div>
+        <div class="aud"><span class="aud-ic" aria-hidden="true">✓</span><h4>Gestione del personale</h4><p>Istruttori e uffici che seguono abilitazioni, visite mediche, formazione e continuità operativa.</p></div>
+        <div class="aud"><span class="aud-ic" aria-hidden="true">▤</span><h4>Direzione e controllo</h4><p>Chi misura il servizio con KPI e analisi per prendere decisioni basate sui dati.</p></div>
+      </div></div>
+      <div class="fit-col"><h3>Quando sceglierla</h3><ul class="when">
+        <li><span><b>Un unico strumento</b> per monitoraggio real-time, gestione operativa e competenze del personale, al posto di sistemi separati.</span></li>
+        <li><span><b>Servizio multimodale</b> ferro e gomma sulla stessa piattaforma, con coincidenze e interscambi sotto controllo.</span></li>
+        <li><span><b>Evoluzioni rapide</b> quando i progetti attivi richiedono modifiche frequenti e uno sviluppo guidato dalle esigenze del cliente.</span></li>
+        <li><span><b>Standard e integrazione</b> aderenza a Transmodel, NeTEx, SIRI e GTFS e integrazione con i sistemi aziendali esistenti.</span></li>
+        <li><span><b>Intelligenza artificiale</b> per portare l'IA nei processi operativi in modo graduale e controllato.</span></li>
+      </ul></div>
+    </div>
+  </div>
+</div></section>
   <section id="perche" class="sec"><div class="inner">
   <div class="wrap">
     <p class="sec-label">Perché SRM</p>
@@ -490,7 +530,7 @@
       <span class="std">Transmodel</span><span class="std">NeTEx</span><span class="std">SIRI · VM / SX / ET</span>
       <span class="std">GTFS / GTFS-RT</span><span class="std">TPEG</span><span class="std">D.Lgs. 247/2010 · Certificato Complementare</span>
     </div></div></div></section>
-<section id="architettura" class="sec"><div class="inner"><div class="arch-head"><div><p class="sec-label">Architettura</p><h2>Cloud-native, API-first ed event-driven</h2></div><div class="arch-compliance">AlmavivA T&amp;L Reference Architecture 2026 · v1.0</div></div><p class="sec-intro">SRM separa i domini operativi in servizi autonomi e integra sala operativa, dati di rete, corse, personale, documenti e funzionalità di IA attraverso contratti versionati ed eventi real-time.</p><div class="archgrid"><div class="archcard"><span class="an">1</span><div><h4>Microservizi per dominio</h4><p>Servizi indipendenti per rete, corse, monitoraggio, scorte, personale, anagrafiche, dizionari e documenti, con responsabilità e cicli di rilascio separati.</p></div></div><div class="archcard"><span class="an">2</span><div><h4>API-first e contratti versionati</h4><p>API REST documentate con OpenAPI; eventi descritti con AsyncAPI e JSON Schema. I consumer dipendono dal contratto, non dall'implementazione.</p></div></div><div class="archcard"><span class="an">3</span><div><h4>Real-time event-driven</h4><p>Kafka e Kafka Streams elaborano eventi operativi, ricostruiscono lo stato delle corse e distribuiscono snapshot e aggiornamenti live.</p></div></div><div class="archcard"><span class="an">4</span><div><h4>Dati isolati per servizio</h4><p>PostgreSQL, PostGIS e MySQL supportano i diversi domini; Liquibase governa gli schemi. Lo stato degli stream usa RocksDB e changelog Kafka.</p></div></div><div class="archcard"><span class="an">5</span><div><h4>Cloud-native e GitOps</h4><p>Container su Kubernetes ed EKS, chart Helm per applicazione e configurazioni per ambiente nel repository GitOps, con immagini distribuite tramite ECR.</p></div></div><div class="archcard"><span class="an">6</span><div><h4>Security by design</h4><p>Identità e ruoli con Keycloak e OIDC, accesso alle API tramite APISIX o WSO2, segreti Kubernetes e autenticazione SASL/SCRAM per Kafka.</p></div></div><div class="archcard"><span class="an">7</span><div><h4>Resilienza e osservabilità</h4><p>Health check Kubernetes, metriche e log strutturati rendono verificabili servizi e pipeline; l'adozione viene uniformata progressivamente sull'intera piattaforma.</p></div></div><div class="archcard"><span class="an">8</span><div><h4>IA sulla piattaforma</h4><p>In ambiente SRM Lab, Ollama esegue modelli conversazionali ed embedding su nodi GPU dedicati, con storage persistente EFS.</p></div></div></div><div class="stackbox"><div class="sbh">Stack attuale</div><div class="stackgrid"><div class="stk"><span class="skt">Backend</span><span class="skd">Quarkus · Spring Boot</span></div><div class="stk"><span class="skt">API</span><span class="skd">REST · OpenAPI 3</span></div><div class="stk"><span class="skt">Eventi</span><span class="skd">Kafka · Kafka Streams</span></div><div class="stk"><span class="skt">Dati</span><span class="skd">PostgreSQL · PostGIS · MySQL</span></div><div class="stk"><span class="skt">Piattaforma</span><span class="skd">Kubernetes · EKS · Helm</span></div><div class="stk"><span class="skt">Accesso</span><span class="skd">Keycloak · APISIX · WSO2</span></div><div class="stk"><span class="skt">Delivery</span><span class="skd">GitOps · ECR · Liquibase</span></div><div class="stk"><span class="skt">IA</span><span class="skd">Ollama · Qwen · Embedding</span></div></div></div></div></section>
+<section id="architettura" class="sec"><div class="inner"><div class="arch-head"><div><p class="sec-label">Architettura</p><h2>Cloud-native, API-first ed event-driven</h2></div><div class="arch-compliance">AlmavivA T&amp;L Reference Architecture 2026</div></div><p class="sec-intro">SRM separa i domini operativi in servizi autonomi e integra sala operativa, dati di rete, corse, personale, documenti e funzionalità di IA attraverso contratti versionati ed eventi real-time.</p><div class="archgrid"><div class="archcard"><span class="an">1</span><div><h4>Microservizi per dominio</h4><p>Servizi indipendenti per rete, corse, monitoraggio, scorte, personale, anagrafiche, dizionari e documenti, con responsabilità e cicli di rilascio separati.</p></div></div><div class="archcard"><span class="an">2</span><div><h4>API-first e contratti versionati</h4><p>API REST documentate con OpenAPI; eventi descritti con AsyncAPI e JSON Schema. I consumer dipendono dal contratto, non dall'implementazione.</p></div></div><div class="archcard"><span class="an">3</span><div><h4>Real-time event-driven</h4><p>Kafka e Kafka Streams elaborano eventi operativi, ricostruiscono lo stato delle corse e distribuiscono snapshot e aggiornamenti live.</p></div></div><div class="archcard"><span class="an">4</span><div><h4>Dati isolati per servizio</h4><p>PostgreSQL, PostGIS e MySQL supportano i diversi domini; Liquibase governa gli schemi. Lo stato degli stream usa RocksDB e changelog Kafka.</p></div></div><div class="archcard"><span class="an">5</span><div><h4>Cloud-native e GitOps</h4><p>Container su Kubernetes ed EKS, chart Helm per applicazione e configurazioni per ambiente nel repository GitOps, con immagini distribuite tramite ECR.</p></div></div><div class="archcard"><span class="an">6</span><div><h4>Security by design</h4><p>Identità e ruoli con Keycloak e OIDC, accesso alle API tramite APISIX o WSO2, segreti Kubernetes e autenticazione SASL/SCRAM per Kafka.</p></div></div><div class="archcard"><span class="an">7</span><div><h4>Resilienza e osservabilità</h4><p>Health check Kubernetes, metriche e log strutturati rendono verificabili servizi e pipeline; l'adozione viene uniformata progressivamente sull'intera piattaforma.</p></div></div><div class="archcard"><span class="an">8</span><div><h4>IA sulla piattaforma</h4><p>In ambiente SRM Lab, Ollama esegue modelli conversazionali ed embedding su nodi GPU dedicati, con storage persistente EFS.</p></div></div></div><div class="stackbox"><div class="sbh">Stack attuale</div><div class="stackgrid"><div class="stk"><span class="skt">Backend</span><span class="skd">Quarkus · Spring Boot</span></div><div class="stk"><span class="skt">API</span><span class="skd">REST · OpenAPI 3</span></div><div class="stk"><span class="skt">Eventi</span><span class="skd">Kafka · Kafka Streams</span></div><div class="stk"><span class="skt">Dati</span><span class="skd">PostgreSQL · PostGIS · MySQL</span></div><div class="stk"><span class="skt">Piattaforma</span><span class="skd">Kubernetes · EKS · Helm</span></div><div class="stk"><span class="skt">Accesso</span><span class="skd">Keycloak · APISIX · WSO2</span></div><div class="stk"><span class="skt">Delivery</span><span class="skd">GitOps · ECR · Liquibase</span></div><div class="stk"><span class="skt">IA</span><span class="skd">Ollama · Qwen · Embedding</span></div></div></div></div></section>
   <section id="prodotto" class="sec"><div class="inner">
   <div class="wrap">
     <p class="sec-label">Il prodotto</p>
