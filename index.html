@@ -167,6 +167,11 @@
 
 
   #architettura .sec-intro{margin-bottom:16px}
+  .arch-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+  .arch-compliance{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #bfe4da;border-radius:20px;
+    background:#eff8f6;color:#0b6f62;font-size:11.5px;font-weight:700;letter-spacing:.02em}
+  .arch-compliance::before{content:"✓";display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+    border-radius:50%;background:#0f8a78;color:#fff;font-size:12px}
   .archgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
   @media(max-width:760px){.archgrid{grid-template-columns:1fr}}
   .archcard{display:flex;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
@@ -175,7 +180,7 @@
   .archcard p{margin:0;font-size:12.5px;color:var(--ink-soft);line-height:1.45}
   .stackbox{background:#f7f6f1;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
   .sbh{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin-bottom:10px}
-  .stackgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .stackgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
   @media(max-width:760px){.stackgrid{grid-template-columns:repeat(2,1fr)}}
   .stk{display:flex;flex-direction:column;gap:3px}
   .stk .skt{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-mute);font-weight:600}
@@ -231,8 +236,11 @@
   .team-sm .avatar{width:40px;height:40px;background:#0f8a78;color:#fff;font-size:12px}
   .team-sm .sponsor-role{color:#0f8a78}
   .team-leadership .team-sm,.team-leadership .team-sponsor{margin:0;padding:14px 20px}
+  .team-leadership .team-sm{position:relative}
+  .team-leadership .team-sm::after{content:"";position:absolute;left:33.333%;bottom:-17px;height:16px;border-left:2px dashed #b9cde4}
   @media(max-width:700px){
     .team-leadership{grid-template-columns:minmax(0,1fr);gap:12px}
+    .team-leadership .team-sm::after{display:none}
     .team-grid{grid-template-columns:minmax(0,1fr);gap:12px}
     .tc-rt{order:1} .pair-bridge{order:2;grid-column:1/-1} .tc-pm{order:3} .tc-dev{order:4}
     .pair-bracket{display:none}
@@ -459,6 +467,7 @@
       <span class="pill">Ferro + Bus</span>
       <span class="pill">Gestione competenze</span>
       <span class="pill">Cloud-native · AWS EKS</span>
+      <span class="pill accent">Compliant · AlmavivA T&amp;L Reference Architecture 2026 v1.0</span>
     </div>
     <div class="intro-shots">
       <figure class="intro-shot">
@@ -481,7 +490,7 @@
       <span class="std">Transmodel</span><span class="std">NeTEx</span><span class="std">SIRI · VM / SX / ET</span>
       <span class="std">GTFS / GTFS-RT</span><span class="std">TPEG</span><span class="std">D.Lgs. 247/2010 · Certificato Complementare</span>
     </div></div></div></section>
-<section id="architettura" class="sec"><div class="inner"><p class="sec-label">Architettura</p><h2>Architettura &mdash; scelte e valore per il business</h2><p class="sec-intro">SRM &egrave; un'applicazione a microservizi che unifica processi eterogenei &mdash; pianificazione, mappa real-time, equipaggi, controlli medici, reportistica, KPI, anagrafiche &mdash; in un unico frontend modulare.</p><div class="archgrid"><div class="archcard"><span class="an">1</span><div><h4>Frontend modulare</h4><p>Un modulo per processo, isolati tra loro: deploy indipendenti, blast radius contenuto, meno regressioni per rilascio.</p></div></div><div class="archcard"><span class="an">2</span><div><h4>React + TypeScript</h4><p>Type-safety in fase di compilazione, tooling standard di settore, competenze reperibili sul mercato.</p></div></div><div class="archcard"><span class="an">3</span><div><h4>Design system + store centralizzato</h4><p>Libreria di componenti condivisa e single source of truth dei dati: UX coerente, riuso, nessun disallineamento tra viste.</p></div></div><div class="archcard"><span class="an">4</span><div><h4>Backend disaccoppiato</h4><p>Ogni servizio (veicoli, equipaggi, pianificazione, KPI, rete, AI) esposto tramite un contratto dedicato: le evoluzioni restano confinate all'interfaccia.</p></div></div><div class="archcard"><span class="an">5</span><div><h4>Multilingua + real-time + AI nativi</h4><p>Multilingua, streaming di dati live e assistente AI integrati alla base, non aggiunti a posteriori.</p></div></div><div class="archcard"><span class="an">6</span><div><h4>CI con test automatici</h4><p>Verifica continua ad ogni modifica: evoluzione del prodotto a basso rischio.</p></div></div><div class="archcard"><span class="an">7</span><div><h4>Responsive by design</h4><p>Layout adattivo su tutte le viste: la stessa applicazione gira senza compromessi da desktop a mobile, senza codice duplicato.</p></div></div></div><div class="stackbox"><div class="sbh">Stack</div><div class="stackgrid"><div class="stk"><span class="skt">Microservizi</span><span class="skd">Spring Boot · Java</span></div><div class="stk"><span class="skt">AI</span><span class="skd">Python</span></div><div class="stk"><span class="skt">Database</span><span class="skd">PostgreSQL</span></div><div class="stk"><span class="skt">Streaming</span><span class="skd">Redpanda · Kafka-compat.</span></div><div class="stk"><span class="skt">Analytics</span><span class="skd">Apache Superset</span></div><div class="stk"><span class="skt">Frontend</span><span class="skd">React · TypeScript</span></div></div></div></div></section>
+<section id="architettura" class="sec"><div class="inner"><div class="arch-head"><div><p class="sec-label">Architettura</p><h2>Cloud-native, API-first ed event-driven</h2></div><div class="arch-compliance">AlmavivA T&amp;L Reference Architecture 2026 · v1.0</div></div><p class="sec-intro">SRM separa i domini operativi in servizi autonomi e integra sala operativa, dati di rete, corse, personale, documenti e funzionalità di IA attraverso contratti versionati ed eventi real-time.</p><div class="archgrid"><div class="archcard"><span class="an">1</span><div><h4>Microservizi per dominio</h4><p>Servizi indipendenti per rete, corse, monitoraggio, scorte, personale, anagrafiche, dizionari e documenti, con responsabilità e cicli di rilascio separati.</p></div></div><div class="archcard"><span class="an">2</span><div><h4>API-first e contratti versionati</h4><p>API REST documentate con OpenAPI; eventi descritti con AsyncAPI e JSON Schema. I consumer dipendono dal contratto, non dall'implementazione.</p></div></div><div class="archcard"><span class="an">3</span><div><h4>Real-time event-driven</h4><p>Kafka e Kafka Streams elaborano eventi operativi, ricostruiscono lo stato delle corse e distribuiscono snapshot e aggiornamenti live.</p></div></div><div class="archcard"><span class="an">4</span><div><h4>Dati isolati per servizio</h4><p>PostgreSQL, PostGIS e MySQL supportano i diversi domini; Liquibase governa gli schemi. Lo stato degli stream usa RocksDB e changelog Kafka.</p></div></div><div class="archcard"><span class="an">5</span><div><h4>Cloud-native e GitOps</h4><p>Container su Kubernetes ed EKS, chart Helm per applicazione e configurazioni per ambiente nel repository GitOps, con immagini distribuite tramite ECR.</p></div></div><div class="archcard"><span class="an">6</span><div><h4>Security by design</h4><p>Identità e ruoli con Keycloak e OIDC, accesso alle API tramite APISIX o WSO2, segreti Kubernetes e autenticazione SASL/SCRAM per Kafka.</p></div></div><div class="archcard"><span class="an">7</span><div><h4>Resilienza e osservabilità</h4><p>Health check Kubernetes, metriche e log strutturati rendono verificabili servizi e pipeline; l'adozione viene uniformata progressivamente sull'intera piattaforma.</p></div></div><div class="archcard"><span class="an">8</span><div><h4>IA sulla piattaforma</h4><p>In ambiente SRM Lab, Ollama esegue modelli conversazionali ed embedding su nodi GPU dedicati, con storage persistente EFS.</p></div></div></div><div class="stackbox"><div class="sbh">Stack attuale</div><div class="stackgrid"><div class="stk"><span class="skt">Backend</span><span class="skd">Quarkus · Spring Boot</span></div><div class="stk"><span class="skt">API</span><span class="skd">REST · OpenAPI 3</span></div><div class="stk"><span class="skt">Eventi</span><span class="skd">Kafka · Kafka Streams</span></div><div class="stk"><span class="skt">Dati</span><span class="skd">PostgreSQL · PostGIS · MySQL</span></div><div class="stk"><span class="skt">Piattaforma</span><span class="skd">Kubernetes · EKS · Helm</span></div><div class="stk"><span class="skt">Accesso</span><span class="skd">Keycloak · APISIX · WSO2</span></div><div class="stk"><span class="skt">Delivery</span><span class="skd">GitOps · ECR · Liquibase</span></div><div class="stk"><span class="skt">IA</span><span class="skd">Ollama · Qwen · Embedding</span></div></div></div></div></section>
   <section id="prodotto" class="sec"><div class="inner">
   <div class="wrap">
     <p class="sec-label">Il prodotto</p>
