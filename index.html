@@ -188,6 +188,10 @@
   .stk .skd{font-size:13.5px;font-weight:600;color:var(--ink)}
   /* "Il team": tre card per ruolo affiancate (non un organigramma), collegamento SA-PM e conduzione del progetto */
   #team .sec-intro{max-width:140ch;margin-bottom:22px}
+  .team-effort{display:flex;align-items:flex-start;gap:12px;margin:0 0 22px;padding:14px 18px;
+    border:1px solid #bfe4da;border-radius:14px;background:#eff8f6}
+  .team-effort strong{flex:none;color:#0f8a78;font-size:13px;line-height:1.5}
+  .team-effort span{font-size:13px;line-height:1.5;color:var(--ink-soft)}
   .team-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 20px}
   .team-card{display:flex;flex-direction:column;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
   .team-card h3{display:flex;align-items:center;gap:9px;margin:0 0 4px;font-size:16px;font-weight:650}
@@ -240,6 +244,7 @@
   .team-leadership .team-sm{position:relative}
   .team-leadership .team-sm::after{content:"";position:absolute;left:33.333%;bottom:-17px;height:16px;border-left:2px dashed #b9cde4}
   @media(max-width:700px){
+    .team-effort{flex-direction:column;gap:2px}
     .team-leadership{grid-template-columns:minmax(0,1fr);gap:12px}
     .team-leadership .team-sm::after{display:none}
     .team-grid{grid-template-columns:minmax(0,1fr);gap:12px}
@@ -545,6 +550,7 @@
       <div><p class="sec-label">Il team</p><h2>Il gruppo di lavoro che ha realizzato SRM</h2></div>
     </div>
     <p class="sec-intro">SRM nasce nell'area Smart Service for Transport Operator come iniziativa per studiare le nuove tecnologie legate all'intelligenza artificiale e per rendere più snella l'introduzione di modifiche nei progetti attivi. Il gruppo di lavoro qui presentato lo ha ideato, progettato e realizzato interamente e ne presidia l'intero ciclo di vita: dall'analisi dei processi di esercizio, condotta in stretta collaborazione con i clienti, alla definizione dell'architettura, dallo sviluppo al rilascio in produzione, fino all'evoluzione funzionale della piattaforma. Direzione tecnica, gestione di progetto e sviluppo operano in modo integrato, con responsabilità chiare e un riferimento comune: la qualità del prodotto in esercizio e la soddisfazione dei clienti.</p>
+    <div class="team-effort"><strong>Un investimento mirato e sostenibile</strong><span>La prima fase del progetto, fino alla realizzazione dell'MVP commerciale, sarà sviluppata con un presidio di 2 FTE, con iniziative commerciali o negli effort già dedicati alle conduzioni funzionali, valorizzando competenze esistenti e contenendo l'investimento incrementale.</span></div>
     <!-- Nomi: sostituire il testo di .person-n con nome e cognome (le iniziali in .avatar restano) -->
     <div class="team-leadership">
       <div class="team-sm">
@@ -580,7 +586,6 @@
           <div class="person"><span class="avatar" data-i18n-ignore>FG</span><span class="person-n" data-i18n-ignore>Francesco Galletta</span></div>
           <div class="person"><span class="avatar" data-i18n-ignore>CC</span><span class="person-n" data-i18n-ignore>Cristiano Coni</span></div>
           <div class="person"><span class="avatar" data-i18n-ignore>DN</span><span class="person-n" data-i18n-ignore>Davide Napolitano</span></div>
-          <div class="person"><span class="avatar" data-i18n-ignore>CV</span><span class="person-n" data-i18n-ignore>Claudio Vitulo</span></div>
         </div>
       </div>
       <div class="pair-bridge"><span class="pair-bracket" aria-hidden="true"></span><p><span class="bridge-badges"><span class="role-badge sm rb-rt">SA</span><span class="role-badge sm rb-pm">PM</span></span><span><b>Cooperano alla crescita del prodotto:</b> condividono roadmap e priorità, perché ogni evoluzione resti coerente con il core.</span></p></div>
