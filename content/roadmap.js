@@ -23,14 +23,14 @@ window.ROADMAP_CONTENT = {
   { id: "now", badge: "Fase 1", title: "Core operativo", when: "T2 2026", color: "#2563a8" },
   { id: "f2", badge: "Fase 2", title: "Assessment Architetturale", when: "T3 2026 · da lug", color: "#1d4e89" },
   { id: "f3", badge: "Fase 3", title: "Progettazione modello rete e composizione", when: "T3 2026 · da lug", color: "#92610f" },
-  { id: "f31", badge: "Fase 3.1", title: "Strumenti Evoluti", when: "T3 2026 · da lug", color: "#b9711a" },
-  { id: "f32", badge: "Fase 3.2", title: "Realizzazione modello rete e composizione", when: "T3 2026 · da lug", color: "#cf8a28" },
-  { id: "f33", badge: "Fase 3.3", title: "Assessment applicativo sui progetti", when: "T3 2026 · da lug", color: "#e0a63f" },
-  { id: "skill", badge: "Fase 4", title: "Porting SKILL Maintenance", when: "T3 2026", color: "#0f8a78" },
-  { id: "f5", badge: "Fase 5", title: "Applicazione Mobile", when: "T4 2026", color: "#c2410c" },
-  { id: "f51", badge: "Fase 5.1", title: "Applicazione Mobile — evoluzioni", when: "T4 2026", color: "#c2410c" },
+  { id: "f33", badge: "Fase 3.1", title: "Reoprting & KPI", when: "T3 2026 · da set", color: "#e0a63f" },
+  { id: "skill", badge: "Fase 4", title: "Porting SKILL Maintenance", when: "T4 2026", color: "#0f8a78" },
+  { id: "f51", badge: "Fase 5.1", title: "Realizzazione strumenti evoluti", when: "T4 2026", color: "#b9711a" },
+  { id: "f52", badge: "Fase 5.2", title: "Realizzazione modello rete e composizione", when: "T4 2026", color: "#cf8a28" },
+  { id: "f53", badge: "Fase 5.3", title: "Applicazione Mobile", when: "T4 2026", color: "#c2410c" },
+  { id: "f531", badge: "Fase 5.4", title: "Applicazione Mobile — evoluzioni", when: "T4 2026", color: "#c2410c" },
   { id: "f6", badge: "Fase 6", title: "Regia, gestione operativa, console e porting", when: "T1 2027", color: "#9333a8" },
-  { id: "ai", badge: "Fase 7", title: "AI assistant - ampliamento", when: "T1 2027", color: "#6d4ad1" }
+  { id: "f7", badge: "Fase 7", title: "AI assistant - ampliamento", when: "T1 2027", color: "#6d4ad1" }
   ],
 
   stations: {
@@ -69,7 +69,7 @@ window.ROADMAP_CONTENT = {
       desc: "SAST (Static Application Security Testing) analizza codice sorgente, bytecode o binari senza eseguirli, cercando vulnerabilita note come SQL injection, XSS, hardcoded secrets e buffer overflow. Si esegue presto nel ciclo di sviluppo (shift-left); puo produrre falsi positivi e non rileva vulnerabilita di runtime o configurazione. DAST (Dynamic Application Security Testing) testa l applicazione in esecuzione dall esterno, sondando endpoint HTTP, form e API come farebbe un attaccante. Rileva problemi di runtime, autenticazione e configurazione; richiede un ambiente deployato, la copertura dipende dai percorsi raggiunti e non indica la riga di codice." },
     { title: "Def. strumenti monitoraggio", short: "Monitoraggio", tags: [], status: "wip",
       desc: "Definizione strumenti di monitoraggio." },
-    { title: "Integrazione Foundation", short: "Foundation", tags: [], status: "wip",
+    { title: "Integrazione Foundation", short: "Foundation", tags: [], status: "done",
       desc: "Integrazione Foundation." },
     { title: "Lotta all'indipendenza", short: "Autonomia da MOOVA", tags: [], status: "wip",
       desc: "Lotta all'indipendenza." }
@@ -82,24 +82,24 @@ window.ROADMAP_CONTENT = {
       desc: "Pipeline di ingestione della topologia di rete." },
     { title: "Prog. modello rete", short: "Modello dati di rete", tags: ["progettazione", "network MS"], status: "done",
       desc: "Progettazione del modello dati di rete: topologia, linee, fermate, relazioni." },
-    { title: "Prog. hub interscambio", short: "Hub multimodali", tags: ["progettazione", "network MS"], status: "wip",
+    { title: "Prog. hub interscambio", short: "Hub multimodali", tags: ["progettazione", "network MS"], status: "done",
       desc: "Progettazione degli hub multimodali. Connessioni tra modalità." },
     { title: "Prog. corrispondenze", short: "Coincidenze su hub", tags: ["progettazione", "servicerunmonitoring"], status: "done",
       desc: "Progettazione del tracciamento coincidenze su hub." },
     { title: "Prog. composizione", short: "Materiale rotabile", tags: ["progettazione", "anagrafica"], status: "done",
       desc: "Progettazione della configurazione materiale rotabile per corsa." },
+      { title: "Prog. Smart Workflow Mgr", short: "Checklist configurabili", tags: ["nuovo FE/BE", "configurabile"], status: "wip",
+      desc: "Progettazione Smart Workflow Manager: task riutilizzabili come checklist. Template admin, item con severità/criticità, allegati come evidenza." },
     { title: "Mockup Coinc. Tabella", short: "Mockup", tags: [], status: "wip",
       desc: "Mockup coincidenze in vista tabella." },
     { title: "Mockup Coinc. Mappa", short: "Mockup", tags: [], status: "wip",
       desc: "Mockup coincidenze in vista mappa." }
     ],
 
-    "f31": [
-    { title: "Prog. Smart Workflow Mgr", short: "Checklist configurabili", tags: ["nuovo FE/BE", "configurabile"], status: "wip",
-      desc: "Progettazione Smart Workflow Manager: task riutilizzabili come checklist. Template admin, item con severità/criticità, allegati come evidenza." },
+    "f51": [
     { title: "Applicazione - Notifiche", short: "Notifiche", tags: [], status: "wip",
       desc: "Notifiche applicazione." },
-    { title: "Tutorial AI", short: "Onboarding", tags: [], status: "wip",
+    { title: "Tutorial AI", short: "Onboarding", tags: [], status: "done",
       desc: "Tutorial AI." },
     { title: "Linearizzata multimodale", short: "Vista linearizzata", tags: [], status: "wip",
       desc: "Vista linearizzata multimodale." },
@@ -111,7 +111,7 @@ window.ROADMAP_CONTENT = {
       desc: "Nuovo strumento per il personale dei gruppi di lavoro: dipendenti, ruoli operativi, assenze inserite dai dipendenti stessi e copertura per ruolo, cioè quanti presenti ci sono rispetto al minimo richiesto, giorno per giorno." }
     ],
 
-    "f32": [
+    "f52": [
     { title: "Real. modello rete", short: "Implementazione rete", tags: ["network MS", "BE"], status: "wip",
       desc: "Implementazione del modello dati di rete progettato in fase 3." },
     { title: "Real. hub interscambio", short: "Implementazione hub", tags: ["network MS", "FE/BE"], status: "",
@@ -125,7 +125,7 @@ window.ROADMAP_CONTENT = {
     "f33": [
     { title: "Superset", short: "Analytics engine", tags: ["analytics"], status: "done",
       desc: "Integrazione di Apache Superset con le dashboard Monitoraggio corse e Accessi SRM." },
-    { title: "KPI Dashboard", short: "Indicatori di servizio", tags: ["KPI"], status: "",
+    { title: "KPI Dashboard", short: "Indicatori di servizio", tags: ["KPI"], status: "wip",
       desc: "Dashboard di indicatori chiave di prestazione del servizio." }
     ],
 
@@ -161,19 +161,19 @@ window.ROADMAP_CONTENT = {
       desc: "Evoluzione della linearizzata: per ogni corsa la traccia tempo-distanza già percorsa, a confronto con il programmato. Richiede lo storico di andamenti e localizzazioni delle corse." }
     ],
 
-    "f5": [
+    "f53": [
     { title: "Porting App AS IS", short: "Funzioni Trenord attuali", tags: ["porting", "app"], status: "wip",
       desc: "Porting delle funzionalità ad oggi disponibili per Trenord, con attestazione e invio localizzazioni e percorso." }
     ],
 
-    "f51": [
+    "f531": [
     { title: "Sistema di terra + App", short: "Deviazioni, KM, attestazione", tags: ["app", "sistema terra"], status: "",
       desc: "Estensione capabilities app: deviazioni, attestazione SRM, calcolo KM, invio andamenti, attestazione automatica, notifiche di lettura. Estensione sistema di terra." },
     { title: "Altre capabilities App", short: "Lista/dettaglio corsa, alert", tags: ["app", "alert"], status: "",
       desc: "Lista corsa, dettaglio corsa (percorso tabellare e grafico, materiale, crew), alert." }
     ],
 
-    "ai": [
+    "f7": [
     { title: "AI · Info corsa", short: "Chat read-only", tags: ["AI", "tool calling", "RAG"], status: "",
       desc: "Chat contestuale con tool calling read-only su servicerunmonitoring. Ingresso più sicuro." },
     { title: "AI · Report via mail", short: "Generazione + invio", tags: ["AI", "generazione", "notifiche"], status: "",

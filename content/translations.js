@@ -362,7 +362,7 @@
     ['Core operativo', 'Operations core'],
     ['Assessment Architetturale', 'Architecture assessment'],
     ['Progettazione modello rete e composizione', 'Network model and composition design'],
-    ['Strumenti Evoluti', 'Advanced tools'],
+    ['Realizzazione strumenti evoluti', 'Advanced tools implementation'],
     ['Realizzazione modello rete e composizione', 'Network model and composition implementation'],
     ['Assessment applicativo sui progetti', 'Application assessment across projects'],
     ['Porting SKILL Maintenance', 'SKILL Maintenance migration'],
