@@ -63,16 +63,22 @@ window.ROADMAP_CONTENT = {
     "f2": [
     { title: "Deploy nuovo ambiente", short: "Deploy", tags: [], status: "done",
       desc: "Deploy sul nuovo ambiente." },
-    { title: "Solution Assessment", short: "& Cybersecurity Compliance", tags: [], status: "wip",
+    { title: "Solution Assessment", short: "& Cybersecurity Compliance", tags: [], status: "done",
       desc: "Solution assessment e cybersecurity compliance." },
-    { title: "SAST e DAST", short: "Security testing", tags: ["cybersecurity", "SAST", "DAST"], status: "wip",
-      desc: "SAST (Static Application Security Testing) analizza codice sorgente, bytecode o binari senza eseguirli, cercando vulnerabilita note come SQL injection, XSS, hardcoded secrets e buffer overflow. Si esegue presto nel ciclo di sviluppo (shift-left); puo produrre falsi positivi e non rileva vulnerabilita di runtime o configurazione. DAST (Dynamic Application Security Testing) testa l applicazione in esecuzione dall esterno, sondando endpoint HTTP, form e API come farebbe un attaccante. Rileva problemi di runtime, autenticazione e configurazione; richiede un ambiente deployato, la copertura dipende dai percorsi raggiunti e non indica la riga di codice." },
+    { title: "CI/CD", short: "Build e release su ECR", tags: ["pipeline", "SonarQube", "Trivy", "ECR"], status: "wip",
+      desc: "Pipeline di CI/CD: la build viene fatta e l'immagine viene rilasciata su Amazon ECR solo al superamento dei controlli SonarQube e Trivy." },
+    { title: "SAST", short: "Integrato in tutte le pipeline", tags: ["cybersecurity", "SAST", "SonarQube"], status: "done",
+      desc: "SAST (Static Application Security Testing) integrato in tutte le pipeline: analizza codice sorgente, bytecode o binari senza eseguirli, cercando vulnerabilità note come SQL injection, XSS, hardcoded secrets e buffer overflow. Si esegue presto nel ciclo di sviluppo (shift-left)." },
+    { title: "DAST", short: "Security testing dinamico", tags: ["cybersecurity", "DAST"], status: "wip",
+      desc: "DAST (Dynamic Application Security Testing) testa l'applicazione in esecuzione dall'esterno, sondando endpoint HTTP, form e API come farebbe un attaccante. Rileva problemi di runtime, autenticazione e configurazione; richiede un ambiente deployato, la copertura dipende dai percorsi raggiunti e non indica la riga di codice." },
     { title: "Def. strumenti monitoraggio", short: "Monitoraggio", tags: [], status: "wip",
       desc: "Definizione strumenti di monitoraggio." },
     { title: "Integrazione Foundation", short: "Foundation", tags: [], status: "done",
       desc: "Integrazione Foundation." },
     { title: "Lotta all'indipendenza", short: "Autonomia da MOOVA", tags: [], status: "wip",
-      desc: "Lotta all'indipendenza." }
+      desc: "Lotta all'indipendenza." },
+    { title: "Multitenant applicativo", short: "Più aziende, una piattaforma", tags: ["multitenant"], status: "",
+      desc: "Realizzazione del multitenant applicativo: più aziende servite dalla stessa installazione SRM, con dati e configurazioni separati per tenant." }
     ],
 
     "f3": [
