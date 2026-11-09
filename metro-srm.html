@@ -92,6 +92,17 @@
     font-size:12.5px;font-weight:700;padding:7px 15px;border-radius:20px;box-shadow:0 2px 8px rgba(15,138,102,.25)}
   .mvpdiv .mvpbadge .chk{font-size:12px}
   .mvpdiv .mvpnote{flex:none;font-size:12px;color:var(--ink-soft);max-width:320px;line-height:1.35}
+  /* parentesi "lotta all'indipendenza" sulle fasi fino alla 4, la frase completa e' nel tooltip */
+  .indipgroup{position:relative}
+  .indipgroup::before{content:'';position:absolute;left:14px;top:6px;bottom:30px;width:6px;
+    border:1.5px solid #b42318;border-right:0;border-radius:5px 0 0 5px;opacity:.55}
+  .indiplabel{position:absolute;left:0;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;
+    font-size:10.5px;font-weight:600;line-height:1;color:#b42318;white-space:nowrap;cursor:help}
+  body.embed .indipgroup::before{bottom:8px}
+  body.embed .indiplabel{font-size:9.5px}
+  @media(max-width:700px){
+    .indiplabel{position:static;display:block;transform:none;writing-mode:horizontal-tb;margin:0 0 8px 34px}
+  }
   @media(max-width:700px){
     .mvpdiv{flex-wrap:wrap}
     .mvpdiv .mvpnote{flex:1 1 200px;max-width:none}
@@ -208,6 +219,7 @@
 const DATA=window.ROADMAP_CONTENT;
 const {phases,stations,deps}=DATA;
 const MVP_PHASE_ID='f53';
+const INDIP_LAST_PHASE_ID='skill';
 const COL_W=200, R=8, TRACK_H=124;
 const $=s=>document.querySelector(s);
 function esc(t){return String(t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
@@ -217,6 +229,14 @@ function wrapTxt(t){if(t.length<=17)return[t];const w=t.split(' ');let a='',b=''
 
 const board=$('#board');
 const posIndex={}; // title -> {rowEl, cx, cy(within svg), phase, ...}
+
+// Lotta all'indipendenza: le fasi fino alla 4 stanno in un gruppo con la parentesi a sinistra
+const indipLast=phases.findIndex(p=>p.id===INDIP_LAST_PHASE_ID);
+const indipGroup=document.createElement('div');
+indipGroup.className='indipgroup';
+indipGroup.innerHTML='<span class="indiplabel" title="Il filo rosso di tutta la roadmap: autonomia da MOOVA, una fermata alla volta.">'
+  +'<span aria-hidden="true">&#9873;</span> Lotta all\'indipendenza</span>';
+board.appendChild(indipGroup);
 
 phases.forEach((p,pi)=>{
   const sts=stations[p.id]||[];
@@ -236,7 +256,7 @@ phases.forEach((p,pi)=>{
       <span class="chev">&#9654;</span>
     </div>
     <div class="track"><div class="trackin"></div></div>`;
-  board.appendChild(row);
+  (pi<=indipLast?indipGroup:board).appendChild(row);
 
   // build responsive HTML track (fills width, round nodes, no horizontal scroll)
   const n=sts.length;

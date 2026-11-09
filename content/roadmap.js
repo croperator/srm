@@ -75,8 +75,6 @@ window.ROADMAP_CONTENT = {
       desc: "Definizione strumenti di monitoraggio." },
     { title: "Integrazione Foundation", short: "Foundation", tags: [], status: "done",
       desc: "Integrazione Foundation." },
-    { title: "Lotta all'indipendenza", short: "Autonomia da MOOVA", tags: [], status: "wip",
-      desc: "Lotta all'indipendenza." },
     { title: "Multitenant applicativo", short: "Più aziende, una piattaforma", tags: ["multitenant"], status: "",
       desc: "Realizzazione del multitenant applicativo: più aziende servite dalla stessa installazione SRM, con dati e configurazioni separati per tenant." }
     ],
