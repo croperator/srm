@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOOVA SRM - Assistente SRM</title>
+<style>
+  :root{--bg:#f8f9f7;--surface:#fff;--ink:#172033;--soft:#5d6a80;--mute:#8490a2;--line:#dfe5ed;--line-strong:#c8d1dd;--band:#f1f4f8;--blue:#2563eb;--blue-soft:#eaf1ff;--teal:#0f8a78;--teal-soft:#eff8f6;--gold:#b96a12;--gold-soft:#fff4e4;--sidebar:264px;--font:Segoe UI,system-ui,-apple-system,Arial,sans-serif;--mono:Consolas,"Cascadia Mono",ui-monospace,monospace}
+  *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55} a{color:inherit}
+  .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);z-index:20;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;transition:transform .22s ease}
+  .brand{padding:22px 20px 17px;border-bottom:1px solid var(--line)}.brand strong{display:block;color:var(--blue);font-size:13px;letter-spacing:.14em}.brand span{display:block;color:var(--mute);font-size:11.5px;margin-top:3px}
+  .nav{padding:16px 12px;flex:1}.nav-label{padding:5px 10px 8px;color:var(--mute);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.nav a{display:flex;gap:10px;align-items:center;padding:9px 10px;margin-bottom:3px;border-radius:8px;text-decoration:none;color:var(--soft);font-size:14px;font-weight:550}.nav a:hover{background:#f1f5fb;color:var(--ink)}.nav a.active{background:var(--blue-soft);color:var(--blue);font-weight:700}.nav .icon{width:20px;text-align:center;font-size:15px}.nav a.sub{padding-left:22px;font-size:13.5px}
+  .side-footer{padding:14px 20px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+  .topbar{display:none;position:sticky;top:0;z-index:15;padding:11px 16px;align-items:center;gap:12px;background:rgba(248,249,247,.96);border-bottom:1px solid var(--line)}.menu{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:7px;font-size:18px;color:var(--ink);cursor:pointer}.topbar strong{font-size:13px;letter-spacing:.1em;color:var(--blue)}.scrim{display:none;position:fixed;inset:0;background:rgba(20,30,45,.38);z-index:18}
+  main{margin-left:var(--sidebar);max-width:1450px;padding:0 48px}.inner{max-width:1180px}.hero{padding:64px 0 44px;border-bottom:1px solid var(--line)}.eyebrow{display:flex;gap:8px;align-items:center;color:var(--blue);font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;margin:0 0 13px}.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--teal)}.eyebrow a{text-decoration:none}.eyebrow a:hover{text-decoration:underline}h1{font-size:44px;line-height:1.1;letter-spacing:-.6px;margin:0;max-width:18ch}.lead{max-width:68ch;color:var(--soft);font-size:18px;margin:18px 0 0}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:23px}.tag{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:5px 11px;color:var(--soft);font-size:12.5px}.tag.primary{border-color:transparent;background:var(--blue-soft);color:var(--blue);font-weight:700}
+  section{padding:52px 0;border-bottom:1px solid var(--line)}section:last-of-type{border:0}.section-label{color:var(--mute);font-size:11.5px;letter-spacing:.13em;font-weight:700;text-transform:uppercase;margin:0 0 8px}h2{font-size:27px;letter-spacing:-.25px;line-height:1.2;margin:0 0 10px}.intro{max-width:70ch;color:var(--soft);font-size:15.5px;margin:0 0 28px}
+  /* Funzioni */
+  .feat-group+.feat-group{margin-top:34px}
+  .group-title{display:flex;align-items:baseline;gap:10px;margin:0 0 14px;font-size:13px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--blue)}
+  .feat-grid{display:grid;gap:14px}.feat-grid.two{grid-template-columns:repeat(2,1fr)}.feat-grid.three{grid-template-columns:repeat(3,1fr)}
+  .feat{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:19px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+  .feat h3{font-size:16px;margin:0}.feat p{font-size:13.5px;color:var(--soft);margin:0}
+  .ex-label{font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--mute);margin-top:auto;padding-top:4px}
+  .asks{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+  .asks li{font-size:12.5px;line-height:1.35;color:var(--ink);background:#f4f6fa;border:1px solid var(--line);border-radius:14px;padding:4px 11px}
+  .asks li:before{content:"\201C";color:var(--blue);margin-right:1px}.asks li:after{content:"\201D";color:var(--blue);margin-left:1px}
+  .sample{font-size:13px;color:var(--ink);background:var(--teal-soft);border-left:3px solid var(--teal);border-radius:0 6px 6px 0;padding:8px 12px;margin:0}
+  /* Garanzie */
+  .assure{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .assure div{border-top:2px solid var(--teal);padding-top:12px}.assure b{display:block;font-size:14.5px;margin-bottom:5px}.assure span{display:block;font-size:13px;color:var(--soft)}
+  /* Disegni */
+  figure{margin:0;display:grid;gap:12px}
+  .diagram{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px}
+  .diagram svg{display:block;width:100%;min-width:780px;height:auto}
+  figcaption{color:var(--soft);font-size:13.5px;max-width:84ch}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:12.5px;color:var(--soft);align-items:center}.legend>span{display:inline-flex;align-items:center;gap:8px}
+  .chip{font:700 11px var(--mono);color:var(--gold);background:var(--gold-soft);border:1px solid var(--gold);border-radius:4px;padding:1px 6px}
+  .dash{width:34px;border-top:1.5px dashed var(--mute)}.sw{width:14px;height:14px;border-radius:3px;background:var(--blue-soft);border:1.5px solid var(--blue)}
+  .box{fill:var(--surface);stroke:var(--line-strong);stroke-width:1.2}.band{fill:var(--band)}.pod{fill:none;stroke:var(--ink);stroke-width:1.4}.hl{fill:var(--blue-soft);stroke:var(--blue);stroke-width:1.6}.absent{fill:none;stroke:var(--mute);stroke-width:1.2;stroke-dasharray:5 4}
+  .edge{fill:none;stroke:var(--ink);stroke-width:1.4}.edge-off{fill:none;stroke:var(--mute);stroke-width:1.4;stroke-dasharray:5 4}.head{fill:var(--ink)}.head-off{fill:var(--mute)}
+  .t{font:600 13px var(--font);fill:var(--ink)}.tb{font:700 12px var(--font);fill:var(--ink);letter-spacing:.02em}.s{font:11.5px var(--font);fill:var(--soft)}.lbl{font:600 11.5px var(--font);fill:var(--ink)}.lbl-off{font:11.5px var(--font);fill:var(--mute)}.t-hl{font:700 13px var(--font);fill:var(--blue)}
+  .badge rect{fill:var(--gold-soft);stroke:var(--gold);stroke-width:1}.badge text{font:700 10.5px var(--mono);fill:var(--gold)}
+  /* Tabella */
+  .table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+  table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:13px 16px;border-bottom:1px solid var(--line)}th{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);background:#fafbfc}tr:last-child td{border-bottom:0}td{color:var(--soft)}td:first-child{color:var(--ink);font-weight:700;white-space:nowrap;width:1%}
+  footer{padding:28px 0 60px;color:var(--mute);font-size:12px}
+  @media(max-width:900px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.topbar{display:flex}.scrim.show{display:block}main{margin-left:0;padding:0 24px}.hero{padding-top:46px}h1{font-size:36px}.feat-grid.three{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:720px){main{padding:0 16px}.hero{padding:38px 0 34px}h1{font-size:32px}.lead{font-size:16px}section{padding:38px 0}.feat-grid.two,.feat-grid.three{grid-template-columns:1fr}td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<aside class="sidebar" id="sidebar"><div class="brand"><strong>MOOVA SRM</strong><span>Smart Real-Time Mobility</span></div><nav class="nav"><div class="nav-label">Presentazione</div><a href="index.html"><span class="icon">◆</span>Introduzione SRM</a><a href="index.html#team"><span class="icon">◎</span>Il team</a><a href="index.html#metodo"><span class="icon">↻</span>Metodo di lavoro</a><div class="nav-label" style="margin-top:14px">Smart services</div><a href="smart-services.html"><span class="icon">✦</span>AI e servizi evoluti</a><a class="sub active" href="assistente-srm.html"><span class="icon">◈</span>Assistente SRM</a></nav><div class="side-footer">Funzioni e architettura</div></aside>
+<div class="scrim" id="scrim"></div><header class="topbar"><button class="menu" id="menu" aria-label="Apri menu">☰</button><strong>MOOVA SRM</strong></header>
+<main><div class="inner">
+<header class="hero"><p class="eyebrow"><i></i><a href="smart-services.html">Smart services</a></p><h1>L'assistente SRM.</h1><p class="lead">Un assistente in linguaggio naturale per la sala operativa. Risponde su corse, linee e circolazione con i dati in tempo reale di SRM, suggerisce gli interventi previsti dalle regole di esercizio e li applica solo dopo la conferma dell'operatore.</p><div class="tag-row"><span class="tag primary">Linguaggio naturale</span><span class="tag">Dati SRM in tempo reale</span><span class="tag">Italiano e inglese</span><span class="tag">Modelli eseguiti in casa</span><span class="tag">Azioni solo con conferma</span></div></header>
+
+<section id="funzioni"><p class="section-label">Cosa fa</p><h2>Le funzioni disponibili oggi.</h2><p class="intro">L'operatore scrive come parla, anche con date come «ieri» o «del 9 aprile»; l'assistente riconosce la richiesta, interroga i servizi SRM e risponde con dati verificati. Gli esempi sono richieste reali che l'assistente riconosce.</p>
+
+<div class="feat-group"><h3 class="group-title">Corse e circolazione</h3><div class="feat-grid two">
+  <article class="feat"><h3>Ricerca della corsa</h3><p>Trova una corsa dal numero del treno e dalla data, comunque sia scritta. Se le corse corrispondenti sono più di una, propone l'elenco da cui scegliere.</p><span class="ex-label">Esempi</span><ul class="asks"><li>corsa 2247</li><li>treno 10028 di ieri</li><li>2247 del 9 aprile 2026</li></ul></article>
+  <article class="feat"><h3>Dettaglio e motivi del ritardo</h3><p>Mostra fermate, orari e ritardo della corsa e spiega le cause registrate, con il soggetto responsabile, fermata per fermata.</p><span class="ex-label">Esempi</span><ul class="asks"><li>mostrami il dettaglio</li><li>perché è in ritardo?</li><li>qual è la causa del ritardo del treno 2247</li></ul></article>
+  <article class="feat"><h3>Stato della circolazione</h3><p>Riassume la situazione della rete: linee impattate in ordine di gravità, corse ferme e rallentamenti, fermate più coinvolte e livello della perturbazione. Anche per un giorno passato o per una singola linea.</p><span class="ex-label">Esempi</span><ul class="asks"><li>stato della circolazione</li><li>quali sono le linee impattate</li><li>stato della rete di ieri</li></ul></article>
+  <article class="feat"><h3>Corse oltre una soglia</h3><p>Elenca le corse con un ritardo sopra una soglia o in un intervallo, filtrate per stato: in corso, all'origine, completate o cancellate.</p><span class="ex-label">Esempi</span><ul class="asks"><li>corse con ritardo superiore a 30 minuti</li><li>corse in corso con ritardo tra 10 e 30 minuti oggi</li><li>corse cancellate con ritardo sopra 10 minuti ieri</li></ul></article>
+</div></div>
+
+<div class="feat-group"><h3 class="group-title">Supporto alle decisioni</h3><div class="feat-grid two">
+  <article class="feat"><h3>Briefing della circolazione</h3><p>Nella pagina Stato circolazione racconta in poche frasi cosa sta succedendo, indica i punti caldi con le corse coinvolte e la causa prevalente, quando è nota. Le frasi che non trovano riscontro nei dati vengono scartate.</p><span class="ex-label">Esempio di risposta</span><p class="sample">Perturbazione alta con quattro rallentamenti critici distribuiti su quattro linee.</p></article>
+  <article class="feat"><h3>Interventi suggeriti</h3><p>Accanto al briefing propone gli interventi previsti dalle regole di esercizio: bus sostitutivo per una corsa ferma, limitazione o soppressione per un rallentamento critico, avviso ai viaggiatori quando una linea accumula ritardi.</p><span class="ex-label">Esempio di risposta</span><p class="sample">Predisporre un bus sostitutivo per la corsa ferma.</p></article>
+  <article class="feat"><h3>Provvedimenti con anteprima e conferma</h3><p>Propone il provvedimento adatto alla corsa, mostra in anteprima l'effetto sulle corse e lo crea solo dopo la conferma dell'operatore, a suo nome e secondo il suo ruolo.</p><span class="ex-label">Esempi</span><ul class="asks"><li>proponi un provvedimento per la corsa 2247</li><li>sopprimi la corsa 2247</li></ul></article>
+  <article class="feat"><h3>Regole di esercizio configurabili</h3><p>Soglie di ritardo, livelli di perturbazione e testi degli interventi sono regole versionate: si aggiornano senza un nuovo rilascio, e si torna alla versione precedente in un passo.</p><span class="ex-label">Esempio</span><p class="sample">Rallentamento critico da 35 minuti invece che da 30.</p></article>
+</div></div>
+
+<div class="feat-group"><h3 class="group-title">Conoscenza e supporto</h3><div class="feat-grid two">
+  <article class="feat"><h3>Risposte dal manuale operativo</h3><p>Risponde alle domande sulle procedure cercando nei documenti caricati, per significato e per parole chiave. I PDF vengono divisi per sezione e indicizzati in background; il caricamento è riservato a un ruolo dedicato.</p><span class="ex-label">Esempio</span><ul class="asks"><li>qual è il termine per segnalare un guasto al materiale rotabile?</li></ul></article>
+  <article class="feat"><h3>Tutorial guidati</h3><p>Alle domande su come si usa l'applicazione apre la pagina giusta e avvia il tour guidato dal passo pertinente.</p><span class="ex-label">Esempio</span><ul class="asks"><li>come posso filtrare le corse?</li></ul></article>
+  <article class="feat"><h3>Segnalazione di malfunzionamenti</h3><p>Raccoglie descrizione, log e schermate, stima la gravità e l'area coinvolta, toglie password e token dai log e invia la segnalazione al supporto con gli allegati.</p><span class="ex-label">Esempio</span><p class="sample">Schermata bianca all'apertura: gravità critica, disponibilità dell'applicazione.</p></article>
+  <article class="feat"><h3>Report in PDF e via mail</h3><p>Esporta in PDF l'ultimo report o lo invia per mail al destinatario scritto nel messaggio, e solo a quello.</p><span class="ex-label">Esempi</span><ul class="asks"><li>esporta in pdf</li><li>invia il report via mail a mario.rossi@azienda.it</li></ul></article>
+</div></div>
+
+<div class="feat-group"><h3 class="group-title">Interazione</h3><div class="feat-grid three">
+  <article class="feat"><h3>Italiano e inglese</h3><p>Capisce e risponde nella lingua dell'interfaccia, report e pulsanti compresi.</p><span class="ex-label">Esempi</span><ul class="asks" data-i18n-ignore><li>search train 2820 on 2026-09-17</li><li>What is the network status?</li></ul></article>
+  <article class="feat"><h3>Conversazione guidata</h3><p>Ogni risposta propone i passi successivi come pulsanti, e l'assistente capisce le risposte brevi.</p><span class="ex-label">Esempi</span><ul class="asks"><li>sì, vai</li><li>apri la seconda</li></ul></article>
+  <article class="feat"><h3>Voce</h3><p>Si può dettare la domanda e ascoltare la risposta, in italiano. Trascrizione e sintesi vocale girano sull'infrastruttura della piattaforma.</p></article>
+</div></div>
+</section>
+
+<section><p class="section-label">Affidabilità</p><h2>Pensato per la sala operativa.</h2><p class="intro">Un assistente che lavora su dati di esercizio deve essere prevedibile: per questo le richieste note le gestisce il codice, e il modello interviene solo su ciò che resta.</p>
+<div class="assure">
+  <div><b>Dati, non supposizioni</b><span>Le risposte su corse e circolazione vengono dai servizi SRM. I controlli sul testo scartano nomi, numeri e minuti che i dati non contengono.</span></div>
+  <div><b>Nessuna azione senza conferma</b><span>Mail e provvedimenti partono solo da una richiesta esplicita; un provvedimento, solo dopo l'anteprima.</span></div>
+  <div><b>Con i permessi dell'utente</b><span>L'assistente lavora con l'identità di chi lo usa, mai con un'utenza tecnica, e ogni conversazione resta visibile solo al suo autore.</span></div>
+  <div><b>Tutto tracciato</b><span>Domande, strumenti usati e documenti consultati vengono registrati.</span></div>
+  <div><b>Modelli eseguiti in casa</b><span>I modelli linguistici sono open-weight e girano su GPU della piattaforma: i dati non escono verso servizi AI esterni.</span></div>
+</div>
+</section>
+
+<section><p class="section-label">Identità e accesso</p><h2>Chi verifica una richiesta.</h2><p class="intro">L'accesso è unico per tutta la piattaforma. L'interfaccia ottiene il token da Keycloak e i profili dal Profile Manager, poi chiama l'assistente attraverso l'API gateway.</p>
+<figure>
+  <div class="diagram">
+    <svg viewBox="0 0 1100 470" role="img" aria-label="L'interfaccia ottiene il token da Keycloak e i profili dal Profile Manager, poi chiama l'assistente attraverso l'API gateway. Il token viene verificato dal gateway, dall'assistente e dai servizi SRM.">
+      <defs>
+        <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <path class="edge" d="M110,170 V65 H248" marker-end="url(#a1)"/>
+      <text class="lbl" x="180" y="57" text-anchor="middle">login, token</text>
+      <path class="edge" d="M110,280 V400 H248" marker-end="url(#a1)"/>
+      <text class="lbl" x="180" y="392" text-anchor="middle">profili, permessi</text>
+      <path class="edge" d="M200,225 H538" marker-end="url(#a1)"/>
+      <text class="lbl" x="370" y="215" text-anchor="middle">HTTPS con il token</text>
+      <path class="edge" d="M760,225 H858" marker-end="url(#a1)"/>
+      <text class="lbl" x="809" y="215" text-anchor="middle">stesso token</text>
+      <path class="edge" d="M650,170 V85 H482" marker-end="url(#a1)"/>
+      <text class="lbl" x="566" y="77" text-anchor="middle">verifica token</text>
+      <path class="edge" d="M970,170 V45 H482" marker-end="url(#a1)"/>
+      <text class="lbl" x="726" y="37" text-anchor="middle">chiavi pubbliche</text>
+      <path class="edge" d="M970,280 V348" marker-end="url(#a1)"/>
+      <text class="lbl" x="980" y="318">token dell'utente</text>
+
+      <rect class="box" x="20" y="170" width="180" height="110" rx="8"/>
+      <text class="t" x="110" y="200" text-anchor="middle">Interfaccia SRM</text>
+      <text class="s" x="110" y="222" text-anchor="middle">pannello dell'assistente</text>
+      <text class="s" x="110" y="240" text-anchor="middle">briefing della circolazione</text>
+
+      <rect class="box" x="250" y="20" width="230" height="90" rx="8"/>
+      <text class="t" x="365" y="46" text-anchor="middle">Keycloak</text>
+      <text class="s" x="365" y="66" text-anchor="middle">accesso unico, OpenID Connect</text>
+      <text class="s" x="365" y="84" text-anchor="middle">token con ruoli e gruppi</text>
+
+      <rect class="box" x="250" y="350" width="230" height="100" rx="8"/>
+      <text class="t" x="365" y="378" text-anchor="middle">Profile Manager</text>
+      <text class="s" x="365" y="400" text-anchor="middle">profili e permessi</text>
+      <text class="s" x="365" y="418" text-anchor="middle">da gruppi e assegnazioni</text>
+
+      <rect class="box" x="540" y="170" width="220" height="110" rx="8"/>
+      <text class="t" x="650" y="200" text-anchor="middle">API gateway</text>
+      <text class="s" x="650" y="222" text-anchor="middle" data-i18n-ignore>Apache APISIX</text>
+      <text class="s" x="650" y="240" text-anchor="middle">verifica e instradamento</text>
+      <g class="badge"><rect x="704" y="160" width="50" height="20" rx="4"/><text x="729" y="174" text-anchor="middle" data-i18n-ignore>JWT ✓</text></g>
+
+      <rect class="box" x="860" y="170" width="220" height="110" rx="8"/>
+      <text class="t" x="970" y="200" text-anchor="middle">Assistente SRM</text>
+      <text class="s" x="970" y="222" text-anchor="middle">verifica firma, emittente,</text>
+      <text class="s" x="970" y="240" text-anchor="middle">scadenza e destinatario</text>
+      <g class="badge"><rect x="1024" y="160" width="50" height="20" rx="4"/><text x="1049" y="174" text-anchor="middle" data-i18n-ignore>JWT ✓</text></g>
+
+      <rect class="box" x="860" y="350" width="220" height="100" rx="8"/>
+      <text class="t" x="970" y="378" text-anchor="middle">Servizi SRM</text>
+      <text class="s" x="970" y="400" text-anchor="middle">corse, provvedimenti, avvisi</text>
+      <text class="s" x="970" y="418" text-anchor="middle">permessi in base al ruolo</text>
+      <g class="badge"><rect x="1024" y="340" width="50" height="20" rx="4"/><text x="1049" y="354" text-anchor="middle" data-i18n-ignore>JWT ✓</text></g>
+    </svg>
+  </div>
+  <div class="legend"><span><span class="chip" data-i18n-ignore>JWT ✓</span>il token viene verificato qui</span></div>
+  <figcaption>Il token di Keycloak viene verificato dal gateway, dall'assistente e da ogni servizio a valle: l'assistente agisce sempre con l'identità e i permessi dell'utente. Il Profile Manager stabilisce che cosa ogni profilo può vedere e fare nell'interfaccia.</figcaption>
+</figure>
+</section>
+
+<section><p class="section-label">Dentro l'assistente</p><h2>Cinque strati, un servizio.</h2><p class="intro">Se il flusso è noto decide il codice: procedure, instradamento delle richieste, regole di esercizio. Il modello interviene solo su ciò che resta, con strumenti in sola lettura e testo controllato.</p>
+<figure>
+  <div class="diagram">
+    <svg viewBox="0 0 1100 600" role="img" aria-label="L'assistente ha cinque strati: accesso, applicazione, modelli, integrazioni e dati. Ogni strato è collegato al sistema che usa: Keycloak, i modelli linguistici su GPU, i servizi SRM e il database PostgreSQL.">
+      <defs>
+        <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+        <marker id="a2off" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head-off" d="M0,0 L10,5 L0,10 z"/></marker>
+      </defs>
+      <rect class="pod" x="20" y="20" width="700" height="560" rx="10"/>
+      <text class="t" x="40" y="46">Assistente SRM</text>
+      <text class="s" x="160" y="46">servizio in container, su nodo GPU</text>
+
+      <rect class="band" x="40" y="64" width="660" height="56" rx="6"/>
+      <text class="tb" x="56" y="86">Accesso</text>
+      <text class="s" x="56" y="106">verifica del token · chat · briefing · regole · documenti · segnalazioni · voce</text>
+
+      <rect class="band" x="40" y="136" width="660" height="150" rx="6"/>
+      <text class="tb" x="56" y="158">Applicazione</text>
+      <rect class="box" x="56" y="170" width="119" height="104" rx="6"/>
+      <text class="t" x="115" y="192" text-anchor="middle">Conversazione</text>
+      <text class="s" x="115" y="212" text-anchor="middle">procedure</text>
+      <text class="s" x="115" y="228" text-anchor="middle">richieste note</text>
+      <text class="s" x="115" y="244" text-anchor="middle">modello e tool</text>
+      <text class="s" x="115" y="260" text-anchor="middle">in sola lettura</text>
+      <rect class="box" x="183" y="170" width="119" height="104" rx="6"/>
+      <text class="t" x="242" y="192" text-anchor="middle">Briefing</text>
+      <text class="s" x="242" y="212" text-anchor="middle">report della pagina</text>
+      <text class="s" x="242" y="228" text-anchor="middle">formato vincolato</text>
+      <text class="s" x="242" y="244" text-anchor="middle">interventi</text>
+      <text class="s" x="242" y="260" text-anchor="middle">ripiego sui numeri</text>
+      <rect class="hl" x="310" y="170" width="119" height="104" rx="6"/>
+      <text class="t-hl" x="369" y="192" text-anchor="middle">Regole</text>
+      <text class="s" x="369" y="212" text-anchor="middle">soglie, livelli</text>
+      <text class="s" x="369" y="228" text-anchor="middle">interventi</text>
+      <text class="s" x="369" y="244" text-anchor="middle">versionate</text>
+      <text class="s" x="369" y="260" text-anchor="middle">senza rilascio</text>
+      <rect class="box" x="437" y="170" width="119" height="104" rx="6"/>
+      <text class="t" x="496" y="192" text-anchor="middle">Segnalazioni</text>
+      <text class="s" x="496" y="212" text-anchor="middle">gravità e area</text>
+      <text class="s" x="496" y="228" text-anchor="middle">log ripuliti</text>
+      <text class="s" x="496" y="244" text-anchor="middle">mail con allegati</text>
+      <rect class="box" x="564" y="170" width="119" height="104" rx="6"/>
+      <text class="t" x="623" y="192" text-anchor="middle">Documenti</text>
+      <text class="s" x="623" y="212" text-anchor="middle">PDF per sezione</text>
+      <text class="s" x="623" y="228" text-anchor="middle">indicizzazione</text>
+      <text class="s" x="623" y="244" text-anchor="middle">in background</text>
+
+      <rect class="band" x="40" y="302" width="660" height="104" rx="6"/>
+      <text class="tb" x="56" y="324">Modelli</text>
+      <rect class="box" x="56" y="334" width="151" height="60" rx="6"/>
+      <text class="t" x="131" y="358" text-anchor="middle">Orchestrazione</text>
+      <text class="s" x="131" y="378" text-anchor="middle" data-i18n-ignore>Pydantic AI</text>
+      <rect class="box" x="215" y="334" width="151" height="60" rx="6"/>
+      <text class="t" x="290" y="358" text-anchor="middle">Controlli sul testo</text>
+      <text class="s" x="290" y="378" text-anchor="middle">nomi, numeri, minuti</text>
+      <rect class="box" x="374" y="334" width="151" height="60" rx="6"/>
+      <text class="t" x="449" y="358" text-anchor="middle">Ricerca semantica</text>
+      <text class="s" x="449" y="378" text-anchor="middle">documenti e domande</text>
+      <rect class="box" x="533" y="334" width="151" height="60" rx="6"/>
+      <text class="t" x="608" y="358" text-anchor="middle">Voce</text>
+      <text class="s" x="608" y="378" text-anchor="middle">trascrizione e sintesi</text>
+
+      <rect class="band" x="40" y="422" width="660" height="64" rx="6"/>
+      <text class="tb" x="56" y="444">Integrazioni</text>
+      <text class="s" x="56" y="466">corse e circolazione · provvedimenti · anagrafiche · traduzioni · notifiche · documenti</text>
+
+      <rect class="band" x="40" y="502" width="660" height="64" rx="6"/>
+      <text class="tb" x="56" y="524">Dati</text>
+      <text class="s" x="56" y="546">conversazioni · documenti indicizzati · registro delle attività · regole di esercizio</text>
+
+      <path class="edge" d="M700,92 H818" marker-end="url(#a2)"/>
+      <text class="lbl" x="770" y="84" text-anchor="middle">all'avvio</text>
+      <path class="edge-off" d="M700,210 H818" marker-end="url(#a2off)"/>
+      <text class="lbl-off" x="770" y="202" text-anchor="middle">trace</text>
+      <path class="edge" d="M700,354 H818" marker-end="url(#a2)"/>
+      <text class="lbl" x="770" y="346" text-anchor="middle">testo, vettori</text>
+      <path class="edge" d="M700,454 H818" marker-end="url(#a2)"/>
+      <text class="lbl" x="770" y="446" text-anchor="middle">token utente</text>
+      <path class="edge" d="M700,534 H818" marker-end="url(#a2)"/>
+      <text class="lbl" x="770" y="526" text-anchor="middle">SQL</text>
+
+      <rect class="box" x="820" y="64" width="260" height="56" rx="8"/>
+      <text class="t" x="950" y="87" text-anchor="middle">Keycloak</text>
+      <text class="s" x="950" y="106" text-anchor="middle">chiavi pubbliche per verificare il token</text>
+      <rect class="absent" x="820" y="180" width="260" height="60" rx="8"/>
+      <text class="t" x="950" y="205" text-anchor="middle">Osservabilità</text>
+      <text class="s" x="950" y="225" text-anchor="middle">OpenTelemetry, attivabile</text>
+      <rect class="box" x="820" y="302" width="260" height="104" rx="8"/>
+      <text class="t" x="950" y="326" text-anchor="middle">Modelli linguistici su GPU</text>
+      <text class="s" x="950" y="346" text-anchor="middle">Ollama, modelli open-weight</text>
+      <text class="s" x="950" y="366" text-anchor="middle">conversazione ed embedding</text>
+      <text class="s" x="950" y="386" text-anchor="middle">nessun servizio esterno</text>
+      <rect class="box" x="820" y="422" width="260" height="64" rx="8"/>
+      <text class="t" x="950" y="446" text-anchor="middle">Servizi SRM</text>
+      <text class="s" x="950" y="466" text-anchor="middle">con l'identità dell'utente</text>
+      <rect class="box" x="820" y="502" width="260" height="78" rx="8"/>
+      <text class="t" x="950" y="526" text-anchor="middle" data-i18n-ignore>PostgreSQL</text>
+      <text class="s" x="950" y="546" text-anchor="middle">con pgvector per la</text>
+      <text class="s" x="950" y="564" text-anchor="middle">ricerca semantica</text>
+    </svg>
+  </div>
+  <div class="legend"><span><span class="sw"></span>configurabili senza un nuovo rilascio</span><span><span class="dash"></span>componente opzionale</span></div>
+  <figcaption>Ogni strato è collegato al sistema che usa. Un provvedimento arriva al servizio dei provvedimenti solo dopo l'anteprima e la conferma dell'operatore.</figcaption>
+</figure>
+</section>
+
+<section><p class="section-label">Identità e permessi</p><h2>Chi fa cosa.</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Componente</th><th>Ruolo</th></tr></thead>
+  <tbody>
+    <tr><td>Keycloak</td><td>Gestisce l'accesso unico alla piattaforma ed emette il token dell'utente, con i suoi ruoli e gruppi.</td></tr>
+    <tr><td>Profile Manager</td><td>Stabilisce profili e permessi nell'interfaccia, a partire dai gruppi dell'utente e dalle assegnazioni gestite dagli amministratori.</td></tr>
+    <tr><td>API gateway</td><td>È il punto d'ingresso delle chiamate: verifica il token e le instrada verso l'assistente.</td></tr>
+    <tr><td>Assistente SRM</td><td>Verifica di nuovo il token e lavora con l'identità dell'utente. Ogni conversazione appartiene a chi l'ha aperta; caricare documenti richiede un ruolo dedicato.</td></tr>
+    <tr><td>Servizi SRM</td><td>Verificano il token e applicano i permessi del ruolo: per esempio, il provvedimento proposto da un operatore viene validato da un responsabile.</td></tr>
+  </tbody>
+</table></div>
+</section>
+
+<footer>MOOVA SRM - Smart Services · Assistente SRM</footer>
+</div></main>
+<script>const sidebar=document.getElementById('sidebar'),scrim=document.getElementById('scrim');function closeMenu(){sidebar.classList.remove('open');scrim.classList.remove('show')}document.getElementById('menu').addEventListener('click',()=>{sidebar.classList.toggle('open');scrim.classList.toggle('show')});scrim.addEventListener('click',closeMenu);</script>
+<script src="content/translations.js"></script>
+<script src="js/i18n.js"></script>
+</body>
+</html>
