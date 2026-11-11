@@ -71,7 +71,7 @@
 </div></div>
 
 <div class="feat-group"><h3 class="group-title">Conoscenza e supporto</h3><div class="feat-grid two">
-  <article class="feat"><h3>Risposte dal manuale operativo</h3><p>Risponde alle domande sulle procedure cercando nei documenti caricati, per significato e per parole chiave. I PDF vengono divisi per sezione e indicizzati in background; il caricamento è riservato a un ruolo dedicato.</p><span class="ex-label">Esempio</span><ul class="asks"><li>qual è il termine per segnalare un guasto al materiale rotabile?</li></ul></article>
+  <article class="feat"><h3>Risposte dal manuale operativo</h3><p>Risponde alle domande sulle procedure cercando nei documenti caricati, per significato e per parole chiave. I PDF vengono divisi per sezione e indicizzati in background. Un manuale aggiornato prende il posto della versione precedente senza interrompere le risposte, e un documento superato si toglie in un passo; caricare e gestire i documenti è riservato a un ruolo dedicato.</p><span class="ex-label">Esempio</span><ul class="asks"><li>qual è il termine per segnalare un guasto al materiale rotabile?</li></ul></article>
   <article class="feat"><h3>Tutorial guidati</h3><p>Alle domande su come si usa l'applicazione apre la pagina giusta e avvia il tour guidato dal passo pertinente.</p><span class="ex-label">Esempio</span><ul class="asks"><li>come posso filtrare le corse?</li></ul></article>
   <article class="feat"><h3>Segnalazione di malfunzionamenti</h3><p>Raccoglie descrizione, log e schermate, stima la gravità e l'area coinvolta, toglie password e token dai log e invia la segnalazione al supporto con gli allegati.</p><span class="ex-label">Esempio</span><p class="sample">Schermata bianca all'apertura: gravità critica, disponibilità dell'applicazione.</p></article>
   <article class="feat"><h3>Report in PDF e via mail</h3><p>Esporta in PDF l'ultimo report o lo invia per mail al destinatario scritto nel messaggio, e solo a quello.</p><span class="ex-label">Esempi</span><ul class="asks"><li>esporta in pdf</li><li>invia il report via mail a mario.rossi@azienda.it</li></ul></article>
@@ -89,7 +89,7 @@
   <div><b>Dati, non supposizioni</b><span>Le risposte su corse e circolazione vengono dai servizi SRM. I controlli sul testo scartano nomi, numeri e minuti che i dati non contengono.</span></div>
   <div><b>Nessuna azione senza conferma</b><span>Mail e provvedimenti partono solo da una richiesta esplicita; un provvedimento, solo dopo l'anteprima.</span></div>
   <div><b>Con i permessi dell'utente</b><span>L'assistente lavora con l'identità di chi lo usa, mai con un'utenza tecnica, e ogni conversazione resta visibile solo al suo autore.</span></div>
-  <div><b>Tutto tracciato</b><span>Domande, strumenti usati e documenti consultati vengono registrati.</span></div>
+  <div><b>Tutto tracciato</b><span>Domande, strumenti usati, documenti consultati e modifiche ai documenti vengono registrati.</span></div>
   <div><b>Modelli eseguiti in casa</b><span>I modelli linguistici sono open-weight e girano su GPU della piattaforma: i dati non escono verso servizi AI esterni.</span></div>
 </div>
 </section>
@@ -268,7 +268,7 @@
     <tr><td>Keycloak</td><td>Gestisce l'accesso unico alla piattaforma ed emette il token dell'utente, con i suoi ruoli e gruppi.</td></tr>
     <tr><td>Profile Manager</td><td>Stabilisce profili e permessi nell'interfaccia, a partire dai gruppi dell'utente e dalle assegnazioni gestite dagli amministratori.</td></tr>
     <tr><td>API gateway</td><td>È il punto d'ingresso delle chiamate: verifica il token e le instrada verso l'assistente.</td></tr>
-    <tr><td>Assistente SRM</td><td>Verifica di nuovo il token e lavora con l'identità dell'utente. Ogni conversazione appartiene a chi l'ha aperta; caricare documenti richiede un ruolo dedicato.</td></tr>
+    <tr><td>Assistente SRM</td><td>Verifica di nuovo il token e lavora con l'identità dell'utente. Ogni conversazione appartiene a chi l'ha aperta; caricare, sostituire o togliere documenti richiede un ruolo dedicato.</td></tr>
     <tr><td>Servizi SRM</td><td>Verificano il token e applicano i permessi del ruolo: per esempio, il provvedimento proposto da un operatore viene validato da un responsabile.</td></tr>
   </tbody>
 </table></div>
