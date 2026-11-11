@@ -254,8 +254,12 @@
   }
   @media(max-width:500px){.tc-dev .people{display:flex}}
 
-  /* "Metodo di lavoro": quattro fasi in cerchio, in senso orario, attorno all'IA */
-  .method-wrap{max-width:1180px}
+  /* "Metodo di lavoro": le richieste nascono da tre fonti, passano dalla vision del prodotto ed entrano nel ciclo
+     delle quattro fasi attorno all'IA. Sopra i 900px e' un palco 184x100 (le unita' del viewBox di .flow-lines):
+     fonti in x 0-35, vision del prodotto nel cerchio di centro 61,50 e raggio 14, ciclo nel quadrato x 84-184 con
+     unita' uguali a quelle del palco; percentuali qui sotto e tracciati dell'SVG vanno cambiati insieme.
+     Lo script "Metodo di lavoro" accende i blocchi (.is-active) e muove i pallini delle richieste. */
+  .method-wrap{max-width:1400px}
   #metodo .sec-intro{max-width:110ch;margin-bottom:14px}
   .method-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px}
   .client-driven{display:flex;align-items:center;gap:10px;padding:8px 14px;border:1px solid #c9dbef;border-radius:10px;
@@ -264,17 +268,76 @@
     font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
   .role-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--ink-soft)}
   .role-legend span{display:inline-flex;align-items:center;gap:6px}
-  /* il diagramma e' un quadrato dimensionato su larghezza e altezza disponibili; i testi interni scalano in unita' cqw */
-  .cycle{position:relative;width:min(100%,720px,calc(100vh - 270px));aspect-ratio:1;margin:10px auto 0;container-type:inline-size}
+  .rb-an{background:#6b4fa0;color:#fff}
+  /* il palco prende l'altezza che resta sotto l'intestazione: sopra i 900px la colonna e' flessibile e .flow-box e'
+     un contenitore misurato anche in altezza (100cqh), cosi' la sezione non scorre qualunque altezza abbiano
+     titolo e introduzione; sotto i 560px di larghezza il palco non scende oltre e la sezione scorre */
+  @media(min-width:901px){
+    #metodo .inner,#metodo .method-wrap{height:100%}
+    #metodo .method-wrap{display:flex;flex-direction:column}
+    .flow-box{flex:1 1 0;min-height:0;margin-top:10px;container-type:size}
+  }
+  .flow{position:relative;width:min(100%,1400px,max(560px,calc(100cqh * 1.84 - 8px)));aspect-ratio:184/100;margin:0 auto;
+    container:mflow/inline-size}
+  .flow-lines{position:absolute;inset:0;z-index:3;width:100%;height:100%;overflow:visible;pointer-events:none}
+  .mf-token .tk-halo{fill:var(--tk);opacity:.2}
+  .mf-token .tk-dot{fill:var(--tk);stroke:#fff;stroke-width:.55}
+  /* le tre fonti delle richieste */
+  .src-head{position:absolute;left:0;top:0;width:19.02%;margin:0;font-size:clamp(9.5px,.78cqw,13px);font-weight:700;
+    line-height:1.3;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute)}
+  .sources{position:absolute;left:0;top:0;width:19.02%;height:100%;margin:0;padding:0;list-style:none}
+  .src{--c:#0f8a78;--ct:#eff8f6;--cr:#bfe4da;position:absolute;left:0;width:100%;height:22%;display:grid;
+    grid-template-columns:auto minmax(0,1fr);align-content:center;column-gap:.75cqw;row-gap:.2cqw;padding:0 1cqw;
+    border:1px solid var(--cr);border-radius:1cqw;background:var(--ct);transition:border-color .3s,box-shadow .3s}
+  .src-sm{top:10%}
+  .src-pm{--c:#2a2a27;--ct:#f3f2ee;--cr:#d8d7d0;top:39%}
+  .src-an{--c:#6b4fa0;--ct:#f4f0fa;--cr:#dacfee;top:68%}
+  .src.is-active{border-color:var(--c);box-shadow:0 0 0 .3cqw var(--cr),0 8px 20px rgba(20,30,50,.08)}
+  .src-ic{grid-row:1/span 3;align-self:start;display:flex;align-items:center;justify-content:center;
+    width:max(24px,2.3cqw);height:max(24px,2.3cqw);border-radius:.6cqw;background:var(--surface);color:var(--c);
+    box-shadow:inset 0 0 0 1px var(--cr)}
+  .src-ic svg,.gate-ic svg,.gate-ok svg{width:62%;height:auto;fill:none;stroke:currentColor;stroke-width:1.8;
+    stroke-linecap:round;stroke-linejoin:round}
+  .src-t{font-size:clamp(11.5px,1.3cqw,20px);font-weight:650;line-height:1.2;color:var(--ink)}
+  .src-role{display:flex;align-items:center;gap:.35cqw;font-size:clamp(9.5px,.92cqw,15px);font-weight:600;line-height:1.2;color:var(--c)}
+  .src-d{font-size:clamp(9.5px,1cqw,16px);line-height:1.35;color:var(--ink-soft)}
+  .src-role .role-badge,.gate-t .role-badge{width:clamp(16px,1.45cqw,24px);height:clamp(16px,1.45cqw,24px);font-size:clamp(7px,.58cqw,10px)}
+  /* vision del prodotto: valuta ogni richiesta prima che entri nel ciclo */
+  .gate{position:absolute;left:25.543%;top:36%;width:15.217%;aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:.45cqw;padding:0 1.5cqw;text-align:center;background:var(--surface);
+    box-shadow:inset 0 0 0 2px #b3cbea,0 8px 22px rgba(20,30,50,.08);transition:box-shadow .35s}
+  .gate-ic{display:flex;justify-content:center;color:var(--accent)}
+  .gate-ic svg{width:clamp(22px,2.3cqw,36px)}
+  .gate-t{display:inline-flex;align-items:center;gap:.35cqw;font-size:clamp(11.5px,1.25cqw,20px);font-weight:700;line-height:1.2;color:var(--accent)}
+  .gate-d{font-size:clamp(9px,.95cqw,15px);line-height:1.35;color:var(--ink-soft)}
+  .gate-ok{position:absolute;right:5%;top:5%;display:flex;align-items:center;justify-content:center;
+    width:clamp(18px,1.8cqw,28px);height:clamp(18px,1.8cqw,28px);border-radius:50%;background:#0f8a78;color:#fff;
+    box-shadow:0 0 0 3px var(--bg);transform:scale(0);transition:transform .2s ease}
+  .gate-ok svg{stroke-width:2.8}
+  .gate::after{content:'';position:absolute;inset:-.7cqw;border-radius:50%;border:2px dashed rgba(31,95,166,.5);
+    opacity:0;transition:opacity .3s;animation:mf-spin 8s linear infinite paused}
+  .gate.is-active{box-shadow:inset 0 0 0 3px var(--accent),0 10px 26px rgba(31,95,166,.16)}
+  .gate.is-active::after{opacity:1;animation-play-state:running}
+  .gate.is-active .gate-ok{transform:scale(1);transition:transform .35s cubic-bezier(.3,1.6,.5,1) .55s}
+  @keyframes mf-spin{to{transform:rotate(360deg)}}
+  /* palco stretto (finestre fra 900 e 1100px circa): restano titoli e ruoli, le descrizioni sono gia' nel testo sopra */
+  @container mflow (max-width:800px){.src-d,.gate-d{display:none}}
+  /* il ciclo: quadrato con i testi interni in unita' cqw, nella parte destra del palco */
+  .cycle{position:absolute;left:45.652%;top:0;width:54.348%;aspect-ratio:1;container-type:inline-size}
   .cycle-arrows{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
   .cycle-steps{margin:0;padding:0;list-style:none}
   .cstep{position:absolute;z-index:1;width:41%;aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:1.2cqw;padding:0 5cqw;text-align:center;background:var(--t);
-    box-shadow:inset 0 0 0 2px var(--r),0 8px 22px rgba(20,30,50,.07)}
-  .cs-1{--t:#fdf3dc;--r:#f1d38c;--d:#94600e;left:3%;top:3%}
-  .cs-2{--t:#fde8d8;--r:#f3c09d;--d:#a24e17;right:3%;top:3%}
-  .cs-3{--t:#e2f1f9;--r:#b5daee;--d:#1f6a91;right:3%;bottom:3%}
-  .cs-4{--t:#e1ebf7;--r:#b3cbea;--d:#1f5fa6;left:3%;bottom:3%}
+    box-shadow:inset 0 0 0 2px var(--r),0 8px 22px rgba(20,30,50,.07);transition:box-shadow .35s}
+  .cs-1{--t:#fdf3dc;--r:#f1d38c;--d:#94600e;--g:rgba(241,211,140,.45);left:3%;top:3%}
+  .cs-2{--t:#fde8d8;--r:#f3c09d;--d:#a24e17;--g:rgba(243,192,157,.45);right:3%;top:3%}
+  .cs-3{--t:#e2f1f9;--r:#b5daee;--d:#1f6a91;--g:rgba(181,218,238,.6);right:3%;bottom:3%}
+  .cs-4{--t:#e1ebf7;--r:#b3cbea;--d:#1f5fa6;--g:rgba(179,203,234,.6);left:3%;bottom:3%}
+  /* il disco dell'IA copre l'angolo in basso verso il centro delle due fasi in alto: il loro contenuto sale e si
+     allontana un poco dal centro, con la stessa larghezza */
+  .cs-1{padding:0 6cqw 2.4cqw 4cqw}
+  .cs-2{padding:0 4cqw 2.4cqw 6cqw}
+  .cstep.is-active{box-shadow:inset 0 0 0 3px var(--d),0 0 0 1.1cqw var(--g),0 14px 32px rgba(20,30,50,.12)}
   .cs-ic,.core-ic{display:flex;color:var(--d)}
   .cs-ic svg,.core-ic svg{width:clamp(20px,5.4cqw,34px);height:auto;fill:none;stroke:currentColor;stroke-width:1.8;
     stroke-linecap:round;stroke-linejoin:round}
@@ -283,24 +346,74 @@
   .cstep .role-badge{width:clamp(18px,4.3cqw,28px);height:clamp(18px,4.3cqw,28px);font-size:clamp(7px,1.55cqw,10px)}
   .cs-ai{margin:0;font-size:clamp(9px,1.9cqw,13px);line-height:1.35;color:var(--ink)}
   .ai-tag{display:inline-block;margin-right:4px;padding:1px 6px;border-radius:5px;background:#fff;color:var(--accent);
-    font-size:.85em;font-weight:700;letter-spacing:.06em}
+    font-size:.85em;font-weight:700;letter-spacing:.06em;transition:background-color .35s,color .35s}
+  .cstep.is-active .ai-tag{background:var(--accent);color:#fff}
   .cycle-core{--d:var(--accent);position:absolute;z-index:2;left:50%;top:50%;width:35%;aspect-ratio:1;transform:translate(-50%,-50%);
     border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqw;padding:0 5.5cqw;
     text-align:center;background:var(--surface);box-shadow:0 0 0 1.2cqw var(--bg),0 10px 30px rgba(20,30,50,.14)}
+  /* arco attorno all'IA: ruota verso la fase in cui si trova la richiesta (--ai-rot, impostato dallo script) */
+  .cycle-core::before{content:'';position:absolute;inset:-1.2cqw;border-radius:50%;pointer-events:none;
+    background:conic-gradient(from -55deg,rgba(31,95,166,0),var(--accent) 55deg,rgba(31,95,166,0) 110deg,rgba(31,95,166,0));
+    -webkit-mask:radial-gradient(closest-side,transparent calc(100% - .95cqw),#000 calc(100% - .85cqw));
+    mask:radial-gradient(closest-side,transparent calc(100% - .95cqw),#000 calc(100% - .85cqw));
+    opacity:0;transform:rotate(var(--ai-rot,-45deg));transition:opacity .4s,transform .8s cubic-bezier(.45,0,.25,1)}
+  .cycle-core.is-on::before{opacity:1}
   .cycle-core strong{font-size:clamp(11px,2.55cqw,17px);line-height:1.2;color:var(--accent)}
   .cycle-core span:last-child{font-size:clamp(9px,1.8cqw,13px);line-height:1.35;color:var(--ink-soft)}
-  @media(max-width:900px){.cycle{width:min(100%,640px)}}
-  /* telefono: sequenza verticale, ogni fase con il suo cerchio colorato e una linea verso la successiva */
+  /* tablet: fonti affiancate con la parentesi del team, vision del prodotto in una riga, ciclo a cerchi */
+  @media(max-width:900px){
+    .flow{width:auto;aspect-ratio:auto;margin-top:18px;container-type:normal}
+    .flow-lines{display:none}
+    .src-head{position:static;width:auto;margin:0 0 8px;font-size:11.5px}
+    .sources{position:static;width:auto;height:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    .sources::after{content:'';grid-column:1/-1;height:16px;margin:-10px 16.67% 0;border:2px dashed #b9cde4;border-top:0;
+      border-radius:0 0 16px 16px}
+    .src{position:static;height:auto;align-content:start;column-gap:10px;row-gap:3px;padding:12px 14px;border-radius:12px}
+    .src.is-active{box-shadow:0 0 0 3px var(--cr),0 8px 20px rgba(20,30,50,.08)}
+    .src-ic{width:34px;height:34px;border-radius:9px}
+    .src-t{font-size:14.5px}
+    .src-role{gap:6px;font-size:11.5px}
+    .src-d{font-size:12.5px;line-height:1.45}
+    .src-role .role-badge,.gate-t .role-badge{width:22px;height:22px;font-size:8.5px}
+    .gate{position:relative;left:auto;top:auto;width:auto;max-width:520px;aspect-ratio:auto;margin:22px auto 0;
+      padding:12px 24px 12px 12px;border-radius:44px;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
+      column-gap:14px;row-gap:2px;text-align:left}
+    .gate::before{content:'';position:absolute;left:50%;top:-24px;height:22px;border-left:2px dashed #b9cde4}
+    .gate::after{display:none}
+    .gate-ic{grid-row:1/span 2;width:52px;height:52px;border-radius:50%;align-items:center;background:var(--accent-soft)}
+    .gate-ic svg{width:26px}
+    .gate-t{gap:8px;font-size:16px}
+    .gate-d{font-size:12.5px}
+    .gate-ok{right:-3px;top:-3px;width:24px;height:24px}
+    .cycle{position:relative;left:auto;top:auto;width:min(100%,640px);margin:40px auto 0}
+    /* dalla vision del prodotto alla prima fase (centro del cerchio in alto a sinistra) */
+    .cycle::before{content:'';position:absolute;left:23.5%;top:-40px;height:calc(40px + 3%);border-left:2px dashed #b3cbea}
+  }
+  /* telefono: sequenza verticale, ogni blocco con il suo cerchio colorato e una linea verso il successivo */
   @media(max-width:640px){
-    .cycle{width:auto;aspect-ratio:auto;margin-top:18px;container-type:normal}
-    .cycle-arrows{display:none}
+    .sources{grid-template-columns:minmax(0,1fr);gap:8px}
+    .sources::after{display:none}
+    .gate,.gate.is-active{max-width:none;margin:30px 0 0;padding:0 0 22px;grid-template-columns:56px minmax(0,1fr);row-gap:5px;
+      align-items:start;border-radius:0;background:none;box-shadow:none}
+    .gate::before{left:27px;top:-30px;height:26px}
+    .gate::after{content:'';display:block;position:absolute;inset:auto;left:27px;top:62px;bottom:4px;border:0;
+      border-left:2px dashed #b3cbea;border-radius:0;opacity:1;animation:none}
+    .gate-ic{width:56px;height:56px;background:var(--surface);box-shadow:inset 0 0 0 2px #b3cbea;transition:box-shadow .35s}
+    .gate.is-active .gate-ic{box-shadow:inset 0 0 0 3px var(--accent),0 0 0 5px rgba(31,95,166,.14)}
+    .gate-t{margin-top:5px}
+    .gate-ok{left:40px;right:auto;top:-4px}
+    .cycle{width:auto;aspect-ratio:auto;margin:0;container-type:normal}
+    .cycle::before,.cycle-arrows,.cycle-core::before{display:none}
     .cstep,.cycle-core{position:relative;inset:auto;transform:none;width:auto;aspect-ratio:auto;border-radius:0;background:none;
       box-shadow:none;display:grid;grid-template-columns:56px minmax(0,1fr);column-gap:14px;row-gap:5px;align-items:start;
       justify-items:start;padding:0 0 22px;text-align:left}
+    .cstep.is-active{box-shadow:none}
     .cstep>:not(.cs-ic),.cycle-core>:not(.core-ic){grid-column:2}
     .cs-ic,.core-ic{grid-row:1/span 3;width:56px;height:56px;border-radius:50%;align-items:center;justify-content:center;
-      background:var(--t);box-shadow:inset 0 0 0 2px var(--r)}
+      background:var(--t);box-shadow:inset 0 0 0 2px var(--r);transition:box-shadow .35s}
+    .cstep.is-active .cs-ic{box-shadow:inset 0 0 0 3px var(--d),0 0 0 5px var(--g)}
     .core-ic{background:var(--surface);box-shadow:0 4px 14px rgba(20,30,50,.12)}
+    .cycle-core.is-on .core-ic{box-shadow:0 0 0 3px var(--accent-soft),0 4px 14px rgba(20,30,50,.12)}
     .cs-ic svg,.core-ic svg{width:26px}
     .cstep::after{content:'';position:absolute;left:27px;top:62px;bottom:4px;border-left:2px dashed var(--r)}
     .cstep h4,.cycle-core strong{margin-top:5px;font-size:16px}
@@ -599,25 +712,42 @@
   <section id="metodo" class="sec"><div class="inner">
   <div class="wrap method-wrap">
     <p class="sec-label">Metodo di lavoro</p>
-    <h2>Specifiche definite, implementate e validate con il supporto dell'intelligenza artificiale</h2>
-    <p class="sec-intro">Ogni evoluzione di SRM parte da specifiche condivise, che guidano sviluppo e verifica.</p>
+    <h2>Ogni richiesta passa dalla vision del prodotto e da un ciclo supportato dall'IA</h2>
+    <p class="sec-intro">Le richieste nascono dal mercato, dai progetti attivi e dalla conoscenza dei processi di esercizio. Chi ha la vision del prodotto le valuta una per una e le porta nel ciclo di sviluppo, dove l'intelligenza artificiale supporta ogni fase.</p>
     <div class="method-bar">
       <div class="client-driven"><span class="cd-tag">Client driven</span><span>Oltre il core, l'evoluzione di SRM è guidata dalle esigenze dei clienti.</span></div>
       <div class="role-legend"><span><span class="role-badge sm rb-rt">SA</span>Solution architect</span><span><span class="role-badge sm rb-pm">PM</span>Project manager</span><span><span class="role-badge sm rb-dev">SD</span>Software designer</span></div>
     </div>
-    <div class="cycle">
-      <svg class="cycle-arrows" viewBox="0 0 100 100" aria-hidden="true">
-        <defs><marker id="cyc-a1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e3a63a"/></marker><marker id="cyc-a2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e8894a"/></marker><marker id="cyc-a3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#6db4da"/></marker><marker id="cyc-a4" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#4a86c6"/></marker></defs>
-        <g fill="none" stroke-width="2.6"><path d="M38.1 11.3Q49 -2 59.65 9.36" stroke="#e3a63a" marker-end="url(#cyc-a1)"/><path d="M88.7 38.1Q102 49 90.64 59.65" stroke="#e8894a" marker-end="url(#cyc-a2)"/><path d="M61.9 88.7Q51 102 40.35 90.64" stroke="#6db4da" marker-end="url(#cyc-a3)"/><path d="M11.3 61.9Q-2 51 9.36 40.35" stroke="#4a86c6" marker-end="url(#cyc-a4)"/></g>
+    <!-- Geometria del palco (184x100) descritta nel CSS di "Metodo di lavoro". mf-s0..2, mf-in e mf-12..34 sono i
+         percorsi dei pallini dello script; mf-in passa sopra l'innesto e prosegue sulla freccia che torna alla prima fase. -->
+    <div class="flow-box"><div class="flow" id="methodFlow">
+      <svg class="flow-lines" viewBox="0 0 184 100" aria-hidden="true">
+        <defs><marker id="mf-a0" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.6" markerHeight="2.6" orient="auto"><path d="M0 0 10 5 0 10z" fill="#86cbbd"/></marker><marker id="mf-a1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.6" markerHeight="2.6" orient="auto"><path d="M0 0 10 5 0 10z" fill="#b5b4ad"/></marker><marker id="mf-a2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.6" markerHeight="2.6" orient="auto"><path d="M0 0 10 5 0 10z" fill="#c2b1e0"/></marker></defs>
+        <g fill="none" stroke-width="1.6" stroke-linecap="round"><path id="mf-s0" d="M35.6 21C41.5 21 45.61 37.08 48.67 39.65" stroke="#86cbbd" marker-end="url(#mf-a0)"/><path id="mf-s1" d="M35.6 50H44.9" stroke="#b5b4ad" marker-end="url(#mf-a1)"/><path id="mf-s2" d="M35.6 79C41.5 79 45.61 62.92 48.67 60.35" stroke="#c2b1e0" marker-end="url(#mf-a2)"/></g>
+        <path d="M75 50C80.5 50 87.04 50.19 89.22 45.69" fill="none" stroke="#4a86c6" stroke-width="2.6"/>
+        <path id="mf-in" d="M75 50C80.5 50 87.04 50.19 89.22 45.69Q90.52 43.01 93.36 40.35" fill="none"/>
       </svg>
-      <ol class="cycle-steps">
-        <li class="cstep cs-1"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.8h6v2.8H9z"/><path d="M8.2 10.5l1.3 1.3 2.3-2.4"/><path d="M8.2 15.5l1.3 1.3 2.3-2.4"/><path d="M13.8 10.8h2.4"/><path d="M13.8 15.8h2.4"/></svg></span><h4>Definizione delle specifiche</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-pm" title="Project manager">PM</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Analisi di completezza, coerenza e impatto sui componenti esistenti.</p></li>
-        <li class="cstep cs-2"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5 4 12l4.5 4.5"/><path d="M15.5 7.5 20 12l-4.5 4.5"/><path d="M13.5 5.5l-3 13"/></svg></span><h4>Implementazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-dev" title="Software designer">SD</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Supporto alla scrittura e al refactoring del codice e alla documentazione tecnica.</p></li>
-        <li class="cstep cs-3"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.2c0 4.3-2.9 8-7 9.3-4.1-1.3-7-5-7-9.3V6z"/><path d="M8.8 12.1l2.2 2.2 4.3-4.4"/></svg></span><h4>Validazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-pm" title="Project manager">PM</span><span class="role-badge rb-dev" title="Software designer">SD</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Generazione dei casi di test, revisione del codice e analisi delle regressioni.</p></li>
-        <li class="cstep cs-4"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.2 13.8a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1.2 1.2"/><path d="M13.8 10.2a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.2-1.2"/></svg></span><h4>Tracciabilità</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-dev" title="Software designer">SD</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Aggiornamento della documentazione e verifica dell'allineamento con il codice.</p></li>
-      </ol>
-      <div class="cycle-core"><span class="core-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l1.7 4.6 4.6 1.7-4.6 1.7L12 16.1l-1.7-4.6-4.6-1.7 4.6-1.7z"/><path d="M18.2 14.6l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7z"/></svg></span><strong>Intelligenza artificiale</strong><span>a supporto di ogni fase. Decisioni e approvazione finale restano alle persone.</span></div>
-    </div>
+      <p class="src-head" id="mf-src-head">Da dove nascono le richieste</p>
+      <ul class="sources" aria-labelledby="mf-src-head">
+        <li class="src src-sm" data-node="s0"><span class="src-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.1-3.6-8.5s1.2-6.2 3.6-8.5z"/></svg></span><span class="src-t">Mercato</span><span class="src-role"><span class="role-badge rb-sm">SM</span>Solution manager</span><span class="src-d">Esigenze di nuovi clienti e opportunità commerciali.</span></li>
+        <li class="src src-pm" data-node="s1"><span class="src-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V6a1.5 1.5 0 0 1 1.5-1.5h3A1.5 1.5 0 0 1 15 6v1.5"/><path d="M3.5 12.5h17"/></svg></span><span class="src-t">Progetti</span><span class="src-role"><span class="role-badge rb-pm">PM</span>Project manager</span><span class="src-d">Evoluzioni richieste dai clienti nei progetti attivi.</span></li>
+        <li class="src src-an" data-node="s2"><span class="src-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3.5" width="7.5" height="5.5" rx="1.4"/><rect x="13.5" y="15" width="7.5" height="5.5" rx="1.4"/><path d="M6.75 9v4.25a2.5 2.5 0 0 0 2.5 2.5h3.25"/><path d="M11 14l1.75 1.75L11 17.5"/></svg></span><span class="src-t">Conoscenza dei processi</span><span class="src-role"><span class="role-badge rb-an">AN</span>Analyst</span><span class="src-d">Miglioramenti che nascono dall'esperienza sui processi di esercizio.</span></li>
+      </ul>
+      <div class="gate" data-node="g"><span class="gate-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12Q12 2.5 21.5 12Q12 21.5 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg></span><span class="gate-t">Product vision<span class="role-badge rb-rt" title="Solution architect">SA</span></span><span class="gate-d">Valuta ogni richiesta: coerenza con il core e priorità.</span><span class="gate-ok" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.2 4.2L19 7.5"/></svg></span></div>
+      <div class="cycle">
+        <svg class="cycle-arrows" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><marker id="cyc-a1" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e3a63a"/></marker><marker id="cyc-a2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e8894a"/></marker><marker id="cyc-a3" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#6db4da"/></marker><marker id="cyc-a4" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="2.1" markerHeight="2.1" orient="auto"><path d="M0 0 10 5 0 10z" fill="#4a86c6"/></marker></defs>
+          <g fill="none" stroke-width="2.6"><path id="mf-12" d="M38.1 11.3Q49 -2 59.65 9.36" stroke="#e3a63a" marker-end="url(#cyc-a1)"/><path id="mf-23" d="M88.7 38.1Q102 49 90.64 59.65" stroke="#e8894a" marker-end="url(#cyc-a2)"/><path id="mf-34" d="M61.9 88.7Q51 102 40.35 90.64" stroke="#6db4da" marker-end="url(#cyc-a3)"/><path d="M11.3 61.9Q-2 51 9.36 40.35" stroke="#4a86c6" marker-end="url(#cyc-a4)"/></g>
+        </svg>
+        <ol class="cycle-steps">
+          <li class="cstep cs-1" data-node="p1"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 2.8h6v2.8H9z"/><path d="M8.2 10.5l1.3 1.3 2.3-2.4"/><path d="M8.2 15.5l1.3 1.3 2.3-2.4"/><path d="M13.8 10.8h2.4"/><path d="M13.8 15.8h2.4"/></svg></span><h4>Valutazione e specifiche</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-pm" title="Project manager">PM</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Legge codice e documenti, stima l'impatto e propone le specifiche: SA e PM decidono.</p></li>
+          <li class="cstep cs-2" data-node="p2"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7.5 4 12l4.5 4.5"/><path d="M15.5 7.5 20 12l-4.5 4.5"/><path d="M13.5 5.5l-3 13"/></svg></span><h4>Implementazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-dev" title="Software designer">SD</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Scrive il codice dalle specifiche approvate: SA e SD rivedono ogni modifica.</p></li>
+          <li class="cstep cs-3" data-node="p3"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.2c0 4.3-2.9 8-7 9.3-4.1-1.3-7-5-7-9.3V6z"/><path d="M8.8 12.1l2.2 2.2 4.3-4.4"/></svg></span><h4>Test</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-pm" title="Project manager">PM</span><span class="role-badge rb-dev" title="Software designer">SD</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Genera ed esegue i test, rivede il codice e segnala le regressioni: SA, PM e SD validano.</p></li>
+          <li class="cstep cs-4" data-node="p4"><span class="cs-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3.5H7.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V8z"/><path d="M14 3.5V8h4.5"/><path d="M8.8 12.5h6.4"/><path d="M8.8 16h6.4"/></svg></span><h4>Documentazione</h4><div class="method-roles"><span class="role-badge rb-rt" title="Solution architect">SA</span><span class="role-badge rb-dev" title="Software designer">SD</span></div><p class="cs-ai"><span class="ai-tag">IA</span>Aggiorna i documenti dalle modifiche e li verifica sul codice: SA e SD approvano.</p></li>
+        </ol>
+        <div class="cycle-core"><span class="core-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l1.7 4.6 4.6 1.7-4.6 1.7L12 16.1l-1.7-4.6-4.6-1.7 4.6-1.7z"/><path d="M18.2 14.6l.7 1.9 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7z"/></svg></span><strong>Intelligenza artificiale</strong><span>a supporto di ogni fase. Decisioni e approvazione finale restano alle persone.</span></div>
+      </div>
+    </div></div>
   </div>
 </div></section>
   <section id="roadmap-sec" class="sec"><div class="inner"><p class="sec-label">Dove stiamo andando</p><h2>La roadmap del percorso</h2><p class="sec-intro">Le fasi del progetto in colonna, collegate dalla dorsale. Clicca una fase per aprire o chiudere le sue attività; passa sopra una fermata per il dettaglio completo.</p><div class="mapembed"><iframe id="metroFrame" src="metro-srm.html?embed=1&amp;view=mvp" title="Mappa roadmap" loading="lazy"></iframe></div><a class="mapcard" href="metro-srm.html"><span class="mc-ic">&#10140;</span><span class="mc-txt"><span class="mc-t">Apri la mappa della roadmap</span><span class="mc-d">Fasi e attivit&agrave; su una pagina dedicata, pi&ugrave; leggibile da telefono.</span></span><span class="mc-go">&#8250;</span></a></div></section>
@@ -712,6 +842,129 @@ window.addEventListener('message',function(e){
     if(f&&e.data.height){ f.style.height=(e.data.height+20)+'px'; }
   }
 });
+
+// "Metodo di lavoro": una richiesta alla volta parte da una delle tre fonti, passa dalla vision del prodotto
+// (che si accende e la accoglie) ed entra nel ciclo; ogni fase si accende al suo passaggio e l'arco attorno
+// all'IA la segue. Sopra i 900px il pallino percorre le frecce, sotto si accendono solo i blocchi.
+// Riparte da capo ogni volta che la sezione torna visibile; con "riduci movimento" il disegno resta fermo.
+(function(){
+  const flow=document.getElementById('methodFlow');
+  if(!flow) return;
+  const NS='http://www.w3.org/2000/svg';
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  // allineate alle media query del CSS: .flow-lines si vede sopra i 900px, .cycle-arrows sopra i 640px
+  const stageSvg=flow.querySelector('.flow-lines');
+  const wide=window.matchMedia('(min-width: 901px)');
+  const mid=window.matchMedia('(min-width: 641px)');
+  const shown=svg=>svg===stageSvg?wide.matches:mid.matches;
+  const node={};
+  flow.querySelectorAll('[data-node]').forEach(el=>{ node[el.dataset.node]=el; });
+  const core=flow.querySelector('.cycle-core');
+  const SOURCES=[['s0','#0f8a78'],['s1','#2a2a27'],['s2','#6b4fa0']];
+  const ANGLE={p1:-45,p2:45,p3:135,p4:225}; // direzione della fase vista dal centro, in gradi dall'alto in senso orario
+  // una richiesta: tratti percorsi dal pallino (path) e soste nei blocchi (node), in secondi
+  const plan=src=>[
+    {path:'mf-'+src,dur:1.4,lit:src,to:'g'},
+    {node:'g',dur:1.2},
+    {path:'mf-in',dur:1.1,to:'p1'},
+    {node:'p1',dur:1.5},
+    {path:'mf-12',dur:0.7,to:'p2'},
+    {node:'p2',dur:1.5},
+    {path:'mf-23',dur:0.7,to:'p3'},
+    {node:'p3',dur:1.5},
+    {path:'mf-34',dur:0.7,to:'p4'},
+    {node:'p4',dur:1.5}
+  ];
+  const plans=SOURCES.map(([src])=>plan(src));
+  const TOTAL=plans[0].reduce((sum,step)=>sum+step.dur,0);
+  const GAP=8.3;  // partenza della richiesta successiva: arriva in valutazione appena la precedente ha finito
+  const LEAD=0.6; // qualche istante a disegno fermo prima della prima partenza
+  function makeToken(){
+    const g=document.createElementNS(NS,'g');
+    g.setAttribute('class','mf-token');
+    [['tk-halo',2.8],['tk-dot',1.45]].forEach(([cls,r])=>{
+      const c=document.createElementNS(NS,'circle');
+      c.setAttribute('class',cls);
+      c.setAttribute('r',r);
+      g.appendChild(c);
+    });
+    g.style.opacity='0';
+    return g;
+  }
+  const tokens=[makeToken(),makeToken()]; // al massimo due richieste in giro insieme (TOTAL < 2*GAP)
+  const paths={};
+  const ease=x=>0.5-Math.cos(Math.PI*x)/2;
+  function moveToken(tok,step,x,color){
+    let p=paths[step.path];
+    if(!p){
+      const el=document.getElementById(step.path);
+      p=paths[step.path]={el,svg:el.ownerSVGElement,len:0};
+    }
+    if(!shown(p.svg)) return false;
+    if(!p.len) p.len=p.el.getTotalLength();
+    if(tok.parentNode!==p.svg) p.svg.appendChild(tok);
+    const pt=p.el.getPointAtLength(ease(x)*p.len);
+    tok.setAttribute('transform','translate('+pt.x.toFixed(2)+' '+pt.y.toFixed(2)+')');
+    tok.style.setProperty('--tk',color);
+    tok.style.opacity=Math.max(0,Math.min(1,x/0.12,(1-x)/0.12)).toFixed(3);
+    return true;
+  }
+  let lit=new Set(), aim=null, rot=ANGLE.p1;
+  function render(t){
+    const next=new Set(), used=[false,false];
+    let target=null, weight=0;
+    if(t>=0){
+      for(let k=Math.max(0,Math.floor((t-TOTAL)/GAP)+1);k*GAP<=t;k++){
+        let local=t-k*GAP;
+        if(local>=TOTAL) continue;
+        const steps=plans[k%3];
+        let i=0;
+        while(local>=steps[i].dur){ local-=steps[i].dur; i++; }
+        const step=steps[i];
+        if(step.node){
+          next.add(step.node);
+          if(step.node in ANGLE&&weight<2){ target=step.node; weight=2; }
+        }else{
+          if(step.lit) next.add(step.lit);
+          if(step.to in ANGLE&&weight<1){ target=step.to; weight=1; }
+          used[k%2]=moveToken(tokens[k%2],step,local/step.dur,SOURCES[k%3][1]);
+        }
+      }
+    }
+    tokens.forEach((tok,i)=>{ if(!used[i]) tok.style.opacity='0'; });
+    lit.forEach(n=>{ if(!next.has(n)) node[n].classList.remove('is-active'); });
+    next.forEach(n=>{ if(!lit.has(n)) node[n].classList.add('is-active'); });
+    lit=next;
+    if(target!==aim){
+      if(target){
+        rot+=(((ANGLE[target]-rot)%360)+360)%360; // sempre in avanti, in senso orario
+        core.style.setProperty('--ai-rot',rot+'deg');
+      }
+      core.classList.toggle('is-on',target!==null);
+      aim=target;
+    }
+  }
+  let t=-LEAD, last=null, raf=0, inView=false;
+  function frame(now){
+    if(last!==null) t+=Math.min(0.1,(now-last)/1000);
+    last=now;
+    render(t);
+    raf=requestAnimationFrame(frame);
+  }
+  function play(){
+    if(raf||!inView||document.hidden||reduce.matches) return;
+    last=null;
+    raf=requestAnimationFrame(frame);
+  }
+  function stop(){ cancelAnimationFrame(raf); raf=0; }
+  function rewind(){ stop(); t=-LEAD; render(-1); }
+  new IntersectionObserver(entries=>{
+    inView=entries[0].isIntersecting;
+    if(inView) play(); else rewind();
+  },{threshold:0.2}).observe(flow);
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden) stop(); else play(); });
+  reduce.addEventListener('change',()=>{ if(reduce.matches) rewind(); else play(); });
+})();
 </script>
 <script src="content/translations.js"></script>
 <script src="js/i18n.js"></script>
