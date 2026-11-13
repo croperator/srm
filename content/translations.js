@@ -33,7 +33,7 @@
     ['Gestione competenze', 'Competency management'],
     ['Compliant · AlmavivA T&L Reference Architecture 2026', 'Compliant · AlmavivA T&L Reference Architecture 2026'],
     ['Mappa di rete real-time di MOOVA SRM', 'MOOVA SRM real-time network map'],
-    ['Titoli abilitativi del personale in SKILL Maintenance di MOOVA SRM', 'Staff licenses in MOOVA SRM SKILL Maintenance'],
+    ['Home di MOOVA SRM con KPI Skill e stato della squadra', 'MOOVA SRM home with skill KPIs and team status'],
     ['Monitoraggio della circolazione in tempo reale', 'Real-time traffic monitoring'],
     ['Gestione delle competenze con SKILL Maintenance', 'Competency management with SKILL Maintenance'],
     ['Monitorare, gestire, qualificare — da un unico ecosistema', 'Monitor, manage and qualify — from one ecosystem'],
