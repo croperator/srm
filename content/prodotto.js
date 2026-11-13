@@ -17,9 +17,12 @@ window.PRODOTTO_CONTENT = [
   {
     title: "Mappa di rete real-time",
     category: "realtime",
-    desc: "Posizionamento live dei mezzi su mappa con KPI di esercizio in tempo reale: puntualità, corse soppresse, corse in circolazione, coincidenze a rischio, occupazione. 219 linee, 1000 fermate, sorgenti GTFS / NeTEx / geoJSON.",
-    type: "image",
-    src: "assets/img/mappa-rete.png"
+    desc: "Posizionamento live dei mezzi su mappa con KPI di esercizio in tempo reale: puntualità, corse soppresse, corse in circolazione, coincidenze a rischio, mezzi rilevati, passeggeri a bordo, corse critiche e occupazione. L'operatore sceglie quali indicatori mostrare; la rete arriva da sorgenti GTFS / NeTEx / geoJSON.",
+    type: "group",
+    items: [
+      { label: "Rete e mezzi su mappa", src: "assets/img/mappa-rete.png" },
+      { label: "Scelta dei KPI", src: "assets/img/mappa-rete-kpi.png" }
+    ]
   },
   {
     title: "Ricerca e focus sulla corsa",
@@ -157,16 +160,20 @@ window.PRODOTTO_CONTENT = [
   {
     title: "SKILL Maintenance — integrazioni aziendali",
     category: "skills",
-    desc: "Adapter e API protette integrano SKILL Maintenance con sistemi HR, IVU Crew, turnazione, firma digitale e piattaforme LMS. Sono previsti scambio bidirezionale delle anagrafiche, trasferimento continuo di qualifiche e autorizzazioni validate, import Excel per licenze, visite e continuità operativa e funzioni manuali per accompagnare l'avvio delle integrazioni.",
+    desc: "Adapter e API protette integrano SKILL Maintenance con sistemi HR, IVU Crew, turnazione, firma digitale e piattaforme LMS. Sono previsti scambio bidirezionale delle anagrafiche, trasferimento continuo di qualifiche e autorizzazioni validate, import Excel per licenze, visite e continuità operativa. La pagina Allineamenti raccoglie le funzioni manuali per accompagnare l'avvio delle integrazioni: sincronizzazione delle anagrafiche, ricalcolo delle scadenze dai servizi svolti, caricamento di file CSV ed Excel e vestizione dei turni.",
     type: "image",
     src: "assets/img/skill-integrazioni-aziendali.png"
   },
   {
     title: "Scheda corsa",
     category: "realtime",
-    desc: "Vista completa della corsa con informazioni operative e di monitoraggio: tabella di marcia con orari previsti ed effettivi, dati di carico e affollamento, personale e materiale assegnati, avvisi, note e dettagli utili per l'analisi e la gestione del servizio.",
-    type: "image",
-    src: "assets/img/scheda-corsa.png"
+    desc: "Selezionando una corsa dalla lista, il pannello di dettaglio riepiloga stato, targa, ritardo, origine e destinazione con orari previsti ed effettivi. Le sezioni apribili mostrano la tabella di marcia fermata per fermata, materiale e personale assegnati, avvisi, note e i motivi di ritardo registrati sulle fermate, con lo stato della giustificazione.",
+    type: "group",
+    items: [
+      { label: "Dettaglio della corsa", src: "assets/img/scheda-corsa.png" },
+      { label: "Tabella di marcia", src: "assets/img/scheda-corsa-orario.png" },
+      { label: "Motivi di ritardo", src: "assets/img/scheda-corsa-motivi.png" }
+    ]
   },
   {
     title: "Scheda corsa — percorso su mappa",
@@ -178,35 +185,38 @@ window.PRODOTTO_CONTENT = [
   {
     title: "Scorte — macchina a stati",
     category: "operations",
-    desc: "Gestione veicoli di scorta con ciclo di stati (richiesta → assegnazione → autista → conferma), punto e tempo di attesa.",
+    desc: "L'operatore registra un veicolo di scorta indicando targa, operatore e autista, la linea e il punto di attesa. La scorta segue poi il ciclo di stati richiesta → assegnazione → autista → conferma.",
     type: "image",
-    src: "assets/img/scorte-macchina-stati.png"
+    src: "assets/img/scorte-nuova.png"
   },
   {
     title: "Anagrafica materiale rotabile",
     category: "platform",
-    desc: "Registro bus con telaio, vettore, classe emissioni, capienza, PMR e omologazioni. Alert su dati incompleti.",
+    desc: "Registro dei bus con targa, telaio, vettore, REN e data di messa in servizio, classe di emissione, tipo e classe del mezzo, posti ammessi, omologazione e dotazioni come pedana PRM, contapersone e conformità 2001/85/CE.",
     type: "image",
     src: "assets/img/anagrafica-materiale.png"
   },
   {
     title: "Rubrica operativa",
     category: "platform",
-    desc: "Contatti per azienda con validità temporale. Migliaia di record, ricerca e import/export.",
-    type: "image",
-    src: "assets/img/rubrica-operativa.jpg"
+    desc: "Contatti operativi con azienda, ruolo, telefono, email e validità temporale, con ricerca e import/export. Un contatto può essere collegato a un utente della piattaforma cercandolo per nome, email o username.",
+    type: "group",
+    items: [
+      { label: "Elenco dei contatti", src: "assets/img/rubrica-operativa.png" },
+      { label: "Nuovo contatto", src: "assets/img/rubrica-nuovo-contatto.png" }
+    ]
   },
   {
     title: "Configurazioni",
     category: "platform",
-    desc: "Pannello admin a riquadri: tipi anagrafica, tipi notice con gravità, destinatari, ruoli. Catalogo configurabile a runtime.",
+    desc: "Pannello di amministrazione a riquadri, con scelta dei pannelli e del layout: tipi anagrafica e relative anagrafiche, reference types e ruoli del personale. Catalogo configurabile a runtime.",
     type: "image",
     src: "assets/img/configurazioni.png"
   },
   {
     title: "Dizionario multilingua",
     category: "platform",
-    desc: "Wizard a 5 step: lingue, aree, namespace, label, traduzioni. Localizzazione gestita dal sistema.",
+    desc: "Tutte le etichette dell'interfaccia per area e namespace, con le traduzioni in italiano, spagnolo, inglese e francese affiancate, ricerca per chiave o testo e conteggio delle traduzioni mancanti. Localizzazione gestita dal sistema.",
     type: "image",
     src: "assets/img/dizionario-multilingua.png"
   },
