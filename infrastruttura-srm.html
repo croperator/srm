@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOOVA SRM - Infrastruttura</title>
+<style>
+  :root{--bg:#f8f9f7;--surface:#fff;--ink:#172033;--soft:#5d6a80;--mute:#8490a2;--line:#dfe5ed;--blue:#2563eb;--blue-soft:#eaf1ff;--teal:#0f8a78;--gold:#b96a12;
+    --bar-alloc:#dbe6f7;--bar-req:#78a3ec;--bar-used:#1d4592;--sidebar:264px;--font:Segoe UI,system-ui,-apple-system,Arial,sans-serif;--mono:Consolas,'SFMono-Regular',Menlo,monospace}
+  *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55} a{color:inherit}
+  .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);z-index:20;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;transition:transform .22s ease}
+  .brand{padding:22px 20px 17px;border-bottom:1px solid var(--line)}.brand strong{display:block;color:var(--blue);font-size:13px;letter-spacing:.14em}.brand span{display:block;color:var(--mute);font-size:11.5px;margin-top:3px}
+  .nav{padding:16px 12px;flex:1}.nav-label{padding:5px 10px 8px;color:var(--mute);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.nav a{display:flex;gap:10px;align-items:center;padding:9px 10px;margin-bottom:3px;border-radius:8px;text-decoration:none;color:var(--soft);font-size:14px;font-weight:550}.nav a:hover{background:#f1f5fb;color:var(--ink)}.nav a.active{background:var(--blue-soft);color:var(--blue);font-weight:700}.nav .icon{width:20px;text-align:center;font-size:15px}.nav a.sub{padding-left:22px;font-size:13.5px}
+  .side-footer{padding:14px 20px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+  .topbar{display:none;position:sticky;top:0;z-index:15;padding:11px 16px;align-items:center;gap:12px;background:rgba(248,249,247,.96);border-bottom:1px solid var(--line)}.menu{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:7px;font-size:18px;color:var(--ink);cursor:pointer}.topbar strong{font-size:13px;letter-spacing:.1em;color:var(--blue)}.scrim{display:none;position:fixed;inset:0;background:rgba(20,30,45,.38);z-index:18}
+  main{margin-left:var(--sidebar);max-width:1450px;padding:0 48px}.inner{max-width:1180px}.hero{padding:64px 0 44px;border-bottom:1px solid var(--line)}.eyebrow{display:flex;gap:8px;align-items:center;color:var(--blue);font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;margin:0 0 13px}.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--teal)}h1{font-size:44px;line-height:1.1;letter-spacing:-.6px;margin:0;max-width:17ch}.lead{max-width:68ch;color:var(--soft);font-size:18px;margin:18px 0 0}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:23px}.tag{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:5px 11px;color:var(--soft);font-size:12.5px}.tag.primary{border-color:transparent;background:var(--blue-soft);color:var(--blue);font-weight:700}
+  section{padding:52px 0;border-bottom:1px solid var(--line)}section:last-of-type{border:0}.section-label{color:var(--mute);font-size:11.5px;letter-spacing:.13em;font-weight:700;text-transform:uppercase;margin:0 0 8px}h2{font-size:27px;letter-spacing:-.25px;line-height:1.2;margin:0 0 10px}.intro{max-width:70ch;color:var(--soft);font-size:15.5px;margin:0 0 28px}
+
+  /* grafico: binario = allocabile, barra media = richiesta, barra scura = usata; stessa scala per i due cluster */
+  .chart{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 24px 16px;margin-bottom:16px}
+  .chart-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}.chart-head h3{font-size:16px;margin:0}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--soft)}.legend span{display:flex;align-items:center;gap:6px}.legend i{display:block;width:16px;height:10px;border-radius:2px}
+  .lg-alloc{background:var(--bar-alloc)}.lg-req{background:var(--bar-req)}.lg-used{background:var(--bar-used);height:5px!important}
+  .rows{display:grid;grid-template-columns:110px 1fr;column-gap:18px}
+  .row-name{font-size:14px;font-weight:700;padding-top:4px}
+  .row-plot{padding-bottom:18px}
+  .track{position:relative;height:20px;outline:none}
+  .track .grid{position:absolute;top:-6px;bottom:-6px;width:1px;background:var(--line)}
+  .track .alloc,.track .req,.track .used{position:absolute;left:0;border-radius:0 4px 4px 0}
+  .track .alloc{top:0;bottom:0;background:var(--bar-alloc)}
+  .track .req{top:0;bottom:0;background:var(--bar-req)}
+  .track .used{top:7px;height:6px;background:var(--bar-used);box-shadow:0 0 0 2px rgba(255,255,255,.55)}
+  .vals{margin-top:6px;font-family:var(--mono);font-size:12px;color:var(--soft);display:flex;gap:4px 14px;flex-wrap:wrap}.vals b{color:var(--ink);font-weight:700}
+  .tip{position:absolute;z-index:5;left:0;bottom:calc(100% + 10px);background:#172033;color:#fff;font-size:12px;line-height:1.45;padding:8px 10px;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transform:translateY(3px);transition:opacity .12s,transform .12s;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+  .tip b{font-weight:700}.tip span{color:#b8c4d8}
+  .track:hover .tip,.track:focus .tip{opacity:1;transform:none}
+  .axis{position:relative;height:30px;margin-left:128px;font-family:var(--mono);font-size:11px;color:var(--mute)}
+  .axis span{position:absolute;top:0;transform:translateX(-50%)}.axis span:first-child{transform:none}
+  .axis .unit{right:0;left:auto!important;top:16px;transform:none}
+
+  .insights{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+  .insight{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px}
+  .insight .num{font-size:28px;font-weight:700;letter-spacing:-.4px;line-height:1.1}.insight .num small{font-size:14px;color:var(--soft);font-weight:600;margin-left:4px}
+  .insight h3{font-size:14.5px;margin:8px 0 5px}.insight p{font-size:13px;color:var(--soft);margin:0}
+
+  .spec{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;table-layout:fixed}
+  .spec th,.spec td{text-align:left;vertical-align:top;padding:14px 18px;font-size:14px;border-bottom:1px solid var(--line)}
+  .spec tr:last-child th,.spec tr:last-child td{border-bottom:0}
+  .spec thead th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);background:#fafbfc;font-weight:700}
+  .spec tbody th{font-weight:700;width:24%}
+  .spec td+td,.spec thead th+th{border-left:1px solid var(--line)}
+  .spec td small{display:block;color:var(--soft);font-size:12.5px;margin-top:2px}
+  .note{display:flex;gap:15px;align-items:flex-start;border-left:3px solid var(--blue);padding:4px 0 4px 17px;margin-top:25px}.note strong{font-size:14px}.note p{margin:2px 0 0;font-size:13.5px;color:var(--soft)}footer{padding:28px 0 60px;color:var(--mute);font-size:12px}
+  @media(max-width:900px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.topbar{display:flex}.scrim.show{display:block}main{margin-left:0;padding:0 24px}.hero{padding-top:46px}h1{font-size:36px}.insights{grid-template-columns:1fr}}
+  @media(max-width:720px){main{padding:0 16px}.hero{padding:38px 0 34px}h1{font-size:32px}.lead{font-size:16px}section{padding:38px 0}
+    .chart{padding:16px 14px 12px}.rows{grid-template-columns:1fr}.row-name{padding:0 0 6px}.axis{margin-left:0}.tip{white-space:normal;width:220px}
+    .spec th,.spec td{padding:11px 10px;font-size:13px}.spec tbody th{width:30%}.spec thead th{font-size:10px;letter-spacing:.08em}}
+  @media(prefers-reduced-motion:reduce){.tip{transition:none}}
+</style>
+</head>
+<body>
+<aside class="sidebar" id="sidebar"><div class="brand"><strong>MOOVA SRM</strong><span>Smart Real-Time Mobility</span></div><nav class="nav"><div class="nav-label">Presentazione</div><a href="index.html"><span class="icon">◆</span>Introduzione SRM</a><a href="index.html#architettura"><span class="icon">◫</span>Architettura</a><a class="sub active" href="infrastruttura-srm.html"><span class="icon">▤</span>Infrastruttura</a><a href="index.html#team"><span class="icon">◎</span>Il team</a><a href="index.html#metodo"><span class="icon">↻</span>Metodo di lavoro</a><div class="nav-label" style="margin-top:14px">Smart services</div><a href="smart-services.html"><span class="icon">✦</span>AI e servizi evoluti</a><a class="sub" href="assistente-srm.html"><span class="icon">◈</span>Assistente SRM</a><div class="nav-label" style="margin-top:14px">Opportunità</div><a href="bandi-finanziamento.html"><span class="icon">€</span>Bandi di finanziamento</a></nav><div class="side-footer">SRM Lab a confronto</div></aside>
+<div class="scrim" id="scrim"></div><header class="topbar"><button class="menu" id="menu" aria-label="Apri menu">☰</button><strong>MOOVA SRM</strong></header>
+<main><div class="inner">
+<header class="hero"><p class="eyebrow"><i></i>Infrastruttura</p><h1>SRM Lab accanto a una soluzione simile.</h1><p class="lead">Due cluster Kubernetes su EKS con gli stessi tipi di istanza on-demand: SRM Lab e trenord-dev. Cambiano il numero di nodi, quanta capacità i pod prenotano e quanta ne usano davvero.</p><div class="tag-row"><span class="tag primary">EKS</span><span class="tag">m6i.2xlarge</span><span class="tag">g4dn.xlarge · NVIDIA T4</span><span class="tag">On-demand</span></div></header>
+
+<section id="risorse"><p class="section-label">RAM e CPU</p><h2>Prenotato e usato, sulla stessa scala.</h2><p class="intro">Il binario chiaro è la capacità allocabile, la barra media la somma delle richieste dei pod, la barra scura quello che i pod usano davvero. La scala è la stessa per i due cluster.</p>
+
+<div class="chart" role="group" aria-label="Memoria per cluster">
+  <div class="chart-head"><h3>Memoria</h3><div class="legend"><span><i class="lg-alloc"></i>Allocabile</span><span><i class="lg-req"></i>Richiesta</span><span><i class="lg-used"></i>Usata</span></div></div>
+  <div class="rows" data-max="170" data-ticks="0,40,80,120,160">
+    <div class="row-name">srmlab</div>
+    <div class="row-plot"><div class="track" tabindex="0" data-alloc="104.3" data-req="41.6" data-used="27.7"><div class="tip"><b>srmlab</b><br><span>richiesta</span> <b>40%</b> <span>dell'allocabile</span><br><span>usata</span> <b>27%</b> <span>dell'allocabile</span></div></div>
+      <div class="vals"><span><span>usata</span> <b>27,7</b></span><span><span>richiesta</span> <b>41,6</b></span><span><span>allocabile</span> <b>104,3</b> GiB</span></div></div>
+    <div class="row-name">trenord-dev</div>
+    <div class="row-plot"><div class="track" tabindex="0" data-alloc="164.0" data-req="144.8" data-used="75.1"><div class="tip"><b>trenord-dev</b><br><span>richiesta</span> <b>88%</b> <span>dell'allocabile</span><br><span>usata</span> <b>46%</b> <span>dell'allocabile</span></div></div>
+      <div class="vals"><span><span>usata</span> <b>75,1</b></span><span><span>richiesta</span> <b>144,8</b></span><span><span>allocabile</span> <b>164,0</b> GiB</span></div></div>
+  </div>
+  <div class="axis" aria-hidden="true" data-unit="GiB"></div>
+</div>
+
+<div class="chart" role="group" aria-label="CPU per cluster">
+  <div class="chart-head"><h3>CPU</h3><div class="legend"><span><i class="lg-alloc"></i>Allocabile</span><span><i class="lg-req"></i>Richiesta</span><span><i class="lg-used"></i>Usata</span></div></div>
+  <div class="rows" data-max="45" data-ticks="0,10,20,30,40">
+    <div class="row-name">srmlab</div>
+    <div class="row-plot"><div class="track" tabindex="0" data-alloc="27.7" data-req="9.5" data-used="0.26"><div class="tip"><b>srmlab</b><br><span>richiesta</span> <b>34%</b> <span>dell'allocabile</span><br><span>usata</span> <b>1%</b> <span>dell'allocabile</span></div></div>
+      <div class="vals"><span><span>usata</span> <b>0,26</b></span><span><span>richiesta</span> <b>9,5</b></span><span><span>allocabile</span> <b>27,7</b> core</span></div></div>
+    <div class="row-name">trenord-dev</div>
+    <div class="row-plot"><div class="track" tabindex="0" data-alloc="43.5" data-req="34.7" data-used="2.68"><div class="tip"><b>trenord-dev</b><br><span>richiesta</span> <b>80%</b> <span>dell'allocabile</span><br><span>usata</span> <b>6%</b> <span>dell'allocabile</span></div></div>
+      <div class="vals"><span><span>usata</span> <b>2,68</b></span><span><span>richiesta</span> <b>34,7</b></span><span><span>allocabile</span> <b>43,5</b> core</span></div></div>
+  </div>
+  <div class="axis" aria-hidden="true" data-unit="core"></div>
+</div>
+
+<div class="insights">
+  <article class="insight"><div class="num">88% · 80%</div><h3>trenord-dev è quasi tutto prenotato</h3><p>Le richieste dei pod coprono l'88% della memoria e l'80% della CPU allocabile, mentre l'uso reale è il 46% della memoria e il 6% della CPU.</p></article>
+  <article class="insight"><div class="num">40% · 34%</div><h3>SRM Lab ha margine</h3><p>Le richieste coprono il 40% della memoria e il 34% della CPU allocabile: c'è spazio per nuovi servizi senza aggiungere nodi.</p></article>
+  <article class="insight"><div class="num">3% · 8%</div><h3>CPU richiesta molto sopra l'uso</h3><p>In entrambi i cluster i pod usano meno di un decimo della CPU che richiedono (SRM Lab 3%, trenord-dev 8%): le richieste si possono ridurre.</p></article>
+</div>
+</section>
+
+<section id="capacita"><p class="section-label">Capacità</p><h2>Stessi tipi di istanza, numeri diversi.</h2><p class="intro">Entrambi gli account usano istanze on-demand degli stessi tipi. Cambia il numero di nodi generali, e con loro i pod che girano.</p>
+<table class="spec">
+  <thead><tr><th scope="col"></th><th scope="col">srmlab</th><th scope="col">trenord-dev</th></tr></thead>
+  <tbody>
+    <tr><th scope="row">Nodi generali</th><td>3 × m6i.2xlarge<small>8 vCPU, 32 GiB ciascuno</small></td><td>5 × m6i.2xlarge<small>8 vCPU, 32 GiB ciascuno</small></td></tr>
+    <tr><th scope="row">Nodo GPU</th><td>1 × g4dn.xlarge<small>4 vCPU, 16 GiB, NVIDIA T4, per Ollama</small></td><td>1 × g4dn.xlarge<small>4 vCPU, 16 GiB, NVIDIA T4, per Ollama</small></td></tr>
+    <tr><th scope="row">Totale nominale</th><td>28 vCPU · 112 GiB</td><td>44 vCPU · 176 GiB</td></tr>
+    <tr><th scope="row">Allocabile ai pod</th><td>27,7 core · 104,3 GiB</td><td>43,5 core · 164,0 GiB</td></tr>
+    <tr><th scope="row">Pod in esecuzione</th><td>83<small>56 workload</small></td><td>191<small>148 workload</small></td></tr>
+  </tbody>
+</table>
+<div class="note"><div><strong>Fotografia di novembre 2026</strong><p>Le richieste e l'allocabile vengono da Kubernetes; l'uso è un valore istantaneo delle metriche dei pod e varia durante la giornata.</p></div></div>
+</section>
+
+<footer>MOOVA SRM - Infrastruttura · SRM Lab e trenord-dev a confronto</footer></div></main>
+<script>
+const sidebar=document.getElementById('sidebar'),scrim=document.getElementById('scrim');function closeMenu(){sidebar.classList.remove('open');scrim.classList.remove('show')}document.getElementById('menu').addEventListener('click',()=>{sidebar.classList.toggle('open');scrim.classList.toggle('show')});scrim.addEventListener('click',closeMenu);
+// barre e asse dai data-*: la scala (data-max) è la stessa per i cluster dello stesso grafico
+document.querySelectorAll('.chart').forEach(chart=>{
+  const rows=chart.querySelector('.rows'),max=+rows.dataset.max,ticks=rows.dataset.ticks.split(',').map(Number),pct=v=>(v/max*100)+'%';
+  rows.querySelectorAll('.track').forEach(track=>{
+    ticks.slice(1).forEach(t=>{const g=document.createElement('i');g.className='grid';g.style.left=pct(t);track.prepend(g)});
+    ['alloc','req','used'].forEach(k=>{const b=document.createElement('div');b.className=k;b.style.width=pct(+track.dataset[k]);track.insertBefore(b,track.querySelector('.tip'))});
+  });
+  const axis=chart.querySelector('.axis');
+  ticks.forEach(t=>{const s=document.createElement('span');s.textContent=t;s.style.left=pct(t);axis.appendChild(s)});
+  const u=document.createElement('span');u.className='unit';u.textContent=axis.dataset.unit;axis.appendChild(u);
+});
+</script>
+<script src="content/translations.js"></script>
+<script src="js/i18n.js"></script>
+</body>
+</html>
