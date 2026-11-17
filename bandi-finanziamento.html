@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MOOVA SRM - Bandi di finanziamento</title>
+<style>
+  :root{--bg:#f8f9f7;--surface:#fff;--ink:#172033;--soft:#5d6a80;--mute:#8490a2;--line:#dfe5ed;--blue:#2563eb;--blue-soft:#eaf1ff;--teal:#0f8a78;--gold:#b96a12;--far:#c2410c;--out:#8490a2;--track:#eef1f5;--sidebar:264px;--font:Segoe UI,system-ui,-apple-system,Arial,sans-serif}
+  *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55} a{color:inherit}
+  .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);z-index:20;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;transition:transform .22s ease}
+  .brand{padding:22px 20px 17px;border-bottom:1px solid var(--line)}.brand strong{display:block;color:var(--blue);font-size:13px;letter-spacing:.14em}.brand span{display:block;color:var(--mute);font-size:11.5px;margin-top:3px}
+  .nav{padding:16px 12px;flex:1}.nav-label{padding:5px 10px 8px;color:var(--mute);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.nav a{display:flex;gap:10px;align-items:center;padding:9px 10px;margin-bottom:3px;border-radius:8px;text-decoration:none;color:var(--soft);font-size:14px;font-weight:550}.nav a:hover{background:#f1f5fb;color:var(--ink)}.nav a.active{background:var(--blue-soft);color:var(--blue);font-weight:700}.nav .icon{width:20px;text-align:center;font-size:15px}.nav a.sub{padding-left:22px;font-size:13.5px}
+  .side-footer{padding:14px 20px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
+  .topbar{display:none;position:sticky;top:0;z-index:15;padding:11px 16px;align-items:center;gap:12px;background:rgba(248,249,247,.96);border-bottom:1px solid var(--line)}.menu{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:7px;font-size:18px;color:var(--ink);cursor:pointer}.topbar strong{font-size:13px;letter-spacing:.1em;color:var(--blue)}.scrim{display:none;position:fixed;inset:0;background:rgba(20,30,45,.38);z-index:18}
+  main{margin-left:var(--sidebar);max-width:1450px;padding:0 48px}.inner{max-width:1180px}.hero{padding:64px 0 44px;border-bottom:1px solid var(--line)}.eyebrow{display:flex;gap:8px;align-items:center;color:var(--blue);font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;margin:0 0 13px}.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--teal)}h1{font-size:44px;line-height:1.1;letter-spacing:-.6px;margin:0;max-width:15ch}.lead{max-width:68ch;color:var(--soft);font-size:18px;margin:18px 0 0}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:23px}.tag{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:5px 11px;color:var(--soft);font-size:12.5px}.tag.primary{border-color:transparent;background:var(--blue-soft);color:var(--blue);font-weight:700}
+  section{padding:52px 0;border-bottom:1px solid var(--line)}section:last-of-type{border:0}.section-label{color:var(--mute);font-size:11.5px;letter-spacing:.13em;font-weight:700;text-transform:uppercase;margin:0 0 8px}h2{font-size:27px;letter-spacing:-.25px;line-height:1.2;margin:0 0 10px}.intro{max-width:70ch;color:var(--soft);font-size:15.5px;margin:0 0 28px}
+
+  /* Schede di affinita' */
+  .fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .fit{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px 24px}
+  .fit-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+  .fit .rank{color:var(--mute);font-size:11px;font-weight:700;letter-spacing:.1em}
+  .fit .call{display:block;color:var(--blue);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:12px}
+  .fit .code{display:block;color:var(--mute);font-size:11.5px;font-family:Consolas,monospace;margin-top:2px}
+  .fit h3{font-size:19px;margin:6px 0 0;line-height:1.25}
+  .score{text-align:right;flex:none}.score b{display:block;font-size:50px;line-height:1;letter-spacing:-1px;font-variant-numeric:tabular-nums}.score span{display:block;color:var(--mute);font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+  .meter{height:8px;background:var(--track);border-radius:4px;overflow:hidden;margin:18px 0 4px}.meter i{display:block;height:100%;width:var(--w);border-radius:4px;background:var(--c)}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:12px 18px;margin:16px 0 0}.facts dt{color:var(--mute);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.facts dd{margin:2px 0 0;font-size:13.5px;color:var(--ink)}
+  .score em{display:block;font-style:normal;color:var(--soft);font-size:12.5px;margin-top:6px}.score em strong{color:var(--ink)}
+  .meter{position:relative}.meter s{position:absolute;top:0;left:var(--w);width:calc(var(--w2) - var(--w));height:100%;background:var(--c);opacity:.3}
+  .fit .more{margin-top:auto;padding-top:18px;font-size:13.5px;font-weight:700;color:var(--blue);text-decoration:none}.fit .more:hover{text-decoration:underline}
+  .c-near{--c:var(--teal);color:var(--teal)}.c-mid{--c:var(--gold);color:var(--gold)}.c-far{--c:var(--far);color:var(--far)}.c-out{--c:var(--out);color:var(--out)}
+
+  /* Ambiti */
+  .amb-list{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 24px;margin:0 0 22px}
+  .amb{display:grid;grid-template-columns:28px 1fr 230px;gap:16px;align-items:center;padding:16px 0}.amb+.amb{border-top:1px solid var(--line)}
+  .amb .n{color:var(--mute);font-size:12px;font-weight:700}
+  .amb b{display:block;font-size:14.5px}.amb p{margin:3px 0 0;font-size:13px;color:var(--soft)}
+  .amb-score{display:grid;grid-template-columns:1fr 38px;gap:4px 10px;align-items:center}.amb-score .lvl{grid-column:1/-1;font-size:11.5px;font-weight:700}.amb-score .bar{height:6px;background:var(--track);border-radius:3px;overflow:hidden}.amb-score .bar i{display:block;height:100%;width:var(--w);background:var(--c)}.amb-score .pt{font-size:13px;font-weight:700;text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
+  .amb-score .bar{position:relative}.amb-score .bar s{position:absolute;top:0;left:var(--w);width:calc(var(--w2) - var(--w));height:100%;background:var(--c);opacity:.3}.amb-score .av{font-size:11.5px;color:var(--soft)}.amb-score .av-pt{font-size:12px;font-weight:700;text-align:right;color:var(--soft);font-variant-numeric:tabular-nums}
+
+  /* Lavori avviati */
+  .work-list{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 24px}
+  .work{display:grid;grid-template-columns:1fr 140px 200px;gap:16px;align-items:center;padding:16px 0}.work+.work{border-top:1px solid var(--line)}
+  .work b{display:block;font-size:14.5px}.work p{margin:3px 0 0;font-size:13px;color:var(--soft)}
+  .stage{justify-self:start;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:12px}.stage.dev{color:var(--teal);background:#e8f7f3}.stage.design{color:var(--gold);background:#fff4e4}
+  .work .hits{font-size:12.5px;color:var(--soft)}
+
+  /* Vicino e lontano */
+  .compare{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}.compare article{padding:23px 25px}.compare article+article{border-left:1px solid var(--line)}.compare .mode{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.compare .mode.near{color:var(--teal)}.compare .mode.far{color:var(--far)}.compare h3{font-size:19px;margin:8px 0 0}.compare ul{padding:0;margin:14px 0 0;list-style:none}.compare li{font-size:13.5px;color:var(--soft);padding:6px 0 6px 20px;position:relative}.compare li:before{position:absolute;left:0;font-weight:700}.compare .near-list li:before{content:'+';color:var(--teal)}.compare .far-list li:before{content:'\2013';color:var(--far)}
+
+  /* Metodo */
+  .scale{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.scale div{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--c);border-radius:8px;padding:16px 18px}.scale b{display:block;font-size:14.5px;color:var(--ink)}.scale strong{display:block;font-size:26px;line-height:1.1;margin:6px 0;color:var(--c);font-variant-numeric:tabular-nums}.scale p{margin:0;font-size:13px;color:var(--soft)}
+
+  .note{display:flex;gap:15px;align-items:flex-start;border-left:3px solid var(--blue);padding:4px 0 4px 17px;margin-top:25px}.note.warn{border-left-color:var(--gold)}.note strong{font-size:14px}.note p{margin:2px 0 0;font-size:13.5px;color:var(--soft);max-width:90ch}footer{padding:28px 0 60px;color:var(--mute);font-size:12px}
+
+  @media(max-width:1100px){.amb{grid-template-columns:28px 1fr 180px}}
+  @media(max-width:900px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.topbar{display:flex}.scrim.show{display:block}main{margin-left:0;padding:0 24px}.hero{padding-top:46px}h1{font-size:36px}.fit-grid{grid-template-columns:1fr}.scale{grid-template-columns:1fr 1fr}}
+  @media(max-width:720px){main{padding:0 16px}.hero{padding:38px 0 34px}h1{font-size:32px}.lead{font-size:16px}section{padding:38px 0}.compare{grid-template-columns:1fr}.compare article+article{border-left:0;border-top:1px solid var(--line)}.fit{padding:20px}.score b{font-size:42px}.facts{grid-template-columns:1fr}.amb-list,.work-list{padding:4px 16px}.amb{grid-template-columns:22px 1fr;gap:6px 12px}.amb-score{grid-column:2}.work{grid-template-columns:1fr;gap:6px}.scale{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<aside class="sidebar" id="sidebar"><div class="brand"><strong>MOOVA SRM</strong><span>Smart Real-Time Mobility</span></div><nav class="nav"><div class="nav-label">Presentazione</div><a href="index.html"><span class="icon">◆</span>Introduzione SRM</a><a href="index.html#team"><span class="icon">◎</span>Il team</a><a href="index.html#metodo"><span class="icon">↻</span>Metodo di lavoro</a><div class="nav-label" style="margin-top:14px">Smart services</div><a href="smart-services.html"><span class="icon">✦</span>AI e servizi evoluti</a><a class="sub" href="assistente-srm.html"><span class="icon">◈</span>Assistente SRM</a><div class="nav-label" style="margin-top:14px">Opportunità</div><a class="active" href="bandi-finanziamento.html"><span class="icon">€</span>Bandi di finanziamento</a></nav><div class="side-footer">Scouting dei bandi R&amp;S T&amp;L</div></aside>
+<div class="scrim" id="scrim"></div><header class="topbar"><button class="menu" id="menu" aria-label="Apri menu">☰</button><strong>MOOVA SRM</strong></header>
+<main><div class="inner">
+
+<header class="hero"><p class="eyebrow"><i></i>Opportunità di finanziamento</p><h1>SRM e i bandi di ricerca.</h1><p class="lead">Dei quattro bandi individuati dallo scouting R&amp;S di Almaviva Trasporti, questi sono i due più vicini a SRM: quanto la piattaforma copre già degli ambiti richiesti, a cosa ci stiamo avvicinando e da cosa siamo ancora lontani.</p><div class="tag-row"><span class="tag primary">2 bandi su 4</span><span class="tag">Scouting del 28/10/2026</span><span class="tag">Stato di SRM al 17/11/2026</span><span class="tag">Affinità per ambito</span></div></header>
+
+<section><p class="section-label">Affinità</p><h2>Quanto SRM copre già.</h2><p class="intro">L'affinità è la media dei punteggi dei singoli ambiti del bando: misura quanto SRM fa già oggi, non la convenienza della candidatura. Il secondo valore conta anche i lavori già avviati.</p>
+<div class="fit-grid">
+  <article class="fit">
+    <div class="fit-head"><div><span class="rank">01</span><span class="call">Regione Lazio</span><h3>Filiere Tecnologiche</h3></div><div class="score c-mid"><b>51%</b><span>affinità</span><em><strong>55%</strong> con quanto avviato</em></div></div>
+    <div class="meter c-mid" style="--w:51%;--w2:55%"><i></i><s></s></div>
+    <dl class="facts"><div><dt>Contributo</dt><dd>25% per le grandi imprese, 40% in collaborazione; 80% per gli organismi di ricerca</dd></div><div><dt>Dotazione</dt><dd>55 M€; fino a 3 M€ per progetto e 20 M€ per Insieme</dd></div><div><dt>TRL richiesto</dt><dd>da 4 a 7 in 18 mesi</dd></div><div><dt>Apertura</dt><dd>prossima, date non ancora pubblicate</dd></div></dl>
+    <a class="more" href="#lazio">Dettaglio →</a>
+  </article>
+  <article class="fit">
+    <div class="fit-head"><div><span class="rank">02</span><span class="call">Horizon Europe</span><span class="code" data-i18n-ignore>HORIZON-CL5-2027-06-D6-08</span><h3 data-i18n-ignore>Enhancing Mobility for All</h3></div><div class="score c-far"><b>38%</b><span>affinità</span><em><strong>44%</strong> con quanto avviato</em></div></div>
+    <div class="meter c-far" style="--w:38%;--w2:44%"><i></i><s></s></div>
+    <dl class="facts"><div><dt>Contributo</dt><dd>70% dei costi ammissibili</dd></div><div><dt>Dotazione</dt><dd>21 M€; almeno 7 M€ per progetto, 3 progetti finanziati</dd></div><div><dt>TRL richiesto</dt><dd>da 3 a 7-8, validato in 4 piloti europei</dd></div><div><dt>Scadenza</dt><dd>dal 3/6/2027 al 7/10/2027</dd></div></dl>
+    <a class="more" href="#horizon">Dettaglio →</a>
+  </article>
+</div>
+<div class="note"><div><strong>Affinità e convenienza</strong><p>Il bando del Lazio ha l'affinità più alta perché valorizza la parte più innovativa di SRM, l'intelligenza artificiale. Il bando Horizon copre meno di quello che SRM fa oggi, ma è il più vicino al suo mercato e finanzierebbe proprio i pezzi che mancano.</p></div></div>
+<div class="note"><div><strong>Gli altri due bandi</strong><p>MIMIT Automotive, Accordi per l'innovazione: 23%, invariato con quanto avviato. Horizon, CCAM in scenari critici (D6-04): 21%, 25% con quanto avviato. In entrambi SRM entrerebbe solo come sala operativa e supporto alle decisioni, accanto a C-ITS, V2X e soluzioni di bordo.</p></div></div>
+</section>
+
+<section id="lazio"><p class="section-label">Regione Lazio</p><h2>Filiere Tecnologiche: 51%, 55% con quanto avviato.</h2><p class="intro">Sviluppo sperimentale nelle filiere strategiche del Lazio, con una grande impresa come Soggetto Cardine che coordina almeno quattro progetti di PMI laziali.</p>
+<div class="amb-list">
+  <div class="amb"><span class="n">1</span><div><b>Tecnologie digitali, AI e deep tech per mobilità e infrastrutture</b><p>Assistente su modelli eseguiti in casa, ricerca semantica sui documenti, supporto alle decisioni con regole versionate.</p></div><div class="amb-score c-near" style="--w:80%"><span class="lvl">Vicina</span><span class="bar"><i></i></span><span class="pt">80</span></div></div>
+  <div class="amb"><span class="n">2</span><div><b>Digital Twin, monitoraggio, computer vision e manutenzione predittiva</b><p>Simulatore della circolazione perturbata e macchina a stati della corsa; niente computer vision né manutenzione predittiva. Lo storico per il gemello digitale è in progettazione.</p></div><div class="amb-score c-far" style="--w:35%;--w2:40%"><span class="lvl">Media e lontana</span><span class="bar"><i></i><s></s></span><span class="pt">35</span><span class="av">con quanto avviato</span><span class="av-pt">40</span></div></div>
+  <div class="amb"><span class="n">3</span><div><b>C-ITS, V2X, smart mobility, gestione di traffico e flotte</b><p>Monitoraggio di corse e flotte sì; C-ITS e V2X sono fuori dal perimetro SRM.</p></div><div class="amb-score c-mid" style="--w:40%"><span class="lvl">Vicina e fuori perimetro</span><span class="bar"><i></i></span><span class="pt">40</span></div></div>
+  <div class="amb"><span class="n">4</span><div><b>Sostenibilità, sicurezza e resilienza delle infrastrutture</b><p>Provvedimenti, bus sostitutivi e cause di ritardo per la resilienza del servizio; nulla sull'infrastruttura fisica. Il consolidamento della sicurezza è in sviluppo.</p></div><div class="amb-score c-mid" style="--w:50%;--w2:60%"><span class="lvl">Media</span><span class="bar"><i></i><s></s></span><span class="pt">50</span><span class="av">con quanto avviato</span><span class="av-pt">60</span></div></div>
+</div>
+<div class="compare">
+  <article><span class="mode near">Ci avviciniamo</span><h3>Cosa SRM porta già.</h3><ul class="near-list">
+    <li>Assistente in linguaggio naturale su modelli eseguiti in casa, con ricerca semantica sui documenti e azioni solo dopo la conferma dell'operatore.</li>
+    <li>Supporto alle decisioni: proposte di provvedimento secondo modo di trasporto e profilo di obiettivi, con regole versionate in database ed esito delle proposte.</li>
+    <li>Simulatore della circolazione, anche perturbata, e macchina a stati della corsa su Kafka: la base per un gemello digitale del servizio.</li>
+    <li>Monitoraggio in tempo reale di corse e flotte, allarmi operativi, KPI e analisi con Apache Superset.</li>
+    <li>Provvedimenti sulla corsa e bus sostitutivi per la resilienza del servizio.</li>
+  </ul></article>
+  <article><span class="mode far">Siamo lontani</span><h3>Cosa manca.</h3><ul class="far-list">
+    <li>Computer vision e manutenzione predittiva: in SRM non ci sono.</li>
+    <li>C-ITS, V2X e gestione del traffico stradale: fuori dal perimetro SRM.</li>
+    <li>Storico: oggi le corse restano 30 giorni, troppo poco per addestrare modelli e per un gemello digitale; la conservazione più lunga è in progettazione.</li>
+    <li>Supporto alle decisioni ancora da tarare e da provare con gli operatori: oggi gira in laboratorio, intorno a TRL 5.</li>
+  </ul></article>
+</div>
+<div class="note warn"><div><strong>Vincoli del bando</strong><p>I progetti finanziati li svolgono le PMI del Lazio; Almaviva, come Soggetto Cardine, coordina l'Insieme. SRM entrerebbe come piattaforma su cui le PMI sviluppano, non come sviluppo finanziato. Almeno l'80% del personale deve lavorare da sedi operative nel Lazio.</p></div></div>
+</section>
+
+<section id="horizon"><p class="section-label">Horizon Europe</p><h2>Mobilità per tutti: 38%, 44% con quanto avviato.</h2><p class="intro">Servizi multimodali accessibili, affidabili e sostenibili per collegare aree rurali e urbane e contrastare la povertà dei trasporti, validati a TRL 7-8 in almeno quattro siti pilota europei.</p>
+<div class="amb-list">
+  <div class="amb"><span class="n">1</span><div><b>Sistemi multimodali e servizi di mobilità a domanda</b><p>Bus e treno nella stessa piattaforma, servizi sostitutivi, hub di interscambio progettati; servizi a domanda e MaaS non sono in SRM.</p></div><div class="amb-score c-far" style="--w:25%"><span class="lvl">Media e fuori perimetro</span><span class="bar"><i></i></span><span class="pt">25</span></div></div>
+  <div class="amb"><span class="n">2</span><div><b>AI e analisi dei dati per prevedere domanda e flussi</b><p>Frequentazioni e KPI di occupazione ci sono, modelli previsionali no; lo storico oltre i 30 giorni è in progettazione.</p></div><div class="amb-score c-far" style="--w:20%;--w2:25%"><span class="lvl">Lontana</span><span class="bar"><i></i><s></s></span><span class="pt">20</span><span class="av">con quanto avviato</span><span class="av-pt">25</span></div></div>
+  <div class="amb"><span class="n">3</span><div><b>IoT e monitoraggio in tempo reale di mezzi e servizi</b><p>È il cuore di SRM: in esercizio sul ferro; sul bus solo con il simulatore.</p></div><div class="amb-score c-near" style="--w:65%"><span class="lvl">Vicina e media</span><span class="bar"><i></i></span><span class="pt">65</span></div></div>
+  <div class="amb"><span class="n">4</span><div><b>Galileo/GNSS per localizzazione e navigazione</b><p>SRM riceve le posizioni ma non ne conosce precisione né autenticazione; il ricevitore è a bordo.</p></div><div class="amb-score c-far" style="--w:20%"><span class="lvl">Lontana</span><span class="bar"><i></i></span><span class="pt">20</span></div></div>
+  <div class="amb"><span class="n">5</span><div><b>Interoperabilità dei dati, infomobilità e accessibilità digitale</b><p>Modello Transmodel/NeTEx e import GTFS; le uscite SIRI, GTFS-RT e NeTEx e gli orari nell'export GTFS sono in progettazione.</p></div><div class="amb-score c-mid" style="--w:50%;--w2:60%"><span class="lvl">Media</span><span class="bar"><i></i><s></s></span><span class="pt">50</span><span class="av">con quanto avviato</span><span class="av-pt">60</span></div></div>
+  <div class="amb"><span class="n">6</span><div><b>Piani di implementazione, replicabilità e scalabilità</b><p>Kubernetes, Helm e gitops; multi-tenant e sicurezza in sviluppo, pipeline di rilascio da completare.</p></div><div class="amb-score c-mid" style="--w:50%;--w2:70%"><span class="lvl">Media</span><span class="bar"><i></i><s></s></span><span class="pt">50</span><span class="av">con quanto avviato</span><span class="av-pt">70</span></div></div>
+</div>
+<div class="compare">
+  <article><span class="mode near">Ci avviciniamo</span><h3>Cosa SRM porta già.</h3><ul class="near-list">
+    <li>Monitoraggio in tempo reale delle corse già in esercizio sul ferro, intorno a TRL 7: mappa live, allarmi, avvisi e KPI.</li>
+    <li>Modello di rete Transmodel/NeTEx con import GTFS e GeoJSON, e fermate con l'accessibilità in sedia a rotelle.</li>
+    <li>Bus e treno nella stessa piattaforma, servizi sostitutivi treno-bus e hub di interscambio progettati.</li>
+    <li>Frequentazioni per fermata e KPI di occupazione: la materia prima per l'analisi della domanda.</li>
+    <li>Installazione su Kubernetes con Helm e gitops, accesso unico con Keycloak, multi-tenant avviato nel modello di rete.</li>
+  </ul></article>
+  <article><span class="mode far">Siamo lontani</span><h3>Cosa manca.</h3><ul class="far-list">
+    <li>Servizi a domanda (DRT) e MaaS: non sono in SRM.</li>
+    <li>Nessuna previsione di domanda o di flussi; lo storico oltre i 30 giorni è in progettazione.</li>
+    <li>Nessun dato in uscita negli standard aperti (SIRI, GTFS-RT, NeTEx) e un export GTFS senza orari né calendari: le uscite sono in progettazione.</li>
+    <li>Validazione su un solo operatore e solo sul ferro: niente aree rurali, niente flotte bus reali.</li>
+    <li>Localizzazione: SRM riceve le posizioni ma non ne conosce la qualità né l'autenticazione Galileo (OSNMA).</li>
+    <li>Multi-tenant applicativo e consolidamento della sicurezza in sviluppo, da chiudere prima di un pilota con autorità pubbliche.</li>
+  </ul></article>
+</div>
+<div class="note warn"><div><strong>Vincoli del bando</strong><p>Quattro piloti europei con autorità pubbliche e un consorzio di almeno tre entità in tre Paesi diversi. Servono partner per servizi a domanda, MaaS, soluzioni di bordo e per la parte sociale (societal readiness).</p></div></div>
+</section>
+
+<section id="avviati"><p class="section-label">Lavori avviati</p><h2>Cosa sposta l'affinità.</h2><p class="intro">Quattro attività già avviate chiudono parte delle distanze. In progettazione contano per un terzo del salto che daranno a fine lavori, in sviluppo per due terzi.</p>
+<div class="work-list">
+  <div class="work"><div><b>Storico delle corse</b><p>Conservazione oltre i 30 giorni, base per previsioni, KPI annuali e gemello digitale.</p></div><span class="stage design">In progettazione</span><span class="hits">Lazio, ambito 2; Horizon, ambito 2</span></div>
+  <div class="work"><div><b>Uscite negli standard aperti</b><p>SIRI e GTFS-RT dal monitoraggio, NeTEx e GTFS con orari e calendari dal modello di rete.</p></div><span class="stage design">In progettazione</span><span class="hits">Horizon, ambito 5</span></div>
+  <div class="work"><div><b>Multi-tenant applicativo</b><p>Più aziende sulla stessa installazione, ciascuna con il suo accesso e i suoi dati separati: codice pronto su 13 servizi e sull'interfaccia, da installare.</p></div><span class="stage dev">In sviluppo</span><span class="hits">Horizon, ambito 6</span></div>
+  <div class="work"><div><b>Consolidamento della sicurezza</b><p>Analisi statica in tutte le pipeline; build con SonarQube e Trivy e test dinamici in corso.</p></div><span class="stage dev">In sviluppo</span><span class="hits">Lazio, ambito 4; Horizon, ambito 6</span></div>
+</div>
+</section>
+
+<section><p class="section-label">Metodo</p><h2>Come si legge l'affinità.</h2><p class="intro">Ogni ambito del bando riceve un punteggio secondo quanto SRM copre oggi; se un ambito ha parti diverse, vale la media delle parti. L'affinità del bando è la media degli ambiti.</p>
+<div class="scale">
+  <div style="--c:var(--teal)"><b>Vicina</b><strong>80</strong><p>SRM lo fa già: si tratta di evolverlo.</p></div>
+  <div style="--c:var(--gold)"><b>Media</b><strong>50</strong><p>Le basi ci sono, manca un pezzo sostanziale.</p></div>
+  <div style="--c:var(--far)"><b>Lontana</b><strong>20</strong><p>C'è poco o niente da cui partire.</p></div>
+  <div style="--c:var(--out)"><b>Fuori perimetro</b><strong>0</strong><p>Materia di altri moduli MOOVA o di altre BU.</p></div>
+</div>
+<div class="note"><div><strong>Finanziabile è solo il nuovo</strong><p>Quello che SRM fa già è il punto di partenza da dichiarare, non un costo da rendicontare: lo sviluppo finanziato è proprio la distanza descritta in questa pagina.</p></div></div>
+<div class="note"><div><strong>Fonti</strong><p>Scouting Bandi R&amp;S Almaviva Trasporti (Direzione Crediti e Finanza dell'Innovazione, 28/10/2026), presentato allo Steering Innovazione T&amp;L del 10/11/2026. Lo stato di SRM è quello di progettazioni, codice e ambienti al 17/11/2026.</p></div></div>
+</section>
+
+<footer>MOOVA SRM - Bandi di finanziamento · affinità di SRM con i bandi R&amp;S</footer></div></main>
+<script>const sidebar=document.getElementById('sidebar'),scrim=document.getElementById('scrim');function closeMenu(){sidebar.classList.remove('open');scrim.classList.remove('show')}document.getElementById('menu').addEventListener('click',()=>{sidebar.classList.toggle('open');scrim.classList.toggle('show')});scrim.addEventListener('click',closeMenu);</script>
+<script src="content/translations.js"></script>
+<script src="js/i18n.js"></script>
+</body>
+</html>
