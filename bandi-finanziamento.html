@@ -7,11 +7,6 @@
 <style>
   :root{--bg:#f8f9f7;--surface:#fff;--ink:#172033;--soft:#5d6a80;--mute:#8490a2;--line:#dfe5ed;--blue:#2563eb;--blue-soft:#eaf1ff;--teal:#0f8a78;--gold:#b96a12;--far:#c2410c;--out:#8490a2;--track:#eef1f5;--sidebar:264px;--font:Segoe UI,system-ui,-apple-system,Arial,sans-serif}
   *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55} a{color:inherit}
-  .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);z-index:20;background:var(--surface);border-right:1px solid var(--line);display:flex;flex-direction:column;transition:transform .22s ease}
-  .brand{padding:22px 20px 17px;border-bottom:1px solid var(--line)}.brand strong{display:block;color:var(--blue);font-size:13px;letter-spacing:.14em}.brand span{display:block;color:var(--mute);font-size:11.5px;margin-top:3px}
-  .nav{padding:16px 12px;flex:1}.nav-label{padding:5px 10px 8px;color:var(--mute);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.nav a{display:flex;gap:10px;align-items:center;padding:9px 10px;margin-bottom:3px;border-radius:8px;text-decoration:none;color:var(--soft);font-size:14px;font-weight:550}.nav a:hover{background:#f1f5fb;color:var(--ink)}.nav a.active{background:var(--blue-soft);color:var(--blue);font-weight:700}.nav .icon{width:20px;text-align:center;font-size:15px}.nav a.sub{padding-left:22px;font-size:13.5px}
-  .side-footer{padding:14px 20px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--mute)}
-  .topbar{display:none;position:sticky;top:0;z-index:15;padding:11px 16px;align-items:center;gap:12px;background:rgba(248,249,247,.96);border-bottom:1px solid var(--line)}.menu{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:7px;font-size:18px;color:var(--ink);cursor:pointer}.topbar strong{font-size:13px;letter-spacing:.1em;color:var(--blue)}.scrim{display:none;position:fixed;inset:0;background:rgba(20,30,45,.38);z-index:18}
   main{margin-left:var(--sidebar);max-width:1450px;padding:0 48px}.inner{max-width:1180px}.hero{padding:64px 0 44px;border-bottom:1px solid var(--line)}.eyebrow{display:flex;gap:8px;align-items:center;color:var(--blue);font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;margin:0 0 13px}.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--teal)}h1{font-size:44px;line-height:1.1;letter-spacing:-.6px;margin:0;max-width:15ch}.lead{max-width:68ch;color:var(--soft);font-size:18px;margin:18px 0 0}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:23px}.tag{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:5px 11px;color:var(--soft);font-size:12.5px}.tag.primary{border-color:transparent;background:var(--blue-soft);color:var(--blue);font-weight:700}
   section{padding:52px 0;border-bottom:1px solid var(--line)}section:last-of-type{border:0}.section-label{color:var(--mute);font-size:11.5px;letter-spacing:.13em;font-weight:700;text-transform:uppercase;margin:0 0 8px}h2{font-size:27px;letter-spacing:-.25px;line-height:1.2;margin:0 0 10px}.intro{max-width:70ch;color:var(--soft);font-size:15.5px;margin:0 0 28px}
 
@@ -55,13 +50,12 @@
   .note{display:flex;gap:15px;align-items:flex-start;border-left:3px solid var(--blue);padding:4px 0 4px 17px;margin-top:25px}.note.warn{border-left-color:var(--gold)}.note strong{font-size:14px}.note p{margin:2px 0 0;font-size:13.5px;color:var(--soft);max-width:90ch}footer{padding:28px 0 60px;color:var(--mute);font-size:12px}
 
   @media(max-width:1100px){.amb{grid-template-columns:28px 1fr 180px}}
-  @media(max-width:900px){.sidebar{transform:translateX(-100%);width:280px}.sidebar.open{transform:translateX(0)}.topbar{display:flex}.scrim.show{display:block}main{margin-left:0;padding:0 24px}.hero{padding-top:46px}h1{font-size:36px}.fit-grid{grid-template-columns:1fr}.scale{grid-template-columns:1fr 1fr}}
+  @media(max-width:900px){main{margin-left:0;padding:0 24px}.hero{padding-top:46px}h1{font-size:36px}.fit-grid{grid-template-columns:1fr}.scale{grid-template-columns:1fr 1fr}}
   @media(max-width:720px){main{padding:0 16px}.hero{padding:38px 0 34px}h1{font-size:32px}.lead{font-size:16px}section{padding:38px 0}.compare{grid-template-columns:1fr}.compare article+article{border-left:0;border-top:1px solid var(--line)}.fit{padding:20px}.score b{font-size:42px}.facts{grid-template-columns:1fr}.amb-list,.work-list{padding:4px 16px}.amb{grid-template-columns:22px 1fr;gap:6px 12px}.amb-score{grid-column:2}.work{grid-template-columns:1fr;gap:6px}.scale{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
-<aside class="sidebar" id="sidebar"><div class="brand"><strong>MOOVA SRM</strong><span>Smart Real-Time Mobility</span></div><nav class="nav"><div class="nav-label">Presentazione</div><a href="index.html"><span class="icon">◆</span>Introduzione SRM</a><a href="infrastruttura-srm.html"><span class="icon">▤</span>Infrastruttura</a><a href="index.html#team"><span class="icon">◎</span>Il team</a><a href="index.html#metodo"><span class="icon">↻</span>Metodo di lavoro</a><div class="nav-label" style="margin-top:14px">Smart services</div><a href="smart-services.html"><span class="icon">✦</span>AI e servizi evoluti</a><a class="sub" href="assistente-srm.html"><span class="icon">◈</span>Assistente SRM</a><div class="nav-label" style="margin-top:14px">Opportunità</div><a class="active" href="bandi-finanziamento.html"><span class="icon">€</span>Bandi di finanziamento</a></nav><div class="side-footer">Scouting dei bandi R&amp;S T&amp;L</div></aside>
-<div class="scrim" id="scrim"></div><header class="topbar"><button class="menu" id="menu" aria-label="Apri menu">☰</button><strong>MOOVA SRM</strong></header>
+<body data-nav="bandi" data-nav-title="Bandi di finanziamento" data-nav-note="Scouting dei bandi R&amp;S T&amp;L">
+<script src="js/srm-nav.js"></script>
 <main><div class="inner">
 
 <header class="hero"><p class="eyebrow"><i></i>Opportunità di finanziamento</p><h1>SRM e i bandi di ricerca.</h1><p class="lead">Dei quattro bandi individuati dallo scouting R&amp;S di Almaviva Trasporti, questi sono i due più vicini a SRM: quanto la piattaforma copre già degli ambiti richiesti, a cosa ci stiamo avvicinando e da cosa siamo ancora lontani.</p><div class="tag-row"><span class="tag primary">2 bandi su 4</span><span class="tag">Scouting del 28/10/2026</span><span class="tag">Stato di SRM al 17/11/2026</span><span class="tag">Affinità per ambito</span></div></header>
@@ -160,7 +154,6 @@
 </section>
 
 <footer>MOOVA SRM - Bandi di finanziamento · affinità di SRM con i bandi R&amp;S</footer></div></main>
-<script>const sidebar=document.getElementById('sidebar'),scrim=document.getElementById('scrim');function closeMenu(){sidebar.classList.remove('open');scrim.classList.remove('show')}document.getElementById('menu').addEventListener('click',()=>{sidebar.classList.toggle('open');scrim.classList.toggle('show')});scrim.addEventListener('click',closeMenu);</script>
 <script src="content/translations.js"></script>
 <script src="js/i18n.js"></script>
 </body>

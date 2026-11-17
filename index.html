@@ -15,42 +15,11 @@
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6}
   a{color:inherit}
 
-  /* Sidebar */
-  .sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar);background:var(--surface);
-    border-right:1px solid var(--line);display:flex;flex-direction:column;z-index:40;transition:transform .28s ease}
-  .sb-brand{padding:22px 20px 16px;border-bottom:1px solid var(--line)}
-  .sb-brand .bt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
-  .sb-brand .bs{font-size:11.5px;color:var(--ink-mute);margin-top:3px}
-  .toc{padding:14px 12px;flex:1;overflow-y:auto}
-  .toc-label{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;padding:6px 10px 8px}
-  .tocitem{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:9px;text-decoration:none;
-    color:var(--ink-soft);font-size:14px;font-weight:500;margin-bottom:2px;transition:background .12s,color .12s}
-  .tocitem .ti{width:22px;text-align:center;color:var(--ink-mute);font-size:13px}
-  .tocitem:hover{background:#f4f3ee;color:var(--ink)}
-  .tocitem.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
-  .tocitem.active .ti{color:var(--accent)}
-  .sb-links{border-top:1px solid var(--line);padding:12px}
-  .sb-links a{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:9px;text-decoration:none;
-    font-size:13.5px;font-weight:600;color:var(--ink);border:1px solid var(--line);margin-bottom:8px;background:var(--surface)}
-  .sb-links a:hover{border-color:#a9a8a0}
-  .sb-links a.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .sb-foot{padding:10px 20px 16px;font-size:11px;color:var(--ink-mute)}
-
-  /* topbar (mobile) */
-  .topbar{display:none;position:sticky;top:0;z-index:30;background:var(--bg);border-bottom:1px solid var(--line);
-    align-items:center;gap:12px;padding:11px 16px}
-  .burger{width:38px;height:38px;border:1px solid var(--line);background:var(--surface);border-radius:9px;
-    display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
-  .burger span,.burger span::before,.burger span::after{content:'';display:block;width:17px;height:2px;background:var(--ink);position:relative;border-radius:2px}
-  .burger span::before{position:absolute;top:-5px} .burger span::after{position:absolute;top:5px}
-  .topbar .tb-brand{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
-  .scrim{display:none;position:fixed;inset:0;background:rgba(20,20,18,.4);z-index:35}
-
   /* main */
   html{scroll-snap-type:y mandatory}
   .main{margin-left:var(--sidebar);padding:0 clamp(32px,4vw,96px)}
   .sec{padding:20px 0 24px;border-bottom:1px solid var(--line);scroll-margin-top:0;
-    height:100vh;overflow-y:auto;scroll-snap-align:start;scroll-snap-stop:always}
+    height:calc(100vh - var(--sn-header,0px));overflow-y:auto;scroll-snap-align:start;scroll-snap-stop:always}
   .sec:last-of-type{border-bottom:none}
   .inner{width:100%}
 
@@ -494,8 +463,16 @@
     html{scrollbar-width:none}
     html::-webkit-scrollbar{width:0;height:0}
     #intro{overflow-y:hidden}
+    /* #intro non scorre: le due anteprime prendono lo spazio che resta sotto il testo e si
+       accorciano (ritaglio dall'alto) invece di finire tagliate sotto il bordo della sezione */
+    #intro .inner,#intro .wrap{height:100%;display:flex;flex-direction:column;min-height:0}
+    #intro .intro-shots{flex:0 1 auto;min-height:0;grid-template-rows:minmax(0,1fr)}
+    #intro .intro-shot{display:flex;flex-direction:column;min-height:0}
+    #intro .intro-shot img{flex:0 1 auto;min-height:0;height:auto}
     #roadmap-sec .inner{display:flex;height:100%;min-height:0;flex-direction:column}
     #roadmap-sec .mapembed{flex:1;min-height:0}
+    /* l'altezza della mappa arriva da metroHeight: non oltre lo spazio della sezione */
+    #roadmap-sec .mapembed iframe{max-height:100%}
   }
   @media(min-width:1600px){
     .product-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -512,7 +489,7 @@
 
   /* Desktop compatti (es. 1366x768): riduce l'ingombro verticale senza
      modificare il layout mobile o quello degli schermi Full HD e 4K. */
-  @media(min-width:901px) and (max-height:850px){
+  @media(min-width:901px) and (max-height:900px){
     .main{padding:0 32px}
     .sec{padding-top:12px;padding-bottom:12px}
     #perche,#prodotto,#roadmap-sec{padding-top:8px;padding-bottom:8px}
@@ -527,7 +504,20 @@
     #perche .vp{padding:8px 9px}
     #perche .vp p{font-size:11px;line-height:1.3}
     #perche .fond-in .sec-label{margin-top:8px!important}
-
+    /* la barra del menu (50 px) toglie spazio: icona e titolo sulla stessa riga, anteprime
+       del prodotto piu' basse, cosi' Perche' SRM e Il prodotto restano in uno schermo */
+    #perche .vp{display:grid;grid-template-columns:22px minmax(0,1fr);column-gap:8px;align-items:center;align-content:start}
+    #perche .vp .ic{margin-bottom:0}
+    #perche .vp h3{margin-bottom:0}
+    #perche .vp p{grid-column:1/-1;margin-top:4px}
+    #prodotto .feature-thumb{aspect-ratio:2.6/1}
+    #architettura .archgrid{gap:8px;margin-bottom:12px}
+    #architettura .archcard{padding:9px 12px}
+    #architettura .mapcard.always{margin-top:10px}
+  }
+  /* Il team ha bisogno di ~920 px in versione piena: con la barra del menu le regole
+     compatte servono fino a 1000 px di altezza della finestra. */
+  @media(min-width:901px) and (max-height:1000px){
     .team-head{margin-bottom:2px}
     #team .sec-intro{margin-bottom:14px}
     .team-sm{margin-bottom:12px;padding:11px 18px}
@@ -546,14 +536,10 @@
      densita' e tipografia per lo schermo stretto. Il desktop resta invariato. */
   @media(max-width:900px){
     html{scroll-snap-type:none}
-    .sidebar{transform:translateX(-100%);width:280px;box-shadow:0 0 40px rgba(0,0,0,.15)}
-    .sidebar.open{transform:translateX(0)}
     .main{margin-left:0;padding:0 20px}
-    .topbar{display:flex}
-    .scrim.show{display:block}
 
     /* sezioni ad altezza naturale: niente contenitori con scroll proprio */
-    .sec{height:auto;overflow:visible;padding:26px 0 30px;scroll-margin-top:61px}
+    .sec{height:auto;overflow:visible;padding:26px 0 30px;scroll-margin-top:0}
     .sec:first-of-type{padding-top:18px}
     #perche{padding-top:26px;padding-bottom:30px}
 
@@ -571,7 +557,7 @@
     #perche .vp p{font-size:12.8px;line-height:1.45}
     #perche .std{padding:6px 12px;font-size:12.5px}
 
-    .product-filters{top:61px;margin-left:-20px;margin-right:-20px;padding:10px 20px 14px}
+    .product-filters{top:50px;margin-left:-20px;margin-right:-20px;padding:10px 20px 14px}
     .product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .viewer{padding:0}
     .viewer-panel{width:100%;height:100%;max-height:none;border-radius:0}
@@ -607,25 +593,8 @@
   }
 </style>
 </head>
-<body>
-
-<aside class="sidebar" id="sidebar">
-  <div class="sb-brand">
-    <div class="bt">MOOVA SRM</div>
-    <div class="bs">Smart Real-Time Mobility</div>
-  </div>
-  <nav class="toc" id="toc">
-    <div class="toc-label">Presentazione</div>
-    <a href="#intro" class="tocitem" data-target="intro"><span class="ti">◆</span><span>Cosa è SRM</span></a><a href="#perchi" class="tocitem" data-target="perchi"><span class="ti">◇</span><span>Per chi è SRM</span></a><a href="#perche" class="tocitem" data-target="perche"><span class="ti">▣</span><span>Perché SRM</span></a><a href="#architettura" class="tocitem" data-target="architettura"><span class="ti">◫</span><span>Architettura</span></a><a href="#prodotto" class="tocitem" data-target="prodotto"><span class="ti">◉</span><span>Il prodotto</span></a><a href="#team" class="tocitem" data-target="team"><span class="ti">◎</span><span>Il team</span></a><a href="#metodo" class="tocitem" data-target="metodo"><span class="ti">↻</span><span>Metodo di lavoro</span></a><a href="#roadmap-sec" class="tocitem" data-target="roadmap-sec"><span class="ti">➔</span><span>Roadmap</span></a><a href="smart-services.html" class="tocitem"><span class="ti">✦</span><span>Smart Services</span></a><a href="bandi-finanziamento.html" class="tocitem"><span class="ti">€</span><span>Bandi di finanziamento</span></a>
-  </nav>
-  <div class="sb-foot">v1.0 · pagina di presentazione</div>
-</aside>
-<div class="scrim" id="scrim"></div>
-
-<div class="topbar">
-  <button class="burger" id="burger" aria-label="Menu"><span></span></button>
-  <span class="tb-brand">MOOVA SRM</span>
-</div>
+<body data-nav="intro" data-nav-title="Presentazione" data-nav-note="Pagina di presentazione">
+<script src="js/srm-nav.js"></script>
 
 <main class="main">
   <section id="intro" class="sec"><div class="inner">
@@ -866,9 +835,10 @@ if(whyGrid){
   whyGrid.replaceChildren(...orderedCards);
 }
 
-// scroll-spy (position based: last section whose top passed the reference line)
-const items=[...document.querySelectorAll('.tocitem')];
-const secEls=items.map(a=>document.getElementById(a.dataset.target)).filter(Boolean);
+// scroll-spy (position based: last section whose top passed the reference line).
+// La voce corrente sta nel menu condiviso (js/srm-nav.js), che chiude da solo il drawer alla scelta.
+const SPY_IDS=['intro','perchi','perche','architettura','prodotto','team','metodo','roadmap-sec'];
+const secEls=SPY_IDS.map(id=>document.getElementById(id)).filter(Boolean);
 function updateSpy(){
   const refY=window.innerHeight*0.18;
   let current=secEls[0];
@@ -877,18 +847,11 @@ function updateSpy(){
   }
   // if scrolled to bottom, force last
   if(window.innerHeight+window.scrollY>=document.body.scrollHeight-4) current=secEls[secEls.length-1];
-  items.forEach(i=>i.classList.toggle('active', i.dataset.target===current.id));
+  if(window.SRM_NAV) window.SRM_NAV.setActive(current.id);
 }
 window.addEventListener('scroll',updateSpy,{passive:true});
 window.addEventListener('resize',updateSpy);
 updateSpy();
-
-// mobile sidebar toggle
-const sb=document.getElementById('sidebar'), scrim=document.getElementById('scrim');
-function closeSb(){sb.classList.remove('open');scrim.classList.remove('show')}
-document.getElementById('burger').addEventListener('click',()=>{sb.classList.toggle('open');scrim.classList.toggle('show')});
-scrim.addEventListener('click',closeSb);
-items.forEach(a=>a.addEventListener('click',()=>{ if(window.innerWidth<=900) closeSb(); }));
 
 
 // "Il prodotto" showcase (rail + stage + lightbox) lives in js/prodotto-showcase.js,
