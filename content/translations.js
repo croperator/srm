@@ -461,8 +461,6 @@
     ['Definizione strumenti di monitoraggio.', 'Definition of monitoring tools.'],
     ['Integrazione Foundation', 'Foundation integration'],
     ['Integrazione Foundation.', 'Foundation integration.'],
-    ['Lotta all\'indipendenza', 'Fight for independence'],
-    ['Il filo rosso di tutta la roadmap: autonomia da MOOVA, una fermata alla volta.', 'The common thread of the whole roadmap: independence from MOOVA, one stop at a time.'],
     ['Analisi standard rete', 'Network standards analysis'],
     ['Studio comparativo degli standard. Scelta del formato di import.', 'Comparative study of standards and selection of the import format.'],
     ['Ingestione topologia', 'Topology ingestion'],
