@@ -311,6 +311,9 @@ function equalizeBoxes(){
 }
 equalizeBoxes();
 window.addEventListener('resize',()=>{equalizeBoxes();});
+// la prima misura puo' arrivare prima del font: rifatta quando font e pagina sono caricati
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{equalizeBoxes();scheduleDeps();});
+window.addEventListener('load',()=>{equalizeBoxes();scheduleDeps();});
 
 // ---- opening animation: start collapsed, then stagger open ----
 document.querySelectorAll('.prow').forEach(r=>r.classList.remove('open'));
